@@ -52,6 +52,45 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="t8B-pu-EFI" id="XBP-6q-SmB">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYD-Np-tm5">
+                                                    <rect key="frame" x="48" y="25" width="119" height="70"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZEm-d2-l8f">
+                                                    <rect key="frame" x="15" y="118.99999999999999" width="159.33333333333334" height="48.666666666666671"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9957 Dove Ridge Dr." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ihj-Wj-fKQ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="159.33333333333334" height="20.333333333333332"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Las Vegas, NV 89117" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5Y-hp-eQS">
+                                                            <rect key="frame" x="0.0" y="28.333333333333336" width="159.33333333333334" height="20.333333333333336"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TNM-XV-3aU">
+                                                    <rect key="frame" x="193" y="0.0" width="200" height="200"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbO-kK-8WF">
+                                                    <rect key="frame" x="15" y="49" width="12" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="fbO-kK-8WF" firstAttribute="centerY" secondItem="DYD-Np-tm5" secondAttribute="centerY" id="Bi8-9N-pA4"/>
+                                                <constraint firstItem="fbO-kK-8WF" firstAttribute="leading" secondItem="Ihj-Wj-fKQ" secondAttribute="leading" id="b9f-Ji-zC1"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -89,7 +128,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WeW-JG-GHz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2797.709923664122" y="-29.577464788732396"/>
+            <point key="canvasLocation" x="2577.8625954198474" y="-882.3943661971831"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="l8L-ST-uNp">
@@ -117,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbL-Bc-VWI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2798" y="-799"/>
+            <point key="canvasLocation" x="2579" y="785"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="rng-AR-x5b">
@@ -217,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TQi-2D-zuw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2797.709923664122" y="722.53521126760563"/>
+            <point key="canvasLocation" x="2578" y="-30"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="XVB-nr-MV8">
@@ -253,7 +292,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubd-Rp-Nl9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="944.27480916030527" y="-29.577464788732396"/>
+            <point key="canvasLocation" x="570" y="-30"/>
         </scene>
         <!--Home-->
         <scene sceneID="NHu-0J-dbn">
@@ -272,7 +311,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oiS-lT-s5d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1870.9923664122136" y="-29.577464788732396"/>
+            <point key="canvasLocation" x="1636" y="-882"/>
         </scene>
         <!--Favorite-->
         <scene sceneID="FKO-w0-iE0">
@@ -291,7 +330,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LmV-E5-5Fk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1871" y="-799"/>
+            <point key="canvasLocation" x="1636" y="785"/>
         </scene>
         <!--Search-->
         <scene sceneID="1dN-6x-Ktn">
@@ -310,11 +349,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gfl-ow-xDj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1871" y="723"/>
+            <point key="canvasLocation" x="1636" y="-30"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="LQA-re-zWb"/>
+        <segue reference="Uq5-Dy-gc9"/>
         <segue reference="p6V-Hv-7Fx"/>
     </inferredMetricsTieBreakers>
     <resources>
