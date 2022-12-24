@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct buildURLRequest {
-
-    static func getRequest(query: [String], parameters: [String: String]) {
+class buildURLRequest {
+    static let shared = requestHTTP()
+    
+    func makeRequest(query: [String]) {
         print(query.first!)
-        
     }
     
 }

@@ -34,7 +34,7 @@ private extension HomeViewController {
     
     func httpRequest() {
         let selectedFilter = getSelectedFilter()
-        buildURLRequest.shared.makeRequest(query: [selectedFilter])
+        buildURLRequest.getRequest(query:[selectedFilter], parameters: ["near" : "USA"])
     }
     
     
