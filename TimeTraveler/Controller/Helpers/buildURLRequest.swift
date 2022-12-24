@@ -18,7 +18,7 @@ enum Categories: String {
 
 struct buildURLRequest {
 
-    static func getRequest(parameters: [String: String]) {
+    static func build(for method: String, with parameters: [String: String]) -> URLRequest? {
         
         //Build URL
         let urlComponents = NSURLComponents()
@@ -28,8 +28,17 @@ struct buildURLRequest {
         urlComponents.queryItems = parameters.map({ URLQueryItem(name: $0.key, value: $0.value)})
         
         //Final URL
-        guard let finalUrl = urlComponents.url else { return }
+        guard let finalUrl = urlComponents.url else { return nil }
         print(finalUrl)
+        
+        var request = URLRequest(url: finalUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
+        let header = [
+            "accept": "application.json",
+            "Authorization": Bundle.main.infoDictionary!["API_KEY"] as! String
+        ]
+        request.httpMethod = method.uppercased()
+        request.allHTTPHeaderFields = header
+        return request
     }
     
 }

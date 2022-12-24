@@ -36,8 +36,31 @@ private extension HomeViewController {
         let selectedFilter = getSelectedFilter()
         let categories:[Categories] = [.historic, .nationalPark]
         let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
+        let request = buildURLRequest.build(for: "get", with: ["near" : selectedFilter, "categories": combinedCategories])
         
-        buildURLRequest.getRequest(parameters: ["near" : selectedFilter, "categories": combinedCategories])
+        if let request = request {
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if error == nil {
+                    guard let data = data else {
+                        print("Failed to receive data \(String(describing: error?.localizedDescription))")
+                        return
+                    }
+                    do {
+                        let decoder = JSONDecoder()
+                        let dataDecoded = try decoder.decode([Location].self, from: data)
+//                        print("decodedData: \(dataDecoded.first!.name)")
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                    
+                } else {
+                    print("Error from request")
+                }
+                
+            }.resume()
+        }
     }
     
     
