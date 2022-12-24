@@ -7,9 +7,18 @@
 
 import Foundation
 
+enum Categories: String {
+    case building = "16007"
+    case forest = "16015"
+    case historic = "16020"
+    case mountain = "16027"
+    case nationalPark = "16034"
+    case naturalPark = "16035"
+}
+
 struct buildURLRequest {
 
-    static func getRequest(query: [String], parameters: [String: String]) {
+    static func getRequest(parameters: [String: String]) {
         
         //Build URL
         let urlComponents = NSURLComponents()

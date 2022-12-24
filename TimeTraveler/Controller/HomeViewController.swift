@@ -34,7 +34,10 @@ private extension HomeViewController {
     
     func httpRequest() {
         let selectedFilter = getSelectedFilter()
-        buildURLRequest.getRequest(query:[selectedFilter], parameters: ["near" : "USA"])
+        let categories:[Categories] = [.historic, .nationalPark]
+        let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
+        
+        buildURLRequest.getRequest(parameters: ["near" : selectedFilter, "categories": combinedCategories])
     }
     
     
