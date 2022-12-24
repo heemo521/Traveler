@@ -7,17 +7,16 @@
 
 import Foundation
 
-enum Categories: String {
-    case building = "16007"
-    case forest = "16015"
-    case historic = "16020"
-    case mountain = "16027"
-    case nationalPark = "16034"
-    case naturalPark = "16035"
-}
-
 struct buildURLRequest {
-
+    enum Categories: String {
+        case building = "16007"
+        case forest = "16015"
+        case historic = "16020"
+        case mountain = "16027"
+        case nationalPark = "16034"
+        case naturalPark = "16035"
+    }
+    
     static func build(for method: String, with parameters: [String: String]) -> URLRequest? {
         
         //Build URL
@@ -31,6 +30,7 @@ struct buildURLRequest {
         guard let finalUrl = urlComponents.url else { return nil }
         print(finalUrl)
         
+        //Build Request
         var request = URLRequest(url: finalUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
         let header = [
             "accept": "application.json",
@@ -38,6 +38,7 @@ struct buildURLRequest {
         ]
         request.httpMethod = method.uppercased()
         request.allHTTPHeaderFields = header
+        
         return request
     }
     

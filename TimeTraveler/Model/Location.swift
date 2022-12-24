@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Location: Codable {
+class Location: Decodable {
     let id: String
     let name: String
     let address: String
