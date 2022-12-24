@@ -9,6 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var filterControl: UISegmentedControl!
@@ -17,8 +18,14 @@ class HomeViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchedLocationList = []
         updateUI()
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         httpRequest()
+//        tableView.reloadData()
     }
 
 }
@@ -59,6 +66,10 @@ private extension HomeViewController {
                         let dataDecoded = try decoder.decode(Response.self, from: data)
                         self.fetchedLocationList = dataDecoded.results
                         print("decodedData: \(dataDecoded.results.first!.name!)")
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                     catch let error {
                         print("\(String(describing: error.localizedDescription))")
@@ -69,6 +80,7 @@ private extension HomeViewController {
                 
             }.resume()
         }
+        
     }
 }
 
@@ -78,11 +90,15 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return fetchedLocationList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell") as! LocationCell
+        let location = fetchedLocationList[indexPath.row]
+        cell.update(location: location, index: indexPath.row)
+        
+        return cell
     }
 
 

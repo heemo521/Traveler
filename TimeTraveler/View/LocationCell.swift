@@ -10,13 +10,15 @@ import UIKit
 class LocationCell: UITableViewCell {
     @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addressOneLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mainImage: UIImageView!
     
     func update(location: Location, index: Int) {
-//        indexLabel.text
-//        nameLabel.text
-//        addressLabel.text
+        indexLabel.text = "\(index + 1)"
+        nameLabel.text = location.name
+        addressOneLabel.text = location.link
+        addressLabel.text = location.link
 //        mainImage.image = UIImage()
     }
 }

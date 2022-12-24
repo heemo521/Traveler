@@ -88,8 +88,8 @@
 		7142BEFF2956C80F0067B2DC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				716510DD29578AE1002F56D8 /* Helpers */,
 				716510D729577EB6002F56D8 /* HomeViewController.swift */,
+				716510DD29578AE1002F56D8 /* Helpers */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
