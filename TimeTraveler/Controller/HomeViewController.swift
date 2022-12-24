@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        httpRequest()
     }
 
 }
@@ -31,14 +32,14 @@ private extension HomeViewController {
         return self.filterControl.titleForSegment(at: filterIndex)!
     }
     
-    func requestHTTP() {
-        let currentFilter = getSelectedFilter()
-    
-        print(currentFilter)
+    func httpRequest() {
+        let selectedFilter = getSelectedFilter()
+        buildURLRequest.shared.makeRequest(query: [selectedFilter])
     }
     
+    
     @IBAction func segementControlAction(_ sender: UISegmentedControl) {
-        requestHTTP()
+        
         // When user changes filter, make http request accordingly
     }
     

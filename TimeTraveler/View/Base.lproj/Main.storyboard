@@ -269,7 +269,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="dNg-7z-FEC">
-                                <rect key="frame" x="93" y="503.00000000000011" width="206.33333333333337" height="34.333333333333371"/>
+                                <rect key="frame" x="93" y="503.00000000000006" width="206.33333333333337" height="34.333333333333314"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mKv-rR-fhr">
                                         <rect key="frame" x="0.0" y="0.0" width="49.666666666666664" height="34.333333333333336"/>
@@ -404,7 +404,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Y6-nS-h03">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Y6-nS-h03">
                                 <rect key="frame" x="205" y="122" width="178" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Use current location"/>
@@ -416,6 +416,7 @@
                             <constraint firstItem="9Vq-Xk-lbp" firstAttribute="trailing" secondItem="52P-a5-JQ5" secondAttribute="trailing" constant="10" id="3oT-XS-prM"/>
                             <constraint firstItem="2Y6-nS-h03" firstAttribute="trailing" secondItem="52P-a5-JQ5" secondAttribute="trailing" id="48G-HF-kuy"/>
                             <constraint firstItem="52P-a5-JQ5" firstAttribute="leading" secondItem="9Vq-Xk-lbp" secondAttribute="leading" constant="10" id="PIo-fA-P27"/>
+                            <constraint firstItem="2Y6-nS-h03" firstAttribute="top" secondItem="52P-a5-JQ5" secondAttribute="bottom" constant="-1.3333333333333428" id="PjC-eW-puA"/>
                             <constraint firstItem="fVL-5s-Fjf" firstAttribute="top" secondItem="aOu-XG-29C" secondAttribute="bottom" constant="7.6666666666666572" id="STW-2w-Ot6"/>
                             <constraint firstItem="9Vq-Xk-lbp" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aOu-XG-29C" secondAttribute="trailing" symbolic="YES" id="d9S-09-1AT"/>
                             <constraint firstItem="9Vq-Xk-lbp" firstAttribute="bottom" secondItem="fVL-5s-Fjf" secondAttribute="bottom" constant="276" id="iau-0G-NYO"/>
@@ -617,7 +618,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Uq5-Dy-gc9"/>
-        <segue reference="p6V-Hv-7Fx"/>
+        <segue reference="9Kv-Tx-MBq"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>

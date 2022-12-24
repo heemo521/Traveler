@@ -16,6 +16,7 @@
 		716510D629577DEE002F56D8 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D529577DEE002F56D8 /* LocationService.swift */; };
 		716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D729577EB6002F56D8 /* HomeViewController.swift */; };
 		716510DC29578130002F56D8 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510DB29578130002F56D8 /* LocationCell.swift */; };
+		716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510DE29578AEF002F56D8 /* buildURLRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		716510D529577DEE002F56D8 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		716510D729577EB6002F56D8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		716510DB29578130002F56D8 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		716510DE29578AEF002F56D8 /* buildURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildURLRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 		7142BEFF2956C80F0067B2DC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				716510DD29578AE1002F56D8 /* Helpers */,
 				716510D729577EB6002F56D8 /* HomeViewController.swift */,
 			);
 			path = Controller;
@@ -114,6 +117,14 @@
 				716510D529577DEE002F56D8 /* LocationService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		716510DD29578AE1002F56D8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				716510DE29578AEF002F56D8 /* buildURLRequest.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				716510DC29578130002F56D8 /* LocationCell.swift in Sources */,
+				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
 				716510D329577DC3002F56D8 /* Location.swift in Sources */,
