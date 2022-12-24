@@ -7,14 +7,26 @@
 
 import Foundation
 
-class Location: Decodable {
-    let id: String
-    let name: String
-    let address: String
+class Location: NSObject, Decodable {
+    var id: String?
+    var name: String?
+    var link: String?
+//    var address: String?
     
-    init(id: String, name: String, address: String){
-        self.id = id
-        self.name = name
-        self.address = address
+    enum CodingKeys: String, CodingKey {
+        case id = "fsq_id"
+        case name = "name"
+        case link = "link"
+//        case address = "formatted_address"
+    }
+    
+    required convenience init(from decoder: Decoder) throws {
+        self.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        link = try container.decodeIfPresent(String.self, forKey: .link)
+//        address = try container.decodeIfPresent(String.self, forKey: .address)
+
     }
 }

@@ -56,9 +56,9 @@ private extension HomeViewController {
                     }
                     do {
                         let decoder = JSONDecoder()
-                        let dataDecoded = try decoder.decode([Location].self, from: data)
-                        self.fetchedLocationList = dataDecoded
-//                        print("decodedData: \(dataDecoded.first!.name)")-
+                        let dataDecoded = try decoder.decode(Response.self, from: data)
+                        self.fetchedLocationList = dataDecoded.results
+                        print("decodedData: \(dataDecoded.results.first!.name!)")
                     }
                     catch let error {
                         print("\(String(describing: error.localizedDescription))")
