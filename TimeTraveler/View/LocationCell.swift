@@ -17,8 +17,8 @@ class LocationCell: UITableViewCell {
     func update(location: Location, index: Int) {
         indexLabel.text = "\(index + 1)"
         nameLabel.text = location.name
-        addressOneLabel.text = location.link
-        addressLabel.text = location.link
+        addressOneLabel.text = ""
+        addressLabel.text = ""
 //        mainImage.image = UIImage()
     }
 }

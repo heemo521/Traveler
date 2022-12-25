@@ -22,10 +22,10 @@ class HomeViewController: UIViewController {
         updateUI()
         
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         httpRequest()
-//        tableView.reloadData()
     }
 
 }
@@ -38,14 +38,13 @@ private extension HomeViewController {
         return self.filterControl.titleForSegment(at: filterIndex)!
     }
     
+    
     @IBAction func segementControlAction(_ sender: UISegmentedControl) {
-        // When user changes filter, make http request accordingly
+        // Remove the current tables and then make the request
+        fetchedLocationList = []
+        self.tableView.reloadData()
+        
         httpRequest()
-    }
-    
-    
-    @IBAction func openSearchView (btn: UIButton) {
-        print("open search view")
     }
     
     func httpRequest() {
@@ -97,7 +96,6 @@ extension HomeViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell") as! LocationCell
         let location = fetchedLocationList[indexPath.row]
         cell.update(location: location, index: indexPath.row)
-        
         return cell
     }
 
