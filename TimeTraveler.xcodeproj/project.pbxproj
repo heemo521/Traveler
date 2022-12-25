@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		710A74692957D5C100245F1E /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710A74682957D5C100245F1E /* SearchLocationViewController.swift */; };
+		710A746B2957E51800245F1E /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710A746A2957E51800245F1E /* SearchLocationViewController.swift */; };
 		7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEA2956C8050067B2DC /* AppDelegate.swift */; };
 		7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEC2956C8050067B2DC /* SceneDelegate.swift */; };
 		7142BEF22956C8050067B2DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF02956C8050067B2DC /* Main.storyboard */; };
@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		710A74682957D5C100245F1E /* SearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
+		710A746A2957E51800245F1E /* SearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
 		7142BEE72956C8050067B2DC /* TimeTraveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTraveler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7142BEEA2956C8050067B2DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7142BEEC2956C8050067B2DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				716510D729577EB6002F56D8 /* HomeViewController.swift */,
-				710A74682957D5C100245F1E /* SearchLocationViewController.swift */,
+				710A746A2957E51800245F1E /* SearchLocationViewController.swift */,
 				716510DD29578AE1002F56D8 /* Helpers */,
 			);
 			path = Controller;
@@ -209,8 +209,8 @@
 				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
-				710A74692957D5C100245F1E /* SearchLocationViewController.swift in Sources */,
 				716510D329577DC3002F56D8 /* Location.swift in Sources */,
+				710A746B2957E51800245F1E /* SearchLocationViewController.swift in Sources */,
 				716510D629577DEE002F56D8 /* LocationService.swift in Sources */,
 				7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */,
 			);

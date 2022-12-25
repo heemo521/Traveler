@@ -1,5 +1,5 @@
 //
-//  SearchBarViewController.swift
+//  SearchLocationViewController.swift
 //  TimeTraveler
 //
 //  Created by Heemo on 12/24/22.
@@ -9,71 +9,44 @@ import UIKit
 
 class SearchLocationViewController: UIViewController {
 
+    @IBOutlet weak var search: UITextField!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var mapViewSwitch: UISwitch!
-    
-
+    @IBOutlet weak var mapViewSwtich: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
     
-    @IBAction func searchTextChanged(_ sender: UITextField) {
-        print(searchTextField.text!)
-    }
-}
-
-private extension SearchLocationViewController {
-    func updateUI() {}
-
     
-    @IBAction func mapViewToggle(_ sender: UISwitch) {
-        print("Toggled")
+    @IBAction func textValueChanged(_ sender: UITextField) {
+        print(search.text!)
     }
     
-//    func httpRequest(with query: String) {
-//        let categories:[buildURLRequest.Categories] = [.historic, .nationalPark]
-//        let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
-//        let request = buildURLRequest.build(for: "get", with: ["near" : query, "categories": combinedCategories])
-//
-//        if let request = request {
-//            URLSession.shared.dataTask(with: request) { (data, response, error) in
-//                if error == nil {
-//                    guard let data = data else {
-//                        print("Failed to receive data \(String(describing: error?.localizedDescription))")
-//                        return
-//                    }
-//                    do {
-//                        let decoder = JSONDecoder()
-//                        let dataDecoded = try decoder.decode(Response.self, from: data)
-////                        self.fetchedLocationList = dataDecoded.results
-////                        print("decodedData: \(dataDecoded.results.first!.name!)")
-////                        DispatchQueue.main.async {
-////                            self.tableView.reloadData()
-////                        }
-////
-//                    }
-//                    catch let error {
-//                        print("\(String(describing: error.localizedDescription))")
-//                    }
-//                } else {
-//                    print("Error from request \(String(describing: error?.localizedDescription))")
-//                }
-//
-//            }.resume()
-//        }
-//
-//    }
+    @IBAction func mapViewToggled(_ sender: UISwitch) {
+        // When toggle is on, the tableview should be replaced by map view with a list of places
+        print(mapViewSwtich.isOn ? "On" : "Off")
+        
+    }
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
 
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
+    
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
