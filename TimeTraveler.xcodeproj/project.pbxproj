@@ -92,10 +92,10 @@
 		7142BEFF2956C80F0067B2DC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				715656F0295908FC0083D612 /* HomeVC.swift */,
 				716510D729577EB6002F56D8 /* HomeViewController.swift */,
 				710A746A2957E51800245F1E /* SearchLocationViewController.swift */,
 				716510DD29578AE1002F56D8 /* Helpers */,
-				715656F0295908FC0083D612 /* HomeVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

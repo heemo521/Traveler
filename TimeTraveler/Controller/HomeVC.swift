@@ -17,7 +17,10 @@ class HomeVC: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
- 
+    @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "detailsSegue", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
