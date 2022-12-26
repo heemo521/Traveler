@@ -271,7 +271,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="dNg-7z-FEC">
-                                <rect key="frame" x="93" y="503.00000000000006" width="206.33333333333337" height="34.333333333333314"/>
+                                <rect key="frame" x="93" y="503.00000000000011" width="206.33333333333337" height="34.333333333333371"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mKv-rR-fhr">
                                         <rect key="frame" x="0.0" y="0.0" width="49.666666666666664" height="34.333333333333336"/>
@@ -842,7 +842,7 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNn-wr-Ae9" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="894"/>
                                         <subviews>
                                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="VOT-dh-wG6">
                                                 <rect key="frame" x="71.666666666666686" y="2" width="250" height="250"/>
@@ -950,11 +950,11 @@
                                             <constraint firstItem="69M-zr-bJd" firstAttribute="leading" secondItem="EQ7-xN-iyz" secondAttribute="leading" id="RTA-CD-yoB"/>
                                             <constraint firstItem="WIJ-e1-34z" firstAttribute="centerX" secondItem="lNn-wr-Ae9" secondAttribute="centerX" id="UYK-tr-DVn"/>
                                             <constraint firstItem="EQ7-xN-iyz" firstAttribute="leading" secondItem="lNn-wr-Ae9" secondAttribute="leading" constant="40" id="Xrd-Vm-PCI"/>
+                                            <constraint firstAttribute="bottom" secondItem="qnD-z8-iaQ" secondAttribute="bottom" constant="30" id="Y3n-dp-QDb"/>
                                             <constraint firstAttribute="trailing" secondItem="EQ7-xN-iyz" secondAttribute="trailing" constant="40" id="bbf-8A-U1m"/>
                                             <constraint firstItem="WIJ-e1-34z" firstAttribute="top" secondItem="VOT-dh-wG6" secondAttribute="bottom" constant="41" id="mCF-Y4-Q1C"/>
                                             <constraint firstItem="qnD-z8-iaQ" firstAttribute="trailing" secondItem="69M-zr-bJd" secondAttribute="trailing" id="mWA-8b-xNH"/>
                                             <constraint firstItem="EQ7-xN-iyz" firstAttribute="leading" secondItem="0cO-l4-iEO" secondAttribute="leading" id="ocV-oT-9Xa"/>
-                                            <constraint firstAttribute="height" constant="1200" id="pbK-L6-Dds"/>
                                             <constraint firstItem="EQ7-xN-iyz" firstAttribute="trailing" secondItem="0cO-l4-iEO" secondAttribute="trailing" id="x48-Eq-JC6"/>
                                         </constraints>
                                     </view>
