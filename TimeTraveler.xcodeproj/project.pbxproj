@@ -13,6 +13,7 @@
 		7142BEF22956C8050067B2DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF02956C8050067B2DC /* Main.storyboard */; };
 		7142BEF42956C8070067B2DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF32956C8070067B2DC /* Assets.xcassets */; };
 		7142BEF72956C8070067B2DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF52956C8070067B2DC /* LaunchScreen.storyboard */; };
+		715656F1295908FC0083D612 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715656F0295908FC0083D612 /* HomeVC.swift */; };
 		716510D329577DC3002F56D8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D229577DC3002F56D8 /* Location.swift */; };
 		716510D629577DEE002F56D8 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D529577DEE002F56D8 /* LocationService.swift */; };
 		716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D729577EB6002F56D8 /* HomeViewController.swift */; };
@@ -30,6 +31,7 @@
 		7142BEF32956C8070067B2DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7142BEF62956C8070067B2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7142BEF82956C8070067B2DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		715656F0295908FC0083D612 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		716510D229577DC3002F56D8 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		716510D529577DEE002F56D8 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		716510D729577EB6002F56D8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				716510D729577EB6002F56D8 /* HomeViewController.swift */,
 				710A746A2957E51800245F1E /* SearchLocationViewController.swift */,
 				716510DD29578AE1002F56D8 /* Helpers */,
+				715656F0295908FC0083D612 /* HomeVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				716510E12957AD14002F56D8 /* Response.swift in Sources */,
+				715656F1295908FC0083D612 /* HomeVC.swift in Sources */,
 				716510DC29578130002F56D8 /* LocationCell.swift in Sources */,
 				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */,
