@@ -7,18 +7,8 @@
 
 import Foundation
 
-struct buildURLRequest {
-    enum Categories: String {
-        case building = "16007"
-        case forest = "16015"
-        case historic = "16020"
-        case mountain = "16027"
-        case nationalPark = "16034"
-        case naturalPark = "16035"
-    }
-    
+struct buildURLRequest {    
     static func build(for method: String, with parameters: [String: String]) -> URLRequest? {
-        
         //Build URL
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "https"

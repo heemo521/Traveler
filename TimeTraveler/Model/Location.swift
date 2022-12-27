@@ -7,17 +7,34 @@
 
 import Foundation
 
+enum Categories: String {
+    case building = "16007"
+    case forest = "16015"
+    case historic = "16020"
+    case mountain = "16027"
+    case nationalPark = "16034"
+    case naturalPark = "16035"
+}
+
 class Location: NSObject, Decodable {
     var id: String?
     var name: String?
     var link: String?
-//    var address: String?
-    
+    var categories: [Category]?
+    var geocodes: Geocode?
+    var address: Address?
+    //  var relatedPlaces: [String]? // an object containing parent and child
+    // Example:
+    //    parent = Los Angeles International Airport
+    //    children = Terminal 1, Terminal 2, Terminal 3...
+
     enum CodingKeys: String, CodingKey {
         case id = "fsq_id"
         case name = "name"
         case link = "link"
-//        case address = "formatted_address"
+        case categories = "categories"
+        case geocodes = "geocodes"
+        case address = "location"
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -26,7 +43,36 @@ class Location: NSObject, Decodable {
         id = try container.decodeIfPresent(String.self, forKey: .id)
         name = try container.decodeIfPresent(String.self, forKey: .name)
         link = try container.decodeIfPresent(String.self, forKey: .link)
-//        address = try container.decodeIfPresent(String.self, forKey: .address)
+        categories = try container.decodeIfPresent([Category].self, forKey: .categories)
+        geocodes = try container.decodeIfPresent(Geocode.self, forKey: .geocodes)
+        address = try container.decodeIfPresent(Address.self, forKey: .address)
 
     }
+}
+
+class Address: Decodable {
+    var formatted_address: String?
+    var locality: String?
+    var region: String?
+}
+
+class Geocode: Decodable {
+    var main: Coordinates?
+    var roof: Coordinates?
+}
+
+class Coordinates: Decodable {
+    var latitude: Double?
+    var longitude: Double?
+}
+
+class Category: Decodable {
+    var id: Int?
+    var name: String?
+    var icon: Icon?
+}
+
+class Icon: Decodable {
+    var prefix: String?
+    var suffix: String?
 }

@@ -15,12 +15,14 @@
 		7142BEF72956C8070067B2DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF52956C8070067B2DC /* LaunchScreen.storyboard */; };
 		715656F1295908FC0083D612 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715656F0295908FC0083D612 /* HomeVC.swift */; };
 		716510D329577DC3002F56D8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D229577DC3002F56D8 /* Location.swift */; };
-		716510D629577DEE002F56D8 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D529577DEE002F56D8 /* LocationService.swift */; };
 		716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510D729577EB6002F56D8 /* HomeViewController.swift */; };
 		716510DC29578130002F56D8 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510DB29578130002F56D8 /* LocationCell.swift */; };
 		716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510DE29578AEF002F56D8 /* buildURLRequest.swift */; };
 		716510E12957AD14002F56D8 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716510E02957AD14002F56D8 /* Response.swift */; };
 		71A3023B295A646C00019E05 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3023A295A646C00019E05 /* SearchVC.swift */; };
+		71A3023F295A69F300019E05 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3023E295A69F300019E05 /* User.swift */; };
+		71A30241295A6AE500019E05 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30240295A6AE500019E05 /* UserService.swift */; };
+		71A30249295A74A300019E05 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30248295A74A300019E05 /* UserPreference.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,12 +36,14 @@
 		7142BEF82956C8070067B2DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		715656F0295908FC0083D612 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		716510D229577DC3002F56D8 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		716510D529577DEE002F56D8 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		716510D729577EB6002F56D8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		716510DB29578130002F56D8 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		716510DE29578AEF002F56D8 /* buildURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildURLRequest.swift; sourceTree = "<group>"; };
 		716510E02957AD14002F56D8 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		71A3023A295A646C00019E05 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		71A3023E295A69F300019E05 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		71A30240295A6AE500019E05 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		71A30248295A74A300019E05 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +121,9 @@
 			isa = PBXGroup;
 			children = (
 				716510D429577DDE002F56D8 /* Service */,
+				71A3023E295A69F300019E05 /* User.swift */,
 				716510D229577DC3002F56D8 /* Location.swift */,
+				71A30248295A74A300019E05 /* UserPreference.swift */,
 				716510E02957AD14002F56D8 /* Response.swift */,
 			);
 			path = Model;
@@ -126,7 +132,7 @@
 		716510D429577DDE002F56D8 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				716510D529577DEE002F56D8 /* LocationService.swift */,
+				71A30240295A6AE500019E05 /* UserService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -216,10 +222,12 @@
 				716510DC29578130002F56D8 /* LocationCell.swift in Sources */,
 				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */,
+				71A30241295A6AE500019E05 /* UserService.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
 				716510D329577DC3002F56D8 /* Location.swift in Sources */,
+				71A3023F295A69F300019E05 /* User.swift in Sources */,
 				710A746B2957E51800245F1E /* SearchLocationViewController.swift in Sources */,
-				716510D629577DEE002F56D8 /* LocationService.swift in Sources */,
+				71A30249295A74A300019E05 /* UserPreference.swift in Sources */,
 				7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
