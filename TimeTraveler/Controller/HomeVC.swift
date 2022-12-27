@@ -33,10 +33,10 @@ class HomeVC: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var imageView: UIImageView!
-    var fetchedLocationList: [Location]!
-    var locationManager: CLLocationManager!
     
+    var fetchedLocationList: [Location]!
     var imageViewsList: [UIImage]!
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +44,9 @@ class HomeVC: UIViewController {
         fetchedLocationList = []
         updateUI()
         httpRequest()
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManagerInit()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // animation everytime the view appears instead of only once per app launch
@@ -253,7 +252,43 @@ private extension HomeVC {
 }
 // MARK: - Core Location
 extension HomeVC: CLLocationManagerDelegate {
+    
+    func locationManagerInit() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.distanceFilter = 20.0 // meters
+        locationManager.requestWhenInUseAuthorization()
+        
+        // When user launches the app after authorizing the status
+        var authorizationStatus: CLAuthorizationStatus?
+        if #available(iOS 14, *) {
+            authorizationStatus = locationManager.authorizationStatus
+        } else {
+            // CLLocationManager.authorizatoinStatus() deprecated from iOS 14
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+        
+        switch authorizationStatus {
+            case .authorizedWhenInUse:
+                locationManager.startUpdatingLocation()
+            case .restricted, .denied:
+                print("restricted")
+            default:
+                print("Not authorized")
+        }
+    }
+    // First time when user starts the app / user allows the authorization
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.first!
+        print("location update latitude: \(location.coordinate.latitude) longitude \(location.coordinate.longitude)")
+    }
 //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        <#code#>
+//
 //    }
 }

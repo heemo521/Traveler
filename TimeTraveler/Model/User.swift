@@ -14,4 +14,5 @@ class User {
     var likedLocations = [LocationId]()
     var recentSearch = [SearchQuery]()
     var userPreference = UserPreference(searchRadius: 0)
+    
 }
