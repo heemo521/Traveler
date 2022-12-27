@@ -9,6 +9,20 @@ import UIKit
 import MapKit
 import CoreLocation
 
+// REFACTOR http request functions
+// create a global one or class?
+// Next is core location and displaying the coordinates on to the map
+// Fix the label to button
+// Update the Logo
+// Fetch all images and load it to shareable model : Singleton
+// Change the imageViewsList to list of fethed data. Ensemble the e UIImage at func showImage()
+// search bar implementation
+// recent search implemntation
+// use current location button
+// maybe remove tabs - save it for use preference
+// add map / search bar view controller and cell
+// maybe display reviews as a table on the bottonm
+
 class HomeVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageViewContainer: UIView!
