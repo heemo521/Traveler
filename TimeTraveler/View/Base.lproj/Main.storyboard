@@ -511,6 +511,7 @@
                         <outlet property="categoryLabel" destination="cNO-oS-T5b" id="9yL-Xo-9Xb"/>
                         <outlet property="descriptionLabel" destination="69M-zr-bJd" id="gwq-Nb-0aN"/>
                         <outlet property="iconLabel" destination="5Fv-bc-Uo7" id="z2j-QM-KcR"/>
+                        <outlet property="imageView" destination="W6f-HA-Lah" id="gam-mu-yRJ"/>
                         <outlet property="imageViewContainer" destination="VOT-dh-wG6" id="UDB-LC-QM6"/>
                         <outlet property="mapView" destination="qnD-z8-iaQ" id="vhb-r0-TSb"/>
                         <outlet property="scrollView" destination="7km-if-BRN" id="u4a-OO-A9p"/>

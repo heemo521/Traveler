@@ -23,6 +23,7 @@
 		71A3023F295A69F300019E05 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3023E295A69F300019E05 /* User.swift */; };
 		71A30241295A6AE500019E05 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30240295A6AE500019E05 /* UserService.swift */; };
 		71A30249295A74A300019E05 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30248295A74A300019E05 /* UserPreference.swift */; };
+		71A3024B295AA5EE00019E05 /* ImageHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024A295AA5EE00019E05 /* ImageHTTP.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		71A3023E295A69F300019E05 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		71A30240295A6AE500019E05 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		71A30248295A74A300019E05 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		71A3024A295AA5EE00019E05 /* ImageHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHTTP.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				716510D229577DC3002F56D8 /* Location.swift */,
 				71A30248295A74A300019E05 /* UserPreference.swift */,
 				716510E02957AD14002F56D8 /* Response.swift */,
+				71A3024A295AA5EE00019E05 /* ImageHTTP.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				716510D329577DC3002F56D8 /* Location.swift in Sources */,
 				71A3023F295A69F300019E05 /* User.swift in Sources */,
 				710A746B2957E51800245F1E /* SearchLocationViewController.swift in Sources */,
+				71A3024B295AA5EE00019E05 /* ImageHTTP.swift in Sources */,
 				71A30249295A74A300019E05 /* UserPreference.swift in Sources */,
 				7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */,
 			);

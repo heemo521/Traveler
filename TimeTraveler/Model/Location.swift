@@ -16,6 +16,7 @@ enum Categories: String {
     case naturalPark = "16035"
 }
 
+//Renmae the class to Place instead of location
 class Location: NSObject, Decodable {
     var id: String?
     var name: String?

@@ -18,7 +18,7 @@ class HomeVC: UIViewController {
     // change this to a button and diable for padding, also give rounded border
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    
+    @IBOutlet weak var imageView: UIImageView!
     var fetchedLocationList: [Location]!
     var locationManager: CLLocationManager!
     
@@ -36,7 +36,6 @@ class HomeVC: UIViewController {
         // animation everytime the view appears instead of only once per app launch
         scalingAnimation()
     }
-    
     
     // MARK: - Device Orientation Update
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -56,7 +55,7 @@ private extension HomeVC {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         // imageViewContainer.
         scrollView.isHidden = true
-
+        
         // *****Create a loading spinnner here!!!!!
     }
     
@@ -81,7 +80,6 @@ private extension HomeVC {
 //        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     }
     
-    
     func scalingAnimation() {
         if UIDevice.current.orientation.isLandscape {
             UIView.animate(withDuration: 0.6, animations: {
@@ -103,14 +101,13 @@ private extension HomeVC {
     }
     
     func updateContent(with selectedLocation: Location) {
-//        @IBOutlet weak var iconLabel: UIImageView!
-//        @IBOutlet weak var titleLabel: UILabel!
-//        @IBOutlet weak var mapView: MKMapView!
-        
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
         categoryLabel.text = selectedLocation.categories!.first!.name
-//        iconLabel.image
+        //        @IBOutlet weak var iconLabel: UIImageView!
+        //        @IBOutlet weak var titleLabel: UILabel!
+        //        @IBOutlet weak var mapView: MKMapView!
+        //        iconLabel.image
 
     }
 }
@@ -125,44 +122,83 @@ private extension HomeVC {
         let searchQuery = "Empire building" // Replace with user location here - replace this with a searched text
         let categories:[Categories] = [.historic, .nationalPark]
         let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
+        let queryItems = ["near" : searchQuery, "categories": combinedCategories, "fields": defaultFields]
         
-        let request = buildURLRequest.build(for: "get", with: ["near" : searchQuery, "categories": combinedCategories, "fields": defaultFields])
+        guard let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search") else { return }
         
-        if let request = request {
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if error == nil {
-                    guard let data = data else {
-                        print("Failed to receive data \(String(describing: error?.localizedDescription))")
-                        return
-                    }
-                    do {
-                        let decoder = JSONDecoder()
-                        let dataDecoded = try decoder.decode(Response.self, from: data)
-                        self.fetchedLocationList = dataDecoded.results
-                        print("decodedData: \(dataDecoded.results.first!.categories!.count)")
-                        // call update content here with the data
-                        DispatchQueue.main.async {
-                            self.updateContent(with: dataDecoded.results.first!)
-                            self.hideSpinner()
-                        }
-                        
-                    }
-                    catch let error {
-                        // Error when there is no response or data returned from API
-                        print("\(String(describing: error.localizedDescription))")
-                    }
-                } else {
-                    print("Error from request \(String(describing: error?.localizedDescription))")
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error from main request \(String(describing: error.localizedDescription))")
+                return
+            }
+            
+            if let res = response as? HTTPURLResponse {
+                print("response main statuscode: \(res.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("Failed to receive main data")
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let dataDecoded = try decoder.decode(Response.self, from: data)
+                self.fetchedLocationList = dataDecoded.results
+                if let id = dataDecoded.results.first!.id {
+                    self.fetchImage(with: id, atIndex: 0)
                 }
                 
-            }.resume()
-        }
+                DispatchQueue.main.async {
+                    self.updateContent(with: dataDecoded.results.first!)
+                    self.hideSpinner()
+                }
+            }
+            catch let error {
+                // Error when there is no response or data returned from API
+                print("\(String(describing: error.localizedDescription))")
+            }
+        }.resume()
+    }
+    
+    // MARK: - Fetch image url using the ids of locations from func httpRequest()
+    func fetchImage(with locationID: String, atIndex: Int) {
+        guard let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos") else { return }
+        
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error from image info request \(String(describing: error.localizedDescription))")
+                return
+            }
+            
+            if let res = response as? HTTPURLResponse {
+                print("response from image info statuscode: \(res.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("Failed to receive image info data")
+                return
+            }
+        
+            do {
+                let decoder = JSONDecoder()
+                let dataDecoded = try decoder.decode([ImageHTTP].self, from: data)
+//                print(dataDecoded.first?.prefix!)
+                
+                
+
+            }
+            catch let error {
+                // Error when there is no response or data returned from API
+                print("\(String(describing: error.localizedDescription))")
+            }
+        }.resume()
         
     }
 }
-
 // MARK: - Core Location
-
 extension HomeVC: CLLocationManagerDelegate {
 //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        <#code#>

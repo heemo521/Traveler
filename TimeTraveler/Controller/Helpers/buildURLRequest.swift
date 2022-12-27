@@ -8,12 +8,12 @@
 import Foundation
 
 struct buildURLRequest {    
-    static func build(for method: String, with parameters: [String: String]) -> URLRequest? {
+    static func build(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
         //Build URL
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.foursquare.com"
-        urlComponents.path = "/v3/places/search"
+        urlComponents.path = "/v3/places\(path)"
         urlComponents.queryItems = parameters.map({ URLQueryItem(name: $0.key, value: $0.value)})
         
         //Final URL

@@ -51,7 +51,7 @@ private extension HomeViewController {
         let selectedFilter = getSelectedFilter()
         let categories:[Categories] = [.historic, .nationalPark]
         let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
-        let request = buildURLRequest.build(for: "get", with: ["near" : selectedFilter, "categories": combinedCategories])
+        let request = buildURLRequest.build(for: "get", with: ["near" : selectedFilter, "categories": combinedCategories], from: "search")
         
         if let request = request {
             URLSession.shared.dataTask(with: request) { (data, response, error) in
