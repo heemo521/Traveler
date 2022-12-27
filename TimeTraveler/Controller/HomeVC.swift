@@ -56,12 +56,14 @@ private extension HomeVC {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         // imageViewContainer.
         scrollView.isHidden = true
+
         // *****Create a loading spinnner here!!!!!
     }
     
     func hideSpinner() {
         // Remove the spinner and the display
-        scrollView.isHidden = false
+        UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
+        })
     }
     
     func updateUI() {
@@ -76,8 +78,9 @@ private extension HomeVC {
         categoryLabel.layer.backgroundColor = UIColor.systemBlue.cgColor
         categoryLabel.textColor = UIColor.white
         
-        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+//        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     }
+    
     
     func scalingAnimation() {
         if UIDevice.current.orientation.isLandscape {
@@ -115,6 +118,7 @@ private extension HomeVC {
 // MARK: - HTTP
 private extension HomeVC {
     func httpRequest() {
+        
         showSpinner()
         
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
@@ -137,7 +141,6 @@ private extension HomeVC {
                         self.fetchedLocationList = dataDecoded.results
                         print("decodedData: \(dataDecoded.results.first!.categories!.count)")
                         // call update content here with the data
-                        
                         DispatchQueue.main.async {
                             self.updateContent(with: dataDecoded.results.first!)
                             self.hideSpinner()
