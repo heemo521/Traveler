@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Ll-is-2nC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8027" y="-2908"/>
+            <point key="canvasLocation" x="8282" y="-2203"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Tib-7s-Fcw">
@@ -513,6 +513,7 @@
                         <outlet property="iconLabel" destination="5Fv-bc-Uo7" id="z2j-QM-KcR"/>
                         <outlet property="imageViewContainer" destination="VOT-dh-wG6" id="UDB-LC-QM6"/>
                         <outlet property="mapView" destination="qnD-z8-iaQ" id="vhb-r0-TSb"/>
+                        <outlet property="scrollView" destination="7km-if-BRN" id="u4a-OO-A9p"/>
                         <outlet property="titleLabel" destination="0cO-l4-iEO" id="Glm-PL-RqG"/>
                     </connections>
                 </viewController>

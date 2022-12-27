@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class HomeVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
@@ -14,18 +15,28 @@ class HomeVC: UIViewController {
     @IBOutlet weak var iconLabel: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
+    // change this to a button and diable for padding, also give rounded border
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
     var fetchedLocationList: [Location]!
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchedLocationList = []
         updateUI()
-        scalingAnimation()
         httpRequest()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // animation everytime the view appears instead of only once per app launch
+        scalingAnimation()
+    }
+    
     
     // MARK: - Device Orientation Update
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -41,6 +52,18 @@ class HomeVC: UIViewController {
 
 // MARK: - UI
 private extension HomeVC {
+    func showSpinner() {
+        // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
+        // imageViewContainer.
+        scrollView.isHidden = true
+        // *****Create a loading spinnner here!!!!!
+    }
+    
+    func hideSpinner() {
+        // Remove the spinner and the display
+        scrollView.isHidden = false
+    }
+    
     func updateUI() {
         imageViewContainer.layer.cornerRadius = imageViewContainer.frame.width / 2
         imageViewContainer.clipsToBounds = true
@@ -77,21 +100,23 @@ private extension HomeVC {
     }
     
     func updateContent(with selectedLocation: Location) {
-
 //        @IBOutlet weak var iconLabel: UIImageView!
 //        @IBOutlet weak var titleLabel: UILabel!
-//        @IBOutlet weak var categoryLabel: UILabel!
-//        @IBOutlet weak var descriptionLabel: UILabel!
 //        @IBOutlet weak var mapView: MKMapView!
+        
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
+        categoryLabel.text = selectedLocation.categories!.first!.name
+//        iconLabel.image
+
     }
-    
 }
 
 // MARK: - HTTP
 private extension HomeVC {
     func httpRequest() {
+        showSpinner()
+        
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         let searchQuery = "Empire building" // Replace with user location here - replace this with a searched text
         let categories:[Categories] = [.historic, .nationalPark]
@@ -110,11 +135,12 @@ private extension HomeVC {
                         let decoder = JSONDecoder()
                         let dataDecoded = try decoder.decode(Response.self, from: data)
                         self.fetchedLocationList = dataDecoded.results
-                        print("decodedData: \(dataDecoded.results.first!.address!.formatted_address!)")
+                        print("decodedData: \(dataDecoded.results.first!.categories!.count)")
                         // call update content here with the data
                         
                         DispatchQueue.main.async {
                             self.updateContent(with: dataDecoded.results.first!)
+                            self.hideSpinner()
                         }
                         
                     }
@@ -130,4 +156,12 @@ private extension HomeVC {
         }
         
     }
+}
+
+// MARK: - Core Location
+
+extension HomeVC: CLLocationManagerDelegate {
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        <#code#>
+//    }
 }
