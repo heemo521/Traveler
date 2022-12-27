@@ -22,8 +22,11 @@ class HomeVC: UIViewController {
     var fetchedLocationList: [Location]!
     var locationManager: CLLocationManager!
     
+    var imageViewsList: [UIImage]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageViewsList = []
         fetchedLocationList = []
         updateUI()
         httpRequest()
@@ -46,14 +49,13 @@ class HomeVC: UIViewController {
     @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
         performSegue(withIdentifier: "detailsSegue", sender: self)
     }
-
 }
 
 // MARK: - UI
 private extension HomeVC {
     func showSpinner() {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
-        // imageViewContainer.
+        imageView.isHidden = true
         scrollView.isHidden = true
         
         // *****Create a loading spinnner here!!!!!
@@ -62,6 +64,13 @@ private extension HomeVC {
     func hideSpinner() {
         // Remove the spinner and the display
         UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
+        })
+    }
+    
+    func showImage(at index: Int) {
+        let currentImageView = self.imageViewsList[index]
+        imageView.image = currentImageView
+        UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.imageView.isHidden = false
         })
     }
     
@@ -146,8 +155,9 @@ private extension HomeVC {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
                 self.fetchedLocationList = dataDecoded.results
+                
                 if let id = dataDecoded.results.first!.id {
-                    self.fetchImage(with: id, atIndex: 0)
+                    self.getImageDetails(with: id, atIndex: 0)
                 }
                 
                 DispatchQueue.main.async {
@@ -163,7 +173,7 @@ private extension HomeVC {
     }
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
-    func fetchImage(with locationID: String, atIndex: Int) {
+    func getImageDetails(with locationID: String, atIndex: Int) {
         guard let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos") else { return }
         
         let session = URLSession(configuration: .default)
@@ -186,16 +196,45 @@ private extension HomeVC {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([ImageHTTP].self, from: data)
 //                print(dataDecoded.first?.prefix!)
-                
-                
-
+                if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
+                    let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
+                    print("image url \(url)")
+                    self.getImageData(with: url, atIndex: 0)
+                }
             }
             catch let error {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
             }
         }.resume()
+    }
+    
+    func getImageData(with imageURL: String, atIndex: Int) {
+        guard let request = URL(string: imageURL) else { return }
         
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error from image data request \(String(describing: error.localizedDescription))")
+                return
+            }
+            
+            if let res = response as? HTTPURLResponse {
+                print("response from image data statuscode: \(res.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("Failed to receive image data data")
+                return
+            }
+            if let image = UIImage(data: data) {
+                self.imageViewsList.append(image)
+                DispatchQueue.main.async {
+                  self.showImage(at: self.imageViewsList.count - 1)
+                }
+                
+            }
+        }.resume()
     }
 }
 // MARK: - Core Location
