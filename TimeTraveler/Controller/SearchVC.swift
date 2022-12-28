@@ -30,6 +30,7 @@ import MapKit
 
 class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recentSearchTitle: UILabel!
     
     let searchCompleter = MKLocalSearchCompleter()
@@ -49,14 +50,8 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, 
         navigationItem.titleView = searchBarView
         searchBarView.becomeFirstResponder()
         searchCompleter.delegate = self
-        
-        if searchResults.isEmpty {
-            recentSearchTitle.text = "Recent Search"
-            recentSearchTitle.textColor = .systemBlue
-        } else {
-            recentSearchTitle.text = "Search Result"
-            recentSearchTitle.textColor = .black
-        }
+        recentSearchTitle.text = "Recent Search"
+        recentSearchTitle.textColor = .systemBlue
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -72,11 +67,24 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, 
         if searchQuery.count > 3 {
             searchCompleter.queryFragment = searchQuery
         }
+        
+        if searchQuery.count == 0 {
+            searchResults = []
+            tableView.reloadData()
+        }
+        
+        if searchResults.isEmpty {
+            recentSearchTitle.text = "Recent Search"
+            recentSearchTitle.textColor = .systemBlue
+        } else {
+            recentSearchTitle.text = "Search Result"
+            recentSearchTitle.textColor = .black
+        }
     }
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
-        // redner table view here
+        tableView.reloadData()
     }
     /*
     // MARK: - Navigation

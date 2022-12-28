@@ -291,10 +291,13 @@
                                             <outlet property="addressLabel" destination="Tyd-L9-dh8" id="kFW-CX-qxU"/>
                                             <outlet property="cellImageView" destination="mXN-IK-Lwd" id="nUj-o8-tHW"/>
                                             <outlet property="nameLabel" destination="aOS-D0-4pO" id="ySA-kf-PrJ"/>
-                                            <outlet property="nameView" destination="Vp8-xn-4Fp" id="NTm-RR-aaE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="gnK-cE-36f" id="0JR-0r-Hpj"/>
+                                    <outlet property="delegate" destination="gnK-cE-36f" id="tUa-yv-Un0"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9PN-J8-XoL"/>
@@ -315,6 +318,7 @@
                     <connections>
                         <outlet property="recentSearchTitle" destination="9G2-UU-1Zy" id="J35-FZ-ckc"/>
                         <outlet property="searchBarView" destination="LUD-Zf-VlB" id="alj-4m-BfC"/>
+                        <outlet property="tableView" destination="zok-V3-14M" id="PVs-Ak-iP1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fQ-ZI-coT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
