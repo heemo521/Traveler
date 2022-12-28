@@ -102,6 +102,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITm-Zu-215">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="469.66666666666669"/>
                                 <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
+                                        <rect key="frame" x="0.0" y="-8" width="393" height="469.66666666666669"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
                                         <rect key="frame" x="73" y="402.33333333333331" width="300" height="37.333333333333314"/>
                                         <color key="backgroundColor" red="0.42059264520202022" green="0.42059264520202022" blue="0.42059264520202022" alpha="0.49694743377483441" colorSpace="custom" customColorSpace="displayP3"/>
@@ -116,7 +119,11 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="mCS-dD-AyZ" secondAttribute="bottom" constant="30" id="612-Jg-o4b"/>
+                                    <constraint firstItem="4dr-Jq-ocg" firstAttribute="leading" secondItem="ITm-Zu-215" secondAttribute="leading" id="Mo3-9n-xhA"/>
+                                    <constraint firstItem="4dr-Jq-ocg" firstAttribute="top" secondItem="ITm-Zu-215" secondAttribute="top" constant="-8" id="QHf-ct-xW8"/>
                                     <constraint firstAttribute="trailing" secondItem="mCS-dD-AyZ" secondAttribute="trailing" constant="20" id="Y8G-0R-TX1"/>
+                                    <constraint firstAttribute="trailing" secondItem="4dr-Jq-ocg" secondAttribute="trailing" id="buM-En-D4x"/>
+                                    <constraint firstAttribute="bottom" secondItem="4dr-Jq-ocg" secondAttribute="bottom" constant="8" id="i7S-AP-ZHf"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6f-bq-ptT">
@@ -182,28 +189,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
-                                <rect key="frame" x="-31" y="534" width="393" height="469.66666666666669"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FXL-cd-8wk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="nZa-JR-RTL" firstAttribute="leading" secondItem="4Dx-va-BC2" secondAttribute="leading" id="2zs-fK-WJZ"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="height" secondItem="Eqv-Q7-OC9" secondAttribute="height" multiplier="0.6" id="4Pp-DD-6uH"/>
-                            <constraint firstItem="4dr-Jq-ocg" firstAttribute="top" secondItem="Eqv-Q7-OC9" secondAttribute="top" constant="534" id="7mL-A5-l3h"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" id="7zc-xm-JHZ"/>
                             <constraint firstItem="zv8-nd-lAO" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" constant="40" id="9lj-zU-KPd"/>
                             <constraint firstItem="zv8-nd-lAO" firstAttribute="leading" secondItem="pwB-vI-Af0" secondAttribute="leading" id="G7k-RS-BWx"/>
-                            <constraint firstItem="4dr-Jq-ocg" firstAttribute="leading" secondItem="Eqv-Q7-OC9" secondAttribute="leading" constant="-31" id="IEu-E9-g9C"/>
                             <constraint firstItem="Vjh-H7-Ait" firstAttribute="leading" secondItem="54h-Rt-U8Y" secondAttribute="leading" id="IpP-Pd-nII"/>
                             <constraint firstItem="nZa-JR-RTL" firstAttribute="top" secondItem="4Dx-va-BC2" secondAttribute="bottom" constant="8" symbolic="YES" id="KCw-ES-hLA"/>
-                            <constraint firstAttribute="bottom" secondItem="4dr-Jq-ocg" secondAttribute="bottom" constant="-220.66666666666674" id="Mmy-cw-6kt"/>
                             <constraint firstItem="HZl-ip-CLi" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" constant="40" id="QP4-RD-VIl"/>
                             <constraint firstItem="HZl-ip-CLi" firstAttribute="top" secondItem="ITm-Zu-215" secondAttribute="bottom" constant="50.666666666666686" id="VXd-Jm-WPn"/>
                             <constraint firstItem="4Dx-va-BC2" firstAttribute="top" secondItem="HZl-ip-CLi" secondAttribute="bottom" constant="20" id="Vgv-f4-mah"/>
                             <constraint firstItem="f6f-bq-ptT" firstAttribute="top" secondItem="mCS-dD-AyZ" secondAttribute="bottom" constant="37.666666666666686" id="VwR-UN-vM7"/>
-                            <constraint firstAttribute="trailing" secondItem="4dr-Jq-ocg" secondAttribute="trailing" constant="31" id="WxW-CW-O1L"/>
                             <constraint firstItem="pwB-vI-Af0" firstAttribute="top" secondItem="zv8-nd-lAO" secondAttribute="bottom" constant="8" symbolic="YES" id="bYa-cN-fP7"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="top" secondItem="Eqv-Q7-OC9" secondAttribute="top" id="dZx-zh-x5z"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="trailing" secondItem="FXL-cd-8wk" secondAttribute="trailing" id="e5N-Uw-bi4"/>
@@ -242,7 +242,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Use current location"/>
                                 <connections>
-                                    <segue destination="9UF-WW-WAS" kind="show" id="D2C-xK-9gd"/>
+                                    <action selector="useCurrentLocation:" destination="gnK-cE-36f" eventType="touchUpInside" id="bJe-Dc-Jhj"/>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="c5x-yl-ZLv">
@@ -263,7 +263,7 @@
                                 <rect key="frame" x="25" y="206" width="343" height="227"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Qyq-5T-gzV">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Qyq-5T-gzV" customClass="RecentSearchCell" customModule="TimeTraveler" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="343" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qyq-5T-gzV" id="OZF-l4-YzO">
@@ -274,6 +274,9 @@
                                                     <rect key="frame" x="20" y="7.6666666666666679" width="171.66666666666666" height="35"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system" title="  Rock Mountain"/>
+                                                    <connections>
+                                                        <action selector="recentSearchDidClick:" destination="Qyq-5T-gzV" eventType="touchUpInside" id="mHa-PZ-fw9"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -281,6 +284,9 @@
                                                 <constraint firstItem="XR4-DH-3qL" firstAttribute="centerY" secondItem="OZF-l4-YzO" secondAttribute="centerY" id="LrG-Qc-1e0"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="recentSearchText" destination="XR4-DH-3qL" id="ayd-JS-JCj"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

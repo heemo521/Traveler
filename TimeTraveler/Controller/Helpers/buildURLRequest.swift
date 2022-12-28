@@ -32,4 +32,27 @@ struct buildURLRequest {
         return request
     }
     
+    static func httpRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error for \(requestType) request \(String(describing: error.localizedDescription))")
+                return
+            }
+            
+            if let res = response as? HTTPURLResponse {
+                print("response for \(requestType) statuscode: \(res.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("Failed to receive data for \(requestType)")
+                return
+            }
+            
+            callback(data)
+            
+        }.resume()
+    }
+    
+    
 }

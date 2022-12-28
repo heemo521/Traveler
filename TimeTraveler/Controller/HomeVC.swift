@@ -9,40 +9,21 @@ import UIKit
 import MapKit
 import CoreLocation
 
-// [] REFACTOR http request function global one or class?
-// [] REFACTOR UI
-
-// [x] Next is core location and
-// [x] displaying the coordinates on to the map
-// [x] Fix the label to button and dynamic render
-// [] Update the Logo image
-// [] Fetch all images and load it to shareable model : Singleton
-// [] Change the imageViewsList to list of fethed data. Ensemble the e UIImage at func showImage()
-// [] search bar implementation
-// [] recent search implemntation
-// [] use current location button
-// [] maybe remove tabs - save it for use preference
-// [] add map / search bar view controller and cell
-// [] maybe display reviews as a table on the bottonm
-
 class HomeVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var iconLabel: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-
     @IBOutlet weak var categoryContainer: UIView!
-    // change this to a button and diable for padding, also give rounded border
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     
     var didUpdateMapView = false
-    
+    var didUpdateImageView = false
     var fetchedLocationList: [Location]!
     var imageViewsList: [UIImage]!
     var locationManager: CLLocationManager!
-    
     var currentLocation: LocationCoordinates!
     
     override func viewDidLoad() {
@@ -52,13 +33,13 @@ class HomeVC: UIViewController {
         updateUI()
         locationManagerInit()
         getLocationDataHTTP() // if the user doesn't allow the core location then use different data or just make random recommendation
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // animation everytime the view appears instead of only once per app launch
-        scalingAnimation()
+        if didUpdateImageView {
+            scalingAnimation()
+        }
     }
     
     // MARK: - Device Orientation Update
@@ -78,25 +59,13 @@ private extension HomeVC {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         imageView.isHidden = true
         scrollView.isHidden = true
-        
+        iconLabel.isHidden = true
         // *****Create a loading spinnner here!!!!!
     }
     
     func hideSpinner() {
-        // Remove the spinner and the display
         UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
         })
-    }
-    
-    func showImage(at index: Int) {
-        let currentImageView = self.imageViewsList[index]
-        imageView.image = currentImageView
-        UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.imageView.isHidden = false
-        })
-    }
-    
-    func showIcon(at index: Int) {
-        
     }
     
     func createCategoryLabel(title: String) -> UIButton {
@@ -142,43 +111,16 @@ private extension HomeVC {
     
     func updateContent(with selectedLocation: Location) {
         let categoryLabel = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
-        let categoryLabel2 = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
+
         categoryContainer.addSubview(categoryLabel)
-        categoryContainer.addSubview(categoryLabel2)
         
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
-//        iconLabel.image = UIImage(selectedLocation.categories!.first!.icon)
-        
-        
-
     }
 }
 
 // MARK: - HTTP
 private extension HomeVC {
-    func httpRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print("Error for \(requestType) request \(String(describing: error.localizedDescription))")
-                return
-            }
-            
-            if let res = response as? HTTPURLResponse {
-                print("response for \(requestType) statuscode: \(res.statusCode)")
-            }
-            
-            guard let data = data else {
-                print("Failed to receive data for \(requestType)")
-                return
-            }
-            
-            callback(data)
-            
-        }.resume()
-    }
-    
     func getLocationDataHTTP() {
         showSpinner()
         
@@ -190,7 +132,7 @@ private extension HomeVC {
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
-        httpRequest(for: "data request type", request: request, onCompletion: { data in
+        buildURLRequest.httpRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -202,8 +144,7 @@ private extension HomeVC {
                 
                 if let iconURLs = dataDecoded.results.first?.categories?.first?.icon, let prefix = iconURLs.prefix, let suffix = iconURLs.suffix {
                     let url = prefix + "64" + suffix
-                    print("icon url")
-                    self.getIconDataHTTP(with: prefix + "64" + suffix)
+                    self.getIconDataHTTP(with: url)
                 }
                 
                 DispatchQueue.main.async {
@@ -224,7 +165,7 @@ private extension HomeVC {
     func getImageDetailsHTTP(with locationID: String, at: Int) {
         let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        httpRequest(for: "get image details", request: request, onCompletion: { data in
+        buildURLRequest.httpRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([ImageHTTP].self, from: data)
@@ -245,11 +186,15 @@ private extension HomeVC {
         let url = URL(string: imageURL)!
         let request = URLRequest(url: url)
         
-        httpRequest(for: "image data", request: request, onCompletion: { data in
+        buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
             if let image = UIImage(data: data) {
-                self.imageViewsList.append(image)
                 DispatchQueue.main.async {
-                  self.showImage(at: self.imageViewsList.count - 1)
+                    self.didUpdateImageView = true // allow animation in the view will appear
+                    self.imageView.image = image
+                    UIView.transition(with: self.imageView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                        self.imageView.isHidden = false
+                    })
+                    self.scalingAnimation()
                 }
                 
             }
@@ -260,15 +205,19 @@ private extension HomeVC {
         let url = URL(string: imageURL)!
         let request = URLRequest(url: url)
         
-        httpRequest(for: "get icon data", request: request, onCompletion: { data in
+        buildURLRequest.httpRequest(for: "get icon data", request: request, onCompletion: { data in
             if let image = UIImage(data: data) {
                 DispatchQueue.main.async {
                     self.iconLabel.image = image
+                    UIView.transition(with: self.iconLabel, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                        self.iconLabel.isHidden = false
+                    })
                 }
             }
         })
     }
 }
+
 // MARK: - Core Location
 extension HomeVC: CLLocationManagerDelegate {
     
