@@ -28,7 +28,7 @@ import MapKit
 // [] Show distance
 // [] REFACTOR UI
 
-class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
+class SearchVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recentSearchTitle: UILabel!
@@ -39,8 +39,9 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, 
     @IBOutlet var searchBarView: UISearchBar!
 
     @IBAction func useCurrentLocation(_ sender: UIButton) {
+        performSegue(withIdentifier: "currentLocationSegue", sender: self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 //        navigationItem.searchController = searchController
@@ -54,9 +55,13 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, 
         recentSearchTitle.textColor = .systemBlue
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        let text = searchController.searchBar.text!
-        print("update search results "  + text)
+    //    func searchBarCancelButtonClicked(UISearchBar)
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            // maybe send back to the main screen?
+    }
+    //    func searchBarSearchButtonClicked(UISearchBar)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSegue(withIdentifier: "searchSegue", sender: self)
     }
     
     
@@ -95,6 +100,10 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, 
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        <#code#>
+    }
 }
 
 extension SearchVC: UITableViewDelegate {

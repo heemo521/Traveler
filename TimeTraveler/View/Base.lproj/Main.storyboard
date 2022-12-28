@@ -72,9 +72,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Ls-0wt">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Ls-0wt">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1xH-HL-lmI">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1xH-HL-lmI" id="VtE-Ok-ZlY">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="L9Y-Od-T11"/>
@@ -243,9 +253,10 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Use current location"/>
                                 <connections>
                                     <action selector="useCurrentLocation:" destination="gnK-cE-36f" eventType="touchUpInside" id="bJe-Dc-Jhj"/>
+                                    <segue destination="4ui-cy-J1O" kind="presentation" identifier="currentLocationSegue" modalPresentationStyle="fullScreen" id="glY-J1-Trj"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="109" estimatedRowHeight="50" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zok-V3-14M">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="100" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zok-V3-14M">
                                 <rect key="frame" x="10" y="206" width="373" height="563"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -291,6 +302,7 @@
                                             <outlet property="addressLabel" destination="Tyd-L9-dh8" id="kFW-CX-qxU"/>
                                             <outlet property="cellImageView" destination="mXN-IK-Lwd" id="nUj-o8-tHW"/>
                                             <outlet property="nameLabel" destination="aOS-D0-4pO" id="ySA-kf-PrJ"/>
+                                            <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" modalPresentationStyle="fullScreen" id="Mfg-XU-rAX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -564,6 +576,9 @@
             <point key="canvasLocation" x="3977.8625954198474" y="-2235.211267605634"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Mfg-XU-rAX"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>
         <image name="eight" width="102.5" height="231"/>
