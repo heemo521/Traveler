@@ -102,9 +102,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITm-Zu-215">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="469.66666666666669"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="469.66666666666669"/>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
                                         <rect key="frame" x="73" y="402.33333333333331" width="300" height="37.333333333333314"/>
                                         <color key="backgroundColor" red="0.42059264520202022" green="0.42059264520202022" blue="0.42059264520202022" alpha="0.49694743377483441" colorSpace="custom" customColorSpace="displayP3"/>
@@ -119,11 +116,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="mCS-dD-AyZ" secondAttribute="bottom" constant="30" id="612-Jg-o4b"/>
-                                    <constraint firstItem="4dr-Jq-ocg" firstAttribute="leading" secondItem="ITm-Zu-215" secondAttribute="leading" id="GfB-aU-AtX"/>
-                                    <constraint firstAttribute="trailing" secondItem="4dr-Jq-ocg" secondAttribute="trailing" id="Gm0-ge-Ncs"/>
-                                    <constraint firstAttribute="bottom" secondItem="4dr-Jq-ocg" secondAttribute="bottom" id="Udr-ZU-1sW"/>
                                     <constraint firstAttribute="trailing" secondItem="mCS-dD-AyZ" secondAttribute="trailing" constant="20" id="Y8G-0R-TX1"/>
-                                    <constraint firstItem="4dr-Jq-ocg" firstAttribute="top" secondItem="ITm-Zu-215" secondAttribute="top" id="mUa-fi-V5P"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6f-bq-ptT">
@@ -189,21 +182,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
+                                <rect key="frame" x="-31" y="534" width="393" height="469.66666666666669"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FXL-cd-8wk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="nZa-JR-RTL" firstAttribute="leading" secondItem="4Dx-va-BC2" secondAttribute="leading" id="2zs-fK-WJZ"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="height" secondItem="Eqv-Q7-OC9" secondAttribute="height" multiplier="0.6" id="4Pp-DD-6uH"/>
+                            <constraint firstItem="4dr-Jq-ocg" firstAttribute="top" secondItem="Eqv-Q7-OC9" secondAttribute="top" constant="534" id="7mL-A5-l3h"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" id="7zc-xm-JHZ"/>
                             <constraint firstItem="zv8-nd-lAO" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" constant="40" id="9lj-zU-KPd"/>
                             <constraint firstItem="zv8-nd-lAO" firstAttribute="leading" secondItem="pwB-vI-Af0" secondAttribute="leading" id="G7k-RS-BWx"/>
+                            <constraint firstItem="4dr-Jq-ocg" firstAttribute="leading" secondItem="Eqv-Q7-OC9" secondAttribute="leading" constant="-31" id="IEu-E9-g9C"/>
                             <constraint firstItem="Vjh-H7-Ait" firstAttribute="leading" secondItem="54h-Rt-U8Y" secondAttribute="leading" id="IpP-Pd-nII"/>
                             <constraint firstItem="nZa-JR-RTL" firstAttribute="top" secondItem="4Dx-va-BC2" secondAttribute="bottom" constant="8" symbolic="YES" id="KCw-ES-hLA"/>
+                            <constraint firstAttribute="bottom" secondItem="4dr-Jq-ocg" secondAttribute="bottom" constant="-220.66666666666674" id="Mmy-cw-6kt"/>
                             <constraint firstItem="HZl-ip-CLi" firstAttribute="leading" secondItem="FXL-cd-8wk" secondAttribute="leading" constant="40" id="QP4-RD-VIl"/>
                             <constraint firstItem="HZl-ip-CLi" firstAttribute="top" secondItem="ITm-Zu-215" secondAttribute="bottom" constant="50.666666666666686" id="VXd-Jm-WPn"/>
                             <constraint firstItem="4Dx-va-BC2" firstAttribute="top" secondItem="HZl-ip-CLi" secondAttribute="bottom" constant="20" id="Vgv-f4-mah"/>
                             <constraint firstItem="f6f-bq-ptT" firstAttribute="top" secondItem="mCS-dD-AyZ" secondAttribute="bottom" constant="37.666666666666686" id="VwR-UN-vM7"/>
+                            <constraint firstAttribute="trailing" secondItem="4dr-Jq-ocg" secondAttribute="trailing" constant="31" id="WxW-CW-O1L"/>
                             <constraint firstItem="pwB-vI-Af0" firstAttribute="top" secondItem="zv8-nd-lAO" secondAttribute="bottom" constant="8" symbolic="YES" id="bYa-cN-fP7"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="top" secondItem="Eqv-Q7-OC9" secondAttribute="top" id="dZx-zh-x5z"/>
                             <constraint firstItem="ITm-Zu-215" firstAttribute="trailing" secondItem="FXL-cd-8wk" secondAttribute="trailing" id="e5N-Uw-bi4"/>

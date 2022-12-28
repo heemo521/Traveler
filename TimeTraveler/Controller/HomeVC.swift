@@ -9,20 +9,21 @@ import UIKit
 import MapKit
 import CoreLocation
 
-// REFACTOR http request functions
-// create a global one or class?
+// [] REFACTOR http request function global one or class?
+// [] REFACTOR UI
+
 // [x] Next is core location and
-// [ ] displaying the coordinates on to the map
-// [ ] Fix the label to button and dynamic render
-// [ ] Update the Logo image
-// Fetch all images and load it to shareable model : Singleton
-// Change the imageViewsList to list of fethed data. Ensemble the e UIImage at func showImage()
-// search bar implementation
-// recent search implemntation
-// use current location button
-// maybe remove tabs - save it for use preference
-// add map / search bar view controller and cell
-// maybe display reviews as a table on the bottonm
+// [x] displaying the coordinates on to the map
+// [x] Fix the label to button and dynamic render
+// [] Update the Logo image
+// [] Fetch all images and load it to shareable model : Singleton
+// [] Change the imageViewsList to list of fethed data. Ensemble the e UIImage at func showImage()
+// [] search bar implementation
+// [] recent search implemntation
+// [] use current location button
+// [] maybe remove tabs - save it for use preference
+// [] add map / search bar view controller and cell
+// [] maybe display reviews as a table on the bottonm
 
 class HomeVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
@@ -50,7 +51,7 @@ class HomeVC: UIViewController {
         fetchedLocationList = []
         updateUI()
         locationManagerInit()
-        httpRequest() // if the user doesn't allow the core location then use different data or just make random recommendation
+        getLocationDataHTTP() // if the user doesn't allow the core location then use different data or just make random recommendation
         
     }
 
@@ -94,6 +95,10 @@ private extension HomeVC {
         })
     }
     
+    func showIcon(at index: Int) {
+        
+    }
+    
     func createCategoryLabel(title: String) -> UIButton {
         let font = UIFont(name: "Arial", size: 20)
         let fontAttributes = [NSAttributedString.Key.font: font]
@@ -113,14 +118,6 @@ private extension HomeVC {
         imageViewContainer.clipsToBounds = true
         imageViewContainer.layer.borderColor = UIColor.gray.cgColor
         imageViewContainer.layer.borderWidth = 3
-//
-//        categoryLabel.layer.cornerRadius = 15.0
-//        categoryLabel.layer.borderColor = UIColor.gray.cgColor
-//        categoryLabel.layer.borderWidth = 1
-//        categoryLabel.layer.backgroundColor = UIColor.systemBlue.cgColor
-//        categoryLabel.textColor = UIColor.white
-        
-//        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     }
     
     func scalingAnimation() {
@@ -151,20 +148,38 @@ private extension HomeVC {
         
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
+//        iconLabel.image = UIImage(selectedLocation.categories!.first!.icon)
         
-//        categoryLabel.text = selectedLocation.categories!.first!.name
-        //        @IBOutlet weak var iconLabel: UIImageView!
-        //        @IBOutlet weak var titleLabel: UILabel!
-        //        @IBOutlet weak var mapView: MKMapView!
-        //        iconLabel.image
+        
 
     }
 }
 
 // MARK: - HTTP
 private extension HomeVC {
-    func httpRequest() {
-        
+    func httpRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error for \(requestType) request \(String(describing: error.localizedDescription))")
+                return
+            }
+            
+            if let res = response as? HTTPURLResponse {
+                print("response for \(requestType) statuscode: \(res.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("Failed to receive data for \(requestType)")
+                return
+            }
+            
+            callback(data)
+            
+        }.resume()
+    }
+    
+    func getLocationDataHTTP() {
         showSpinner()
         
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
@@ -173,102 +188,64 @@ private extension HomeVC {
         let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
         let queryItems = ["near" : searchQuery, "categories": combinedCategories, "fields": defaultFields]
         
-        guard let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search") else { return }
+        let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print("Error from main request \(String(describing: error.localizedDescription))")
-                return
-            }
-            
-            if let res = response as? HTTPURLResponse {
-                print("response main statuscode: \(res.statusCode)")
-            }
-            
-            guard let data = data else {
-                print("Failed to receive main data")
-                return
-            }
-            
+        httpRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
                 self.fetchedLocationList = dataDecoded.results
                 
                 if let id = dataDecoded.results.first!.id {
-                    self.getImageDetails(with: id, atIndex: 0)
+                    self.getImageDetailsHTTP(with: id, at: 0)
+                }
+                
+                if let iconURLs = dataDecoded.results.first?.categories?.first?.icon, let prefix = iconURLs.prefix, let suffix = iconURLs.suffix {
+                    let url = prefix + "64" + suffix
+                    print("icon url")
+                    self.getIconDataHTTP(with: prefix + "64" + suffix)
                 }
                 
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
-                    self.updateMapViewWIthCoordinates(atIndex: 0)
-                    self.hideSpinner()
+                    self.updateMapViewWIthCoordinates(at: 0)
                     
+                    self.hideSpinner()
                 }
             }
             catch let error {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
             }
-        }.resume()
+        })
     }
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
-    func getImageDetails(with locationID: String, atIndex: Int) {
-        guard let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos") else { return }
+    func getImageDetailsHTTP(with locationID: String, at: Int) {
+        let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print("Error from image info request \(String(describing: error.localizedDescription))")
-                return
-            }
-            
-            if let res = response as? HTTPURLResponse {
-                print("response from image info statuscode: \(res.statusCode)")
-            }
-            
-            guard let data = data else {
-                print("Failed to receive image info data")
-                return
-            }
-        
+        httpRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([ImageHTTP].self, from: data)
-//                print(dataDecoded.first?.prefix!)
+
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
                     print("image url \(url)")
-                    self.getImageData(with: url, atIndex: 0)
+                    self.getImageDataHTTP(with: url, at: 0)
                 }
             }
             catch let error {
-                // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
             }
-        }.resume()
+        })
     }
     
-    func getImageData(with imageURL: String, atIndex: Int) {
-        guard let request = URL(string: imageURL) else { return }
+    func getImageDataHTTP(with imageURL: String, at index: Int) {
+        let url = URL(string: imageURL)!
+        let request = URLRequest(url: url)
         
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print("Error from image data request \(String(describing: error.localizedDescription))")
-                return
-            }
-            
-            if let res = response as? HTTPURLResponse {
-                print("response from image data statuscode: \(res.statusCode)")
-            }
-            
-            guard let data = data else {
-                print("Failed to receive image data data")
-                return
-            }
+        httpRequest(for: "image data", request: request, onCompletion: { data in
             if let image = UIImage(data: data) {
                 self.imageViewsList.append(image)
                 DispatchQueue.main.async {
@@ -276,7 +253,20 @@ private extension HomeVC {
                 }
                 
             }
-        }.resume()
+        })
+    }
+    
+    func getIconDataHTTP(with imageURL: String) {
+        let url = URL(string: imageURL)!
+        let request = URLRequest(url: url)
+        
+        httpRequest(for: "get icon data", request: request, onCompletion: { data in
+            if let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.iconLabel.image = image
+                }
+            }
+        })
     }
 }
 // MARK: - Core Location
@@ -319,9 +309,6 @@ extension HomeVC: CLLocationManagerDelegate {
         currentLocation = LocationCoordinates(name: "User's Location", latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         locationManager.stopUpdatingLocation()
     }
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//
-//    }
 }
 
 // MARK: - Map
@@ -335,7 +322,7 @@ extension HomeVC {
         }
     }
 
-    func updateMapViewWIthCoordinates(atIndex index: Int) {
+    func updateMapViewWIthCoordinates(at index: Int) {
         guard didUpdateMapView == false else { return }
         if let geocodes = fetchedLocationList[index].geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
             let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
