@@ -339,7 +339,7 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNn-wr-Ae9" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="894"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="908.33333333333337"/>
                                         <subviews>
                                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="VOT-dh-wG6">
                                                 <rect key="frame" x="71.666666666666686" y="82" width="250" height="250"/>
@@ -390,28 +390,13 @@
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ7-xN-iyz" userLabel="Category Container">
                                                 <rect key="frame" x="40" y="395" width="313" height="60"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="National Park" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNO-oS-T5b">
-                                                        <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
-                                                        <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="30" id="GGa-aI-8WC"/>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="ekB-Ef-skm"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
                                                 <color key="backgroundColor" red="0.97590706416651463" green="0.98745022291216578" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstItem="cNO-oS-T5b" firstAttribute="top" secondItem="EQ7-xN-iyz" secondAttribute="top" id="Bcj-X6-R0X"/>
-                                                    <constraint firstItem="cNO-oS-T5b" firstAttribute="leading" secondItem="EQ7-xN-iyz" secondAttribute="leading" id="RDy-XI-XTZ"/>
                                                     <constraint firstAttribute="height" constant="60" id="n9T-f7-z0X"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This description is going to be " lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69M-zr-bJd">
-                                                <rect key="frame" x="40" y="475" width="313" height="40"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a view here and add address and distance calculated from the place in miles" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69M-zr-bJd">
+                                                <rect key="frame" x="40" y="475" width="313" height="54.333333333333371"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="WFV-Q0-Lpl"/>
                                                 </constraints>
@@ -420,7 +405,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnD-z8-iaQ">
-                                                <rect key="frame" x="40" y="564" width="313" height="300"/>
+                                                <rect key="frame" x="40" y="578.33333333333337" width="313" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="OKd-yF-bCU"/>
                                                 </constraints>
@@ -508,7 +493,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="categoryLabel" destination="cNO-oS-T5b" id="9yL-Xo-9Xb"/>
+                        <outlet property="categoryContainer" destination="EQ7-xN-iyz" id="SAk-F4-2zw"/>
                         <outlet property="descriptionLabel" destination="69M-zr-bJd" id="gwq-Nb-0aN"/>
                         <outlet property="iconLabel" destination="5Fv-bc-Uo7" id="z2j-QM-KcR"/>
                         <outlet property="imageView" destination="W6f-HA-Lah" id="gam-mu-yRJ"/>

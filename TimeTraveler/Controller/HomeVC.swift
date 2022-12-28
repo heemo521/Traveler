@@ -29,7 +29,8 @@ class HomeVC: UIViewController {
     @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var iconLabel: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
+
+    @IBOutlet weak var categoryContainer: UIView!
     // change this to a button and diable for padding, also give rounded border
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -93,17 +94,31 @@ private extension HomeVC {
         })
     }
     
+    func createCategoryLabel(title: String) -> UIButton {
+        let font = UIFont(name: "Arial", size: 20)
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = (title as NSString).size(withAttributes: fontAttributes as [NSAttributedString.Key : Any])
+        let labelButton = UIButton(frame: CGRect(x: 0, y: 0, width: size.width + 10.0, height: size.height + 5.0))
+        labelButton.backgroundColor = .systemBlue
+        labelButton.layer.cornerRadius = 15.0
+        labelButton.layer.borderWidth = 1
+        labelButton.layer.borderColor = UIColor.systemGray.cgColor
+        labelButton.setTitle(title, for: .normal)
+        labelButton.isEnabled = false
+        return labelButton
+    }
+    
     func updateUI() {
         imageViewContainer.layer.cornerRadius = imageViewContainer.frame.width / 2
         imageViewContainer.clipsToBounds = true
         imageViewContainer.layer.borderColor = UIColor.gray.cgColor
         imageViewContainer.layer.borderWidth = 3
-        
-        categoryLabel.layer.cornerRadius = 15.0
-        categoryLabel.layer.borderColor = UIColor.gray.cgColor
-        categoryLabel.layer.borderWidth = 1
-        categoryLabel.layer.backgroundColor = UIColor.systemBlue.cgColor
-        categoryLabel.textColor = UIColor.white
+//
+//        categoryLabel.layer.cornerRadius = 15.0
+//        categoryLabel.layer.borderColor = UIColor.gray.cgColor
+//        categoryLabel.layer.borderWidth = 1
+//        categoryLabel.layer.backgroundColor = UIColor.systemBlue.cgColor
+//        categoryLabel.textColor = UIColor.white
         
 //        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     }
@@ -129,9 +144,15 @@ private extension HomeVC {
     }
     
     func updateContent(with selectedLocation: Location) {
+        let categoryLabel = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
+        let categoryLabel2 = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
+        categoryContainer.addSubview(categoryLabel)
+        categoryContainer.addSubview(categoryLabel2)
+        
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
-        categoryLabel.text = selectedLocation.categories!.first!.name
+        
+//        categoryLabel.text = selectedLocation.categories!.first!.name
         //        @IBOutlet weak var iconLabel: UIImageView!
         //        @IBOutlet weak var titleLabel: UILabel!
         //        @IBOutlet weak var mapView: MKMapView!
