@@ -419,7 +419,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qnD-z8-iaQ">
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnD-z8-iaQ">
                                                 <rect key="frame" x="40" y="564" width="313" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="OKd-yF-bCU"/>

@@ -11,9 +11,10 @@ import CoreLocation
 
 // REFACTOR http request functions
 // create a global one or class?
-// Next is core location and displaying the coordinates on to the map
-// Fix the label to button
-// Update the Logo
+// [x] Next is core location and
+// [ ] displaying the coordinates on to the map
+// [ ] Fix the label to button and dynamic render
+// [ ] Update the Logo image
 // Fetch all images and load it to shareable model : Singleton
 // Change the imageViewsList to list of fethed data. Ensemble the e UIImage at func showImage()
 // search bar implementation
@@ -31,20 +32,25 @@ class HomeVC: UIViewController {
     @IBOutlet weak var categoryLabel: UILabel!
     // change this to a button and diable for padding, also give rounded border
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    var didUpdateMapView = false
     
     var fetchedLocationList: [Location]!
     var imageViewsList: [UIImage]!
     var locationManager: CLLocationManager!
+    
+    var currentLocation: LocationCoordinates!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imageViewsList = []
         fetchedLocationList = []
         updateUI()
-        httpRequest()
         locationManagerInit()
+        httpRequest() // if the user doesn't allow the core location then use different data or just make random recommendation
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -175,7 +181,9 @@ private extension HomeVC {
                 
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
+                    self.updateMapViewWIthCoordinates(atIndex: 0)
                     self.hideSpinner()
+                    
                 }
             }
             catch let error {
@@ -287,8 +295,33 @@ extension HomeVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
         print("location update latitude: \(location.coordinate.latitude) longitude \(location.coordinate.longitude)")
+        currentLocation = LocationCoordinates(name: "User's Location", latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        locationManager.stopUpdatingLocation()
     }
 //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //
 //    }
+}
+
+// MARK: - Map
+extension HomeVC {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        if !didUpdateMapView {
+            print(userLocation.coordinate)
+            let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 300.0, longitudinalMeters: 300.0)
+            mapView.setRegion(regionView, animated: true)
+            didUpdateMapView = true
+        }
+    }
+
+    func updateMapViewWIthCoordinates(atIndex index: Int) {
+        guard didUpdateMapView == false else { return }
+        if let geocodes = fetchedLocationList[index].geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
+            let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 100.0, longitudinalMeters: 100.0)
+            mapView.setRegion(regionView, animated: true)
+            mapView.addAnnotation(LocationAnnotation(coordinate: locationCoord))
+            didUpdateMapView = true
+        }
+    }
 }

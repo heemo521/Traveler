@@ -25,6 +25,7 @@
 		71A30249295A74A300019E05 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30248295A74A300019E05 /* UserPreference.swift */; };
 		71A3024B295AA5EE00019E05 /* ImageHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024A295AA5EE00019E05 /* ImageHTTP.swift */; };
 		71A3024D295B986200019E05 /* LocationCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024C295B986200019E05 /* LocationCoordinates.swift */; };
+		71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024E295BDFD500019E05 /* LocationAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		71A30248295A74A300019E05 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
 		71A3024A295AA5EE00019E05 /* ImageHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHTTP.swift; sourceTree = "<group>"; };
 		71A3024C295B986200019E05 /* LocationCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCoordinates.swift; sourceTree = "<group>"; };
+		71A3024E295BDFD500019E05 /* LocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				71A3023E295A69F300019E05 /* User.swift */,
 				716510D229577DC3002F56D8 /* Location.swift */,
 				71A3024C295B986200019E05 /* LocationCoordinates.swift */,
+				71A3024E295BDFD500019E05 /* LocationAnnotation.swift */,
 				71A30248295A74A300019E05 /* UserPreference.swift */,
 				716510E02957AD14002F56D8 /* Response.swift */,
 				71A3024A295AA5EE00019E05 /* ImageHTTP.swift */,
@@ -229,6 +232,7 @@
 				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				71A3024D295B986200019E05 /* LocationCoordinates.swift in Sources */,
 				716510D829577EB6002F56D8 /* HomeViewController.swift in Sources */,
+				71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */,
 				71A30241295A6AE500019E05 /* UserService.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
 				716510D329577DC3002F56D8 /* Location.swift in Sources */,
