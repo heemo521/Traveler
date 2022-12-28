@@ -6,15 +6,21 @@
 //
 
 import UIKit
+import MapKit
 
 class RecentSearchCell: UITableViewCell {
     
-    @IBOutlet weak var recentSearchText: UIButton!
+    @IBOutlet weak var cellImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
     
-    @IBAction func recentSearchDidClick(_ sender: UIButton) {
+    func update(location: Location) {
+//        cellImageView.image = UIImage()
+        nameLabel.text = location.name
+        addressLabel.text = location.address?.formatted_address
     }
-    
-    func update() {
-        
+    func update(searchResult: MKLocalSearchCompletion) {
+        nameLabel.text = searchResult.title
+        addressLabel.text = searchResult.subtitle
     }
 }

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import MapKit
 // [x] REFACTOR http request function
 // [x] Next is core location and
 // [x] displaying the coordinates on to the map
@@ -28,7 +28,13 @@ import UIKit
 // [] Show distance
 // [] REFACTOR UI
 
-class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
+class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
+    
+    @IBOutlet weak var recentSearchTitle: UILabel!
+    
+    let searchCompleter = MKLocalSearchCompleter()
+    var searchResults = [MKLocalSearchCompletion]()
+    
     @IBOutlet var searchBarView: UISearchBar!
 
     @IBAction func useCurrentLocation(_ sender: UIButton) {
@@ -42,17 +48,36 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
         // Do any additional setup after loading the view.
         navigationItem.titleView = searchBarView
         searchBarView.becomeFirstResponder()
+        searchCompleter.delegate = self
+        
+        if searchResults.isEmpty {
+            recentSearchTitle.text = "Recent Search"
+            recentSearchTitle.textColor = .systemBlue
+        } else {
+            recentSearchTitle.text = "Search Result"
+            recentSearchTitle.textColor = .black
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         let text = searchController.searchBar.text!
-        print(text)
+        print("update search results "  + text)
     }
+    
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchBarView.text!)
+        let searchQuery = searchBarView.text!
+        print("search bar" + searchBarView.text!)
+        
+        if searchQuery.count > 3 {
+            searchCompleter.queryFragment = searchQuery
+        }
     }
     
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+        // redner table view here
+    }
     /*
     // MARK: - Navigation
 
@@ -64,3 +89,27 @@ class SearchVC: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     */
 }
 
+extension SearchVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+}
+
+extension SearchVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchCell") as! RecentSearchCell
+        
+        if searchResults.isEmpty {
+            //
+        }
+        let searchResult = searchResults[indexPath.row]
+        cell.update(searchResult: searchResult)
+        return cell
+    }
+    
+    
+}
