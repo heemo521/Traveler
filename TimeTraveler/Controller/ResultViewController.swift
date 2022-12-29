@@ -7,6 +7,7 @@
 
 import UIKit
 
+// [] like button implementation
 // [] list/map split view
 // [] segue to details page
 // [] details page slidable image gallery

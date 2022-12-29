@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-
+// [] unselect row
 // [] use current location button
 // [] save recent search on the system
 // - [] maybe also limit the search to 100
@@ -35,12 +35,17 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = searchBarView
-        searchBarView.becomeFirstResponder()
+
         searchCompleter.delegate = self
         recentSearchTitle.text = "Recent Search"
         recentSearchTitle.textColor = .systemBlue
         recentSearchList = UserService.shared.getAllRecentSearch()
         editButton.isHidden = recentSearchList.isEmpty
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchBarView.becomeFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -88,6 +93,7 @@ extension SearchViewController: MKLocalSearchCompleterDelegate, UITableViewDeleg
             self.tableView.reloadData()
             performSegue(withIdentifier: "searchSegue", sender: searchResult)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -124,7 +130,7 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchCell") as! SearchCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell") as! SearchCell
         
         if searchResults.isEmpty {
             let recentSearch = recentSearchList[indexPath.row]
