@@ -13,11 +13,11 @@ class RecentSearchCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     
-    func update(location: Place) {
+    func update(location: RecentSearch) {
         cellImageView.image = UIImage(systemName: "magnifyingglass")
         cellImageView.tintColor = UIColor.systemBlue
-        nameLabel.text = location.name
-        addressLabel.text = location.address?.formatted_address
+        nameLabel.text = location.title
+        addressLabel.text = location.subTitle
     }
     func update(searchResult: MKLocalSearchCompletion) {
         cellImageView.image = UIImage(systemName: "mappin.and.ellipse")

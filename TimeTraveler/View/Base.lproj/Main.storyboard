@@ -69,11 +69,11 @@
             <objects>
                 <viewController id="4ui-cy-J1O" customClass="SearchResultsVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y45-Je-vzi">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Ls-0wt">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1xH-HL-lmI">
@@ -333,7 +333,7 @@
                         <outlet property="recentSearchTitle" destination="9G2-UU-1Zy" id="J35-FZ-ckc"/>
                         <outlet property="searchBarView" destination="LUD-Zf-VlB" id="alj-4m-BfC"/>
                         <outlet property="tableView" destination="zok-V3-14M" id="PVs-Ak-iP1"/>
-                        <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" modalPresentationStyle="fullScreen" id="vUO-Jw-dOm"/>
+                        <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" id="vUO-Jw-dOm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fQ-ZI-coT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -30,44 +30,31 @@ import MapKit
 // [] Show distance
 // [] REFACTOR UI
 
-class SearchVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
-    
+class SearchVC: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recentSearchTitle: UILabel!
-    
+    @IBOutlet var searchBarView: UISearchBar!
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
-    
-    @IBOutlet var searchBarView: UISearchBar!
+    var currentLocation: LocationAnnotation!
+    var recentSearchList = UserService.shared.getAllRecentSearch()
 
     @IBAction func useCurrentLocation(_ sender: UIButton) {
-        performSegue(withIdentifier: "currentLocationSegue", sender: self)
+        performSegue(withIdentifier: "currentLocationSegue", sender: currentLocation)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.searchController = searchController
-//        navigationItem.leftBarButtonItem = searchController
-//        searchController.searchResultsUpdater = self
-        // Do any additional setup after loading the view.
+
         navigationItem.titleView = searchBarView
         searchBarView.becomeFirstResponder()
         searchCompleter.delegate = self
         recentSearchTitle.text = "Recent Search"
         recentSearchTitle.textColor = .systemBlue
     }
-    
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            // maybe send back to the main screen?
-        navigationController?.popViewController(animated: true)
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if searchBarView.text != "" {
-            let searchQuery = searchBarView.text
-            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
-        }
+    @IBAction func deleteRecenteSearchClicked(_ sender: Any) {
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -98,10 +85,36 @@ class SearchVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDel
     }
 }
 
-extension SearchVC: UITableViewDelegate {
+extension SearchVC: MKLocalSearchCompleterDelegate, UITableViewDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let searchQuery = searchBarView.text!
+        if searchQuery != "" {
+            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
+            recentSearchList = UserService.shared.getAllRecentSearch()
+            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let searchQuery = searchResults[indexPath.row].title
-        performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+        let searchResult = searchResults[indexPath.row]
+        UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
+        recentSearchList = UserService.shared.getAllRecentSearch()
+        performSegue(withIdentifier: "searchSegue", sender: searchResult)
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return searchResults.isEmpty
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return searchResults.isEmpty ? .delete : .none
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        let deleteSearchTitle = recentSearchList[indexPath!.row].title
+        UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
+        recentSearchList = UserService.shared.getAllRecentSearch()
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,6 +126,9 @@ extension SearchVC: UITableViewDelegate {
 
 extension SearchVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchResults.isEmpty {
+            return UserService.shared.numberOfRecentSearch()
+        }
         return searchResults.count
     }
     
@@ -120,12 +136,13 @@ extension SearchVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchCell") as! RecentSearchCell
         
         if searchResults.isEmpty {
-            //
+            let recentSearch = recentSearchList[indexPath.row]
+            cell.update(location: recentSearch)
+        } else {
+            let searchResult = searchResults[indexPath.row]
+            cell.update(searchResult: searchResult)
         }
-        let searchResult = searchResults[indexPath.row]
-        cell.update(searchResult: searchResult)
+        
         return cell
     }
-    
-    
 }

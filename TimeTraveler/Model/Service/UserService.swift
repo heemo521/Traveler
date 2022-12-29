@@ -8,7 +8,7 @@
 import Foundation
 
 class UserService {
-    private let shared = UserService()
+    static let shared = UserService()
     
     private let user = User()
     
@@ -19,9 +19,23 @@ class UserService {
     //unLikeLocation
     
     //addToRecent Search
-    
+    func addRecentSearch(recentSearch: RecentSearch) {
+        print("adding recent search \(recentSearch.title)")
+        user.recentSearch.insert(recentSearch)
+    }
     //delete recent search
+    func removeRecentSearch(recentSearch: RecentSearch) {
+        print("removing recent search \(recentSearch.title)")
+        user.recentSearch.remove(recentSearch)
+    }
     
+    func getAllRecentSearch() -> [RecentSearch] {
+        return Array(user.recentSearch)
+    }
+    
+    func numberOfRecentSearch() -> Int {
+        return user.recentSearch.count
+    }
     //delete all recent search
     
 }

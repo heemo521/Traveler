@@ -7,15 +7,19 @@
 
 import Foundation
 
-class RecentSearch {
-    var id: String
+class RecentSearch: Equatable, Hashable {
     var title: String
     var subTitle: String?
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(title.hashValue)
+    }
+    static func == (lhs: RecentSearch, rhs: RecentSearch) -> Bool {
+        return lhs.title == lhs.title
+    }
     
-    init(id: String, title: String, subTitle: String?) {
-        self.id = id
+    init(title: String, subTitle: String?) {
         self.title = title
         self.subTitle = subTitle ?? ""
-        
     }
 }
