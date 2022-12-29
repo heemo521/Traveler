@@ -64,24 +64,81 @@
             </objects>
             <point key="canvasLocation" x="8436" y="-1830"/>
         </scene>
-        <!--ResultsVC-->
+        <!--Result View Controller-->
         <scene sceneID="paO-IF-WVb">
             <objects>
-                <viewController id="4ui-cy-J1O" customClass="ResultsVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4ui-cy-J1O" customClass="ResultViewController" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y45-Je-vzi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Ls-0wt">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1xH-HL-lmI">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultCell" id="1xH-HL-lmI" customClass="ResultCell" customModule="TimeTraveler" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1xH-HL-lmI" id="VtE-Ok-ZlY" customClass="SearchResultsCell" customModule="TimeTraveler" customModuleProvider="target">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1xH-HL-lmI" id="VtE-Ok-ZlY" customClass="ResultCell" customModule="TimeTraveler" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3rM-qr-eQm">
+                                                    <rect key="frame" x="20" y="11" width="240" height="128"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x03-zj-DPG">
+                                                    <rect key="frame" x="20" y="156.66666666666666" width="14" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="14" id="43N-yg-oHL"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of the Place" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70O-Ae-KCG">
+                                                    <rect key="frame" x="39" y="161" width="221" height="18.333333333333343"/>
+                                                    <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJ0-mz-ukZ">
+                                                    <rect key="frame" x="268" y="11.000000000000002" width="71" height="25.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Qi-QQ-Lyn">
+                                                    <rect key="frame" x="268" y="69.666666666666671" width="71" height="10.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3a2-W8-mkD">
+                                                    <rect key="frame" x="322.33333333333331" y="150" width="50.666666666666686" height="34.333333333333343"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="3rM-qr-eQm" firstAttribute="height" secondItem="VtE-Ok-ZlY" secondAttribute="height" multiplier="0.64" id="E0c-j8-DCj"/>
+                                                <constraint firstItem="70O-Ae-KCG" firstAttribute="trailing" secondItem="3rM-qr-eQm" secondAttribute="trailing" id="E2E-Xp-Oun"/>
+                                                <constraint firstItem="70O-Ae-KCG" firstAttribute="centerY" secondItem="x03-zj-DPG" secondAttribute="centerY" constant="3" id="F9r-m5-wU3"/>
+                                                <constraint firstItem="x03-zj-DPG" firstAttribute="leading" secondItem="3rM-qr-eQm" secondAttribute="leading" id="Fli-uu-3ps"/>
+                                                <constraint firstItem="mJ0-mz-ukZ" firstAttribute="leading" secondItem="3rM-qr-eQm" secondAttribute="trailing" constant="8" symbolic="YES" id="J97-gr-Vlp"/>
+                                                <constraint firstItem="3rM-qr-eQm" firstAttribute="leading" secondItem="VtE-Ok-ZlY" secondAttribute="leading" constant="20" symbolic="YES" id="JsB-bL-JjI"/>
+                                                <constraint firstItem="5Qi-QQ-Lyn" firstAttribute="top" secondItem="mJ0-mz-ukZ" secondAttribute="bottom" constant="33" id="LuL-gc-SSx"/>
+                                                <constraint firstItem="5Qi-QQ-Lyn" firstAttribute="centerY" secondItem="3rM-qr-eQm" secondAttribute="centerY" id="MDQ-6h-K6S"/>
+                                                <constraint firstItem="mJ0-mz-ukZ" firstAttribute="top" secondItem="3rM-qr-eQm" secondAttribute="top" id="OBB-JY-6ot"/>
+                                                <constraint firstItem="mJ0-mz-ukZ" firstAttribute="leading" secondItem="5Qi-QQ-Lyn" secondAttribute="leading" id="Vae-2e-V7G"/>
+                                                <constraint firstItem="70O-Ae-KCG" firstAttribute="leading" secondItem="x03-zj-DPG" secondAttribute="trailing" constant="5" id="a2L-l1-F5S"/>
+                                                <constraint firstItem="3rM-qr-eQm" firstAttribute="top" secondItem="VtE-Ok-ZlY" secondAttribute="top" constant="11" id="ayO-KE-5a0"/>
+                                                <constraint firstItem="3rM-qr-eQm" firstAttribute="width" secondItem="VtE-Ok-ZlY" secondAttribute="width" multiplier="0.610687" id="cim-Ep-RUc"/>
+                                                <constraint firstAttribute="trailing" secondItem="3a2-W8-mkD" secondAttribute="trailing" constant="20" symbolic="YES" id="dRF-EC-UsH"/>
+                                                <constraint firstAttribute="trailing" secondItem="5Qi-QQ-Lyn" secondAttribute="trailing" constant="54" id="g8u-Bn-b1a"/>
+                                                <constraint firstItem="70O-Ae-KCG" firstAttribute="top" secondItem="3rM-qr-eQm" secondAttribute="bottom" constant="22" id="m5r-v3-9nD"/>
+                                                <constraint firstItem="3a2-W8-mkD" firstAttribute="centerY" secondItem="x03-zj-DPG" secondAttribute="centerY" id="sIu-fB-r51"/>
+                                                <constraint firstAttribute="trailing" secondItem="mJ0-mz-ukZ" secondAttribute="trailing" constant="54" id="w6r-fc-yL7"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -91,7 +148,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2p-MS-eDO">
-                                <rect key="frame" x="165.66666666666666" y="59" width="61.666666666666657" height="35"/>
+                                <rect key="frame" x="165.66666666666666" y="787" width="61.666666666666657" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -104,10 +161,10 @@
                         <constraints>
                             <constraint firstItem="W2p-MS-eDO" firstAttribute="centerX" secondItem="y45-Je-vzi" secondAttribute="centerX" id="2Hl-re-cfk"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="leading" secondItem="L9Y-Od-T11" secondAttribute="leading" id="K0J-Ms-8GW"/>
-                            <constraint firstItem="W2p-MS-eDO" firstAttribute="top" secondItem="L9Y-Od-T11" secondAttribute="top" id="KTp-rU-gbh"/>
+                            <constraint firstAttribute="bottom" secondItem="W2p-MS-eDO" secondAttribute="bottom" constant="30" id="LnB-Ea-wgq"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="top" secondItem="y45-Je-vzi" secondAttribute="top" id="Xty-ft-vXS"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="trailing" secondItem="L9Y-Od-T11" secondAttribute="trailing" id="mmL-Kd-MRp"/>
-                            <constraint firstAttribute="bottom" secondItem="gyt-Ls-0wt" secondAttribute="bottom" id="uKy-wo-qXN"/>
+                            <constraint firstItem="W2p-MS-eDO" firstAttribute="top" secondItem="gyt-Ls-0wt" secondAttribute="bottom" constant="38" id="oKu-tb-2A4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="IBe-tL-sR8"/>
@@ -115,7 +172,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ko-ch-q6x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7575" y="-1816"/>
+            <point key="canvasLocation" x="7574.8091603053435" y="-1816.1971830985917"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="r8t-dv-sbf">
@@ -249,10 +306,10 @@
             </objects>
             <point key="canvasLocation" x="5831" y="-1432"/>
         </scene>
-        <!--SearchVC-->
+        <!--Search View Controller-->
         <scene sceneID="YjA-Zm-P5w">
             <objects>
-                <viewController id="gnK-cE-36f" customClass="SearchVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gnK-cE-36f" customClass="SearchViewController" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kdq-VO-6P7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -275,7 +332,7 @@
                                 <rect key="frame" x="10" y="206" width="373" height="563"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecentSearchCell" rowHeight="100" id="Qyq-5T-gzV" customClass="RecentSearchCell" customModule="TimeTraveler" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchCell" rowHeight="100" id="Qyq-5T-gzV" customClass="SearchCell" customModule="TimeTraveler" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="373" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qyq-5T-gzV" id="OZF-l4-YzO">
@@ -372,10 +429,10 @@
             </objects>
             <point key="canvasLocation" x="6719.8473282442746" y="-2251.4084507042253"/>
         </scene>
-        <!--HomeVC-->
+        <!--Home View Controller-->
         <scene sceneID="23W-fT-WXh">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="0sJ-25-mai" customClass="HomeVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="0sJ-25-mai" customClass="HomeViewController" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hCB-dy-wkz">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LocationCell: UITableViewCell {
+class ResultCell: UITableViewCell {
     @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressOneLabel: UILabel!

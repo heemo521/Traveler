@@ -1,5 +1,5 @@
 //
-//  RecentSearchCell.swift
+//  SearchCell.swift
 //  TimeTraveler
 //
 //  Created by Heemo on 12/27/22.
@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class RecentSearchCell: UITableViewCell {
+class SearchCell: UITableViewCell {
     @IBOutlet weak var cellImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!

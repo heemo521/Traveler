@@ -1,5 +1,5 @@
 //
-//  HomeVC.swift
+//  HomeViewController.swift
 //  TimeTraveler
 //
 //  Created by Heemo on 12/25/22.
@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class HomeVC: UIViewController {
+class HomeViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var iconLabel: UIImageView!
@@ -54,7 +54,7 @@ class HomeVC: UIViewController {
 }
 
 // MARK: - UI
-private extension HomeVC {
+private extension HomeViewController {
     func showSpinner() {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         imageView.isHidden = true
@@ -120,7 +120,7 @@ private extension HomeVC {
 }
 
 // MARK: - HTTP
-private extension HomeVC {
+private extension HomeViewController {
     func getLocationDataHTTP() {
         showSpinner()
         
@@ -219,7 +219,7 @@ private extension HomeVC {
 }
 
 // MARK: - Core Location
-extension HomeVC: CLLocationManagerDelegate {
+extension HomeViewController: CLLocationManagerDelegate {
     
     func locationManagerInit() {
         locationManager = CLLocationManager()
@@ -263,7 +263,7 @@ extension HomeVC: CLLocationManagerDelegate {
 }
 
 // MARK: - Map
-extension HomeVC {
+extension HomeViewController {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if !didUpdateMapView {
             print(userLocation.coordinate)

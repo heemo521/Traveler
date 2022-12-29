@@ -7,7 +7,15 @@
 
 import UIKit
 
-class ResultsVC: UIViewController {
+// [] list/map split view
+// [] segue to details page
+// [] details page slidable image gallery
+// [] place reviews
+// [] maybe display reviews as a table on the bottonm
+// [] Show distance
+// [] REFACTOR UI
+
+class ResultViewController: UIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
     
@@ -36,11 +44,11 @@ class ResultsVC: UIViewController {
     */
 
 }
-extension ResultsVC: UITableViewDelegate {
+extension ResultViewController: UITableViewDelegate {
     
 }
 
-extension ResultsVC: UITableViewDataSource {
+extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
