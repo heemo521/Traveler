@@ -15,7 +15,7 @@ class RecentSearch: Equatable, Hashable {
         hasher.combine(title.hashValue)
     }
     static func == (lhs: RecentSearch, rhs: RecentSearch) -> Bool {
-        return lhs.title == lhs.title
+        return lhs.title == rhs.title 
     }
     
     init(title: String, subTitle: String?) {

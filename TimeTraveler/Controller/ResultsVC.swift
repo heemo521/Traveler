@@ -7,14 +7,21 @@
 
 import UIKit
 
-class SearchResultsVC: UIViewController {
+class ResultsVC: UIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
     
+    @IBAction func BackButtonClicked(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // fetch here since it takes time to load map view any ways
-        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
 
@@ -29,11 +36,11 @@ class SearchResultsVC: UIViewController {
     */
 
 }
-extension SearchResultsVC: UITableViewDelegate {
+extension ResultsVC: UITableViewDelegate {
     
 }
 
-extension SearchResultsVC: UITableViewDataSource {
+extension ResultsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }

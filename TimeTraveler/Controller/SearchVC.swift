@@ -37,43 +37,45 @@ class SearchVC: UIViewController, UISearchBarDelegate {
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var currentLocation: LocationAnnotation!
-    var recentSearchList = UserService.shared.getAllRecentSearch()
-
-    @IBAction func useCurrentLocation(_ sender: UIButton) {
-        performSegue(withIdentifier: "currentLocationSegue", sender: currentLocation)
+    var recentSearchList: [RecentSearch]!
+    @IBOutlet weak var editButton: UIButton!
+    
+    @IBAction func useCurrentLocationClicked(_ sender: UIButton) {
+        performSegue(withIdentifier: "useCurrentLocationSegue", sender: currentLocation)
     }
-
+    
+    @IBAction func editButtonClicked(_ sender: Any) {
+        tableView.isEditing.toggle()
+        navigationController?.isNavigationBarHidden = tableView.isEditing
+        editButton.setTitle( tableView.isEditing ? "Done" : "Edit", for: .normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationItem.titleView = searchBarView
         searchBarView.becomeFirstResponder()
         searchCompleter.delegate = self
         recentSearchTitle.text = "Recent Search"
         recentSearchTitle.textColor = .systemBlue
     }
-
-    @IBAction func deleteRecenteSearchClicked(_ sender: Any) {
-        
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        recentSearchList = UserService.shared.getAllRecentSearch()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBarView.text!
-        print("search bar" + searchBarView.text!)
-        
-        if searchQuery.count > 3 {
-            searchCompleter.queryFragment = searchQuery
-        }
-        
-        if searchQuery.count == 0 {
+
+        if searchQuery.count <= 3  {
+            editButton.isHidden = false
             searchResults = []
-            tableView.reloadData()
-        }
-        
-        if searchResults.isEmpty {
             recentSearchTitle.text = "Recent Search"
             recentSearchTitle.textColor = .systemBlue
+            tableView.reloadData()
         } else {
+            editButton.isHidden = true
+            searchCompleter.queryFragment = searchQuery
             recentSearchTitle.text = "Search Result"
             recentSearchTitle.textColor = .black
         }
@@ -91,34 +93,43 @@ extension SearchVC: MKLocalSearchCompleterDelegate, UITableViewDelegate {
         if searchQuery != "" {
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
+            self.tableView.reloadData()
             performSegue(withIdentifier: "searchSegue", sender: searchQuery)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let searchResult = searchResults[indexPath.row]
-        UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
-        recentSearchList = UserService.shared.getAllRecentSearch()
-        performSegue(withIdentifier: "searchSegue", sender: searchResult)
+        if searchResults.isEmpty {
+            let searchResult = recentSearchList[indexPath.row]
+            performSegue(withIdentifier: "searchSegue", sender: searchResult)
+        } else {
+            let searchResult = searchResults[indexPath.row]
+            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
+            recentSearchList = UserService.shared.getAllRecentSearch()
+            self.tableView.reloadData()
+            performSegue(withIdentifier: "searchSegue", sender: searchResult)
+        }
     }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return searchResults.isEmpty
-        
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return searchResults.isEmpty ? .delete : .none
     }
     
-    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        let deleteSearchTitle = recentSearchList[indexPath!.row].title
-        UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
-        recentSearchList = UserService.shared.getAllRecentSearch()
-        tableView.reloadData()
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let deleteSearchTitle = recentSearchList[indexPath.row].title
+            UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
+            recentSearchList = UserService.shared.getAllRecentSearch()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let SearchResultsVC = segue.destination as? SearchResultsVC, let searchQuery = sender as? String {
+        if let SearchResultsVC = segue.destination as? ResultsVC, let searchQuery = sender as? String {
             SearchResultsVC.queryString = searchQuery
         }
     }

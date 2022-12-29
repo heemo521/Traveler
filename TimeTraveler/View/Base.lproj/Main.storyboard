@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Ll-is-2nC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8282" y="-2203"/>
+            <point key="canvasLocation" x="7902" y="-2558"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Tib-7s-Fcw">
@@ -62,18 +62,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cC6-Jq-214" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7575" y="-2530"/>
+            <point key="canvasLocation" x="8436" y="-1830"/>
         </scene>
-        <!--Search ResultsVC-->
+        <!--ResultsVC-->
         <scene sceneID="paO-IF-WVb">
             <objects>
-                <viewController id="4ui-cy-J1O" customClass="SearchResultsVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4ui-cy-J1O" customClass="ResultsVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y45-Je-vzi">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Ls-0wt">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1xH-HL-lmI">
@@ -87,18 +87,31 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="4ui-cy-J1O" id="MzY-sK-U0d"/>
+                                    <outlet property="delegate" destination="4ui-cy-J1O" id="4Nz-HB-Fdw"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2p-MS-eDO">
+                                <rect key="frame" x="165.66666666666666" y="59" width="61.666666666666657" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="BackButtonClicked:" destination="4ui-cy-J1O" eventType="touchUpInside" id="yw1-eX-v9U"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="L9Y-Od-T11"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="W2p-MS-eDO" firstAttribute="centerX" secondItem="y45-Je-vzi" secondAttribute="centerX" id="2Hl-re-cfk"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="leading" secondItem="L9Y-Od-T11" secondAttribute="leading" id="K0J-Ms-8GW"/>
+                            <constraint firstItem="W2p-MS-eDO" firstAttribute="top" secondItem="L9Y-Od-T11" secondAttribute="top" id="KTp-rU-gbh"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="top" secondItem="y45-Je-vzi" secondAttribute="top" id="Xty-ft-vXS"/>
                             <constraint firstItem="gyt-Ls-0wt" firstAttribute="trailing" secondItem="L9Y-Od-T11" secondAttribute="trailing" id="mmL-Kd-MRp"/>
                             <constraint firstAttribute="bottom" secondItem="gyt-Ls-0wt" secondAttribute="bottom" id="uKy-wo-qXN"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="IBe-tL-sR8"/>
+                    <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ko-ch-q6x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -255,8 +268,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Use current location"/>
                                 <connections>
-                                    <action selector="useCurrentLocation:" destination="gnK-cE-36f" eventType="touchUpInside" id="bJe-Dc-Jhj"/>
-                                    <segue destination="4ui-cy-J1O" kind="presentation" identifier="currentLocationSegue" modalPresentationStyle="fullScreen" id="glY-J1-Trj"/>
+                                    <action selector="useCurrentLocationClicked:" destination="gnK-cE-36f" eventType="touchUpInside" id="ThF-Gr-PGP"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="100" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zok-V3-14M">
@@ -313,27 +325,39 @@
                                     <outlet property="delegate" destination="gnK-cE-36f" id="tUa-yv-Un0"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A01-8S-d6e">
+                                <rect key="frame" x="323" y="170" width="53.333333333333314" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                <connections>
+                                    <action selector="editButtonClicked:" destination="gnK-cE-36f" eventType="touchUpInside" id="fr8-oF-bXw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9PN-J8-XoL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="9G2-UU-1Zy" firstAttribute="top" secondItem="9PN-J8-XoL" secondAttribute="top" constant="74" id="14v-gI-YoX"/>
+                            <constraint firstItem="9G2-UU-1Zy" firstAttribute="centerY" secondItem="A01-8S-d6e" secondAttribute="centerY" id="Wfn-f5-yR4"/>
                             <constraint firstItem="XUS-1J-tyY" firstAttribute="leading" secondItem="9PN-J8-XoL" secondAttribute="leading" constant="199" id="Ygl-1d-efG"/>
                             <constraint firstItem="XUS-1J-tyY" firstAttribute="top" secondItem="9PN-J8-XoL" secondAttribute="top" id="ZOE-U1-gts"/>
                             <constraint firstItem="9G2-UU-1Zy" firstAttribute="leading" secondItem="9PN-J8-XoL" secondAttribute="leading" constant="25" id="Zxd-7l-eC6"/>
                             <constraint firstItem="XUS-1J-tyY" firstAttribute="leading" secondItem="9PN-J8-XoL" secondAttribute="leading" constant="199" id="bTP-CB-TYY"/>
                             <constraint firstItem="9PN-J8-XoL" firstAttribute="trailing" secondItem="zok-V3-14M" secondAttribute="trailing" constant="10" id="eGF-yW-b8C"/>
                             <constraint firstItem="zok-V3-14M" firstAttribute="leading" secondItem="9PN-J8-XoL" secondAttribute="leading" constant="10" id="lw1-IO-AcT"/>
+                            <constraint firstItem="9PN-J8-XoL" firstAttribute="trailing" secondItem="A01-8S-d6e" secondAttribute="trailing" constant="16.666666666666629" id="se3-7r-jTP"/>
                             <constraint firstItem="zok-V3-14M" firstAttribute="bottom" secondItem="9PN-J8-XoL" secondAttribute="bottom" id="uxh-Hq-iOq"/>
                             <constraint firstItem="zok-V3-14M" firstAttribute="top" secondItem="9G2-UU-1Zy" secondAttribute="bottom" constant="8" symbolic="YES" id="x4v-pQ-thO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="BZa-LN-MAO"/>
                     <connections>
+                        <outlet property="editButton" destination="A01-8S-d6e" id="mak-F6-Ljz"/>
                         <outlet property="recentSearchTitle" destination="9G2-UU-1Zy" id="J35-FZ-ckc"/>
                         <outlet property="searchBarView" destination="LUD-Zf-VlB" id="alj-4m-BfC"/>
                         <outlet property="tableView" destination="zok-V3-14M" id="PVs-Ak-iP1"/>
-                        <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" id="vUO-Jw-dOm"/>
+                        <segue destination="4ui-cy-J1O" kind="show" identifier="searchSegue" id="vUO-Jw-dOm"/>
+                        <segue destination="4ui-cy-J1O" kind="show" identifier="useCurrentLocationSegue" id="h41-9b-jdd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fQ-ZI-coT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -580,7 +604,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vUO-Jw-dOm"/>
+        <segue reference="h41-9b-jdd"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>
