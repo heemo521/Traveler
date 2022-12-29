@@ -57,18 +57,20 @@ class SearchVC: UIViewController, UISearchBarDelegate {
         searchCompleter.delegate = self
         recentSearchTitle.text = "Recent Search"
         recentSearchTitle.textColor = .systemBlue
+        recentSearchList = UserService.shared.getAllRecentSearch()
+        editButton.isHidden = recentSearchList.isEmpty
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        recentSearchList = UserService.shared.getAllRecentSearch()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        recentSearchList = UserService.shared.getAllRecentSearch()
+//    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBarView.text!
 
         if searchQuery.count <= 3  {
-            editButton.isHidden = false
+            editButton.isHidden = recentSearchList.isEmpty
             searchResults = []
             recentSearchTitle.text = "Recent Search"
             recentSearchTitle.textColor = .systemBlue
@@ -125,6 +127,7 @@ extension SearchVC: MKLocalSearchCompleterDelegate, UITableViewDelegate {
             UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            editButton.isHidden = recentSearchList.isEmpty
         }
     }
     
