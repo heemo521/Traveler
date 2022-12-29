@@ -21,10 +21,10 @@ class HomeVC: UIViewController {
     
     var didUpdateMapView = false
     var didUpdateImageView = false
-    var fetchedLocationList: [Location]!
+    var fetchedLocationList: [Place]!
     var imageViewsList: [UIImage]!
     var locationManager: CLLocationManager!
-    var currentLocation: LocationCoordinates!
+    var currentLocation: LocationAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +109,7 @@ private extension HomeVC {
         }
     }
     
-    func updateContent(with selectedLocation: Location) {
+    func updateContent(with selectedLocation: Place) {
         let categoryLabel = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
 
         categoryContainer.addSubview(categoryLabel)
@@ -168,7 +168,7 @@ private extension HomeVC {
         buildURLRequest.httpRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
-                let dataDecoded = try decoder.decode([ImageHTTP].self, from: data)
+                let dataDecoded = try decoder.decode([Image].self, from: data)
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
@@ -255,7 +255,9 @@ extension HomeVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
         print("location update latitude: \(location.coordinate.latitude) longitude \(location.coordinate.longitude)")
-        currentLocation = LocationCoordinates(name: "User's Location", latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let coord = location.coordinate
+        let locationCoord = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+        currentLocation = LocationAnnotation(coordinate: locationCoord)
         locationManager.stopUpdatingLocation()
     }
 }

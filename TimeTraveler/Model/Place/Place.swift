@@ -7,17 +7,10 @@
 
 import Foundation
 
-enum Categories: String {
-    case building = "16007"
-    case forest = "16015"
-    case historic = "16020"
-    case mountain = "16027"
-    case nationalPark = "16034"
-    case naturalPark = "16035"
-}
+
 
 //Renmae the class to Place instead of location
-class Location: NSObject, Decodable {
+class Place: NSObject, Decodable {
     var id: String?
     var name: String?
     var link: String?

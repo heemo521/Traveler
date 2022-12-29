@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ImageHTTP: NSObject, Decodable {
+class Image: NSObject, Decodable {
     var id: String?
     var createdAt: String?
     var prefix: String?

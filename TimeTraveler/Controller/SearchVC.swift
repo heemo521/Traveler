@@ -13,9 +13,11 @@ import MapKit
 // [x] Fix the label to button and dynamic render
 // [x] Update the Logo image
 // [] search bar implementation
-// - [] display search screen
-// - [] display when clicked display list / map view
-// [] list/map view -> to main details page
+// - [x] display search screen
+// - [x] display when clicked display list / map view
+
+// [] Update models and refactor some code to be able to make http call and share same data between multiple views using singleton
+// [] list/map split view -> to main details page
 // [] details page slidable image gallery
 // [] place reviews
 // [] Fetch all images and load it to shareable model : Singleton
@@ -55,15 +57,18 @@ class SearchVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDel
         recentSearchTitle.textColor = .systemBlue
     }
     
-    //    func searchBarCancelButtonClicked(UISearchBar)
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
             // maybe send back to the main screen?
+        navigationController?.popViewController(animated: true)
     }
-    //    func searchBarSearchButtonClicked(UISearchBar)
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        performSegue(withIdentifier: "searchSegue", sender: self)
+        if searchBarView.text != "" {
+            let searchQuery = searchBarView.text
+            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+        }
     }
-    
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBarView.text!
@@ -91,24 +96,18 @@ class SearchVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDel
         searchResults = completer.results
         tableView.reloadData()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        <#code#>
-    }
 }
 
 extension SearchVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let searchQuery = searchResults[indexPath.row].title
+        performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let SearchResultsVC = segue.destination as? SearchResultsVC, let searchQuery = sender as? String {
+            SearchResultsVC.queryString = searchQuery
+        }
     }
 }
 

@@ -64,10 +64,10 @@
             </objects>
             <point key="canvasLocation" x="7575" y="-2530"/>
         </scene>
-        <!--View Controller-->
+        <!--Search ResultsVC-->
         <scene sceneID="paO-IF-WVb">
             <objects>
-                <viewController id="4ui-cy-J1O" sceneMemberID="viewController">
+                <viewController id="4ui-cy-J1O" customClass="SearchResultsVC" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y45-Je-vzi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,12 +79,15 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1xH-HL-lmI">
                                         <rect key="frame" x="0.0" y="50" width="393" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1xH-HL-lmI" id="VtE-Ok-ZlY">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1xH-HL-lmI" id="VtE-Ok-ZlY" customClass="SearchResultsCell" customModule="TimeTraveler" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="4ui-cy-J1O" id="MzY-sK-U0d"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="L9Y-Od-T11"/>
@@ -302,7 +305,6 @@
                                             <outlet property="addressLabel" destination="Tyd-L9-dh8" id="kFW-CX-qxU"/>
                                             <outlet property="cellImageView" destination="mXN-IK-Lwd" id="nUj-o8-tHW"/>
                                             <outlet property="nameLabel" destination="aOS-D0-4pO" id="ySA-kf-PrJ"/>
-                                            <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" modalPresentationStyle="fullScreen" id="Mfg-XU-rAX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -331,6 +333,7 @@
                         <outlet property="recentSearchTitle" destination="9G2-UU-1Zy" id="J35-FZ-ckc"/>
                         <outlet property="searchBarView" destination="LUD-Zf-VlB" id="alj-4m-BfC"/>
                         <outlet property="tableView" destination="zok-V3-14M" id="PVs-Ak-iP1"/>
+                        <segue destination="4ui-cy-J1O" kind="presentation" identifier="searchSegue" modalPresentationStyle="fullScreen" id="vUO-Jw-dOm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fQ-ZI-coT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -577,7 +580,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Mfg-XU-rAX"/>
+        <segue reference="vUO-Jw-dOm"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>

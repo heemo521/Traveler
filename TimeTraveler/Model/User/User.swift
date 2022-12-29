@@ -12,7 +12,7 @@ typealias SearchQuery = String
 
 class User {
     var likedLocations = [LocationId]()
-    var recentSearch = [SearchQuery]()
-    var userPreference = UserPreference(searchRadius: 0)
-    
+    var recentSearch = [RecentSearch]()
+//    var userFilter = Filter(searchRadius: 0, useUserLocation: <#Bool#>)
+//    var userLocation = LocationCoordinates
 }
