@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var likeStatusButton: UIButton!
     
     var didUpdateMapView = false
     var didUpdateImageView = false
@@ -43,6 +44,21 @@ class HomeViewController: UIViewController {
     // MARK: - Device Orientation Update
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         scalingAnimation()
+    }
+    
+    @IBAction func likeButtonClicked(_ sender: Any) {
+          if let first = fetchedLocationList.first, let id = first.id {
+              if UserService.shared.checkLikedPlace(id: id) {
+                  print("un-liked")
+                  UserService.shared.unlikeAPlace(id: id)
+                  likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
+              } else {
+                  print("liked")
+                  UserService.shared.likeAPlace(id: id)
+                  likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+              }
+  
+          }
     }
     
     // MARK: - Photos Segue
@@ -112,6 +128,17 @@ private extension HomeViewController {
         categoryContainer.addSubview(categoryLabel)
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
+        let shared = UserService.shared
+        print("user likes how many places: \(shared.getNumberOfLikedPlaces())")
+        
+        if let id = selectedLocation.id {
+            if shared.checkLikedPlace(id: id) {
+                likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+            
+        }
     }
 }
 

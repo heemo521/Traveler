@@ -43,10 +43,12 @@ class UserService {
     
     func likeAPlace(id: String) {
         user.likedLocations.insert(id)
+        saveUserData()
     }
 
     func unlikeAPlace(id: String) {
         user.likedLocations.remove(id)
+        saveUserData()
     }
     
     func getNumberOfLikedPlaces() -> Int{
@@ -57,15 +59,20 @@ class UserService {
         return Array(user.likedLocations)
     }
     
-    //addToRecent Search
+    func checkLikedPlace(id: String) -> Bool {
+        return user.likedLocations.contains(id)
+    }
+    
     func addRecentSearch(recentSearch: RecentSearch) {
         print("adding recent search \(recentSearch.title)")
         user.recentSearch.insert(recentSearch)
+        saveUserData()
     }
-    //delete recent search
+
     func removeRecentSearch(recentSearch: RecentSearch) {
         print("removing recent search \(recentSearch.title)")
         user.recentSearch.remove(recentSearch)
+        saveUserData()
     }
     
     func getAllRecentSearch() -> [RecentSearch] {
