@@ -6,12 +6,12 @@
 //
 
 import UIKit
-// [] fetch data and display on cell
+// [x] fetch data and display on cell
 // [] like button implementation
 // [] list/map split view
 // [] create map view cells
 // [] allow slidable action using tableview/collectionview?
-// [] segue to details page
+// [x] segue to details page
 // [] details page slidable image gallery
 // [] place reviews
 // [] maybe display reviews as a table on the bottonm
@@ -22,9 +22,7 @@ class ResultViewController: UIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
     var imageDataList = [[UIImage]]()
-    var imageCount = 0
-
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -106,12 +104,10 @@ private extension ResultViewController {
         
         buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
             self.placesAPIList[index].imageData = data
-            self.imageCount+=1
-//            if self.imageCount == self.placesAPIList.count {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-//            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+
         })
     }
 }

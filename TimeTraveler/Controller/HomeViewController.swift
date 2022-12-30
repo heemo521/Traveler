@@ -147,8 +147,7 @@ private extension HomeViewController {
                     
                     self.hideSpinner()
                 }
-            }
-            catch let error {
+            } catch let error {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
             }
@@ -169,8 +168,7 @@ private extension HomeViewController {
                     print("image url \(url)")
                     self.getImageDataHTTP(with: url, at: 0)
                 }
-            }
-            catch let error {
+            } catch let error {
                 print("\(String(describing: error.localizedDescription))")
             }
         })

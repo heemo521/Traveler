@@ -7,11 +7,9 @@
 
 import Foundation
 
-typealias LocationId = String
-typealias SearchQuery = String
 
-class User {
-    var likedLocations = Set<LocationId>()
+class User: Decodable, Encodable {
+    var likedLocations = Set<String>()
     var recentSearch = Set<RecentSearch>()
     var userFilter = Filter()
 }

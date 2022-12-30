@@ -7,7 +7,7 @@
 
 import Foundation
 // For user settings / preference
-class Filter {
+class Filter: Decodable, Encodable {
 //    var limit: 10 15 25 50
     //sortBy = relevance, rating, distance enum
     

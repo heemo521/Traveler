@@ -10,13 +10,52 @@ import Foundation
 class UserService {
     static let shared = UserService()
     
-    private let user = User()
+    private var user = User()
     
-    private init() {}
+    private var url: URL
     
-    //likeLocation
+    private init() {
+        url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        url.append(path: "userData.json")
+        loadUserData()
+    }
     
-    //unLikeLocation
+    func loadUserData() {
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let decodeData = try decoder.decode(User.self, from: data)
+            user = decodeData
+        } catch {
+            print("error from loading data \(error.localizedDescription)")
+        }
+    }
+    
+    func saveUserData() {
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(user)
+            try data.write(to: url)
+        } catch {
+            print("error from saving data \(error.localizedDescription)")
+        }
+    }
+    
+    func likeAPlace(id: String) {
+        user.likedLocations.insert(id)
+    }
+
+    func unlikeAPlace(id: String) {
+        user.likedLocations.remove(id)
+    }
+    
+    func getNumberOfLikedPlaces() -> Int{
+        return user.likedLocations.count
+    }
+    
+    func getAllLikedPlaces() ->[String] {
+        return Array(user.likedLocations)
+    }
     
     //addToRecent Search
     func addRecentSearch(recentSearch: RecentSearch) {
@@ -36,6 +75,4 @@ class UserService {
     func numberOfRecentSearch() -> Int {
         return user.recentSearch.count
     }
-    //delete all recent search
-    
 }

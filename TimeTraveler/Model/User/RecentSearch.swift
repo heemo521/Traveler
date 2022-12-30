@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecentSearch: Equatable, Hashable {
+class RecentSearch: Decodable, Encodable, Equatable, Hashable {
     var title: String
     var subTitle: String?
 
