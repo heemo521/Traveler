@@ -20,12 +20,14 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var likeStatusImage: UIImageView!
     
     func update(location: Place, index: Int) {
+        mainImage.layer.cornerRadius = 10.0
         if let imageData = location.imageData {
             mainImage.image = UIImage(data: imageData)
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
         let id = location.id!
+        
         if UserService.shared.checkLikedPlace(id: id) {
             likeStatusImage.image = UIImage(systemName: "heart.fill")
         } else {

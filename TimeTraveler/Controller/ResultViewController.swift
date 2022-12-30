@@ -27,11 +27,7 @@ class ResultViewController: UIViewController {
     @IBAction func backButtonClicked(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    
-//    @IBAction func BackButtonClicked(_ sender: UIButton) {
-//
-////        self.dismiss(animated: true)
-//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if queryString == "" {

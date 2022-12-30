@@ -7,10 +7,10 @@
 
 import UIKit
 import MapKit
-// [] unselect row
+import CoreLocation
+// [x] unselect row
 // [] use current location button
-// [] save recent search on the system
-// - [] maybe also limit the search to 100
+// [x] save recent search on the system
 
 class SearchViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var tableView: UITableView!

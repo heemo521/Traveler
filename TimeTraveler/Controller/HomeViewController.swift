@@ -311,11 +311,10 @@ extension HomeViewController {
         count+=1
         print(count)
 //        guard didUpdateMapView == false else { return }
-        print(fetchedLocationList[index].geocodes?.main?.latitude)
+   
         if let geocodes = fetchedLocationList.first?.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
             let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            print("location coords is for \(fetchedLocationList.first?.name!) \(lat),\(lng)")
-            
+    
             let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 10000.0, longitudinalMeters: 10000.0)
             mapView.setRegion(regionView, animated: true)
             mapView.addAnnotation(LocationAnnotation(coordinate: locationCoord))
