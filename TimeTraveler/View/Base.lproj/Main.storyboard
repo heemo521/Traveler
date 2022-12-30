@@ -51,13 +51,13 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
                                         <rect key="frame" x="0.0" y="-8" width="393" height="469.66666666666669"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
-                                        <rect key="frame" x="73" y="402.33333333333331" width="300" height="37.333333333333314"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
+                                        <rect key="frame" x="73" y="407.66666666666669" width="300" height="32"/>
                                         <color key="backgroundColor" red="0.42059264520202022" green="0.42059264520202022" blue="0.42059264520202022" alpha="0.49694743377483441" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="tRh-Gu-4nz"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArialHebrew" family="Arial Hebrew" pointSize="35"/>
+                                        <fontDescription key="fontDescription" name="ArialHebrew" family="Arial Hebrew" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -172,7 +172,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocv-wb-424" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5831" y="-1432"/>
+            <point key="canvasLocation" x="5829.7709923664124" y="-1432.3943661971832"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="YjA-Zm-P5w">
@@ -281,8 +281,8 @@
                         <outlet property="recentSearchTitle" destination="9G2-UU-1Zy" id="J35-FZ-ckc"/>
                         <outlet property="searchBarView" destination="LUD-Zf-VlB" id="alj-4m-BfC"/>
                         <outlet property="tableView" destination="zok-V3-14M" id="PVs-Ak-iP1"/>
-                        <segue destination="gHr-SO-sbO" kind="show" identifier="useCurrentLocationSegue" id="rvq-aC-lSH"/>
-                        <segue destination="gHr-SO-sbO" kind="show" identifier="searchSegue" id="emA-J6-OsC"/>
+                        <segue destination="gHr-SO-sbO" kind="presentation" identifier="useCurrentLocationSegue" modalPresentationStyle="fullScreen" id="rvq-aC-lSH"/>
+                        <segue destination="gHr-SO-sbO" kind="presentation" identifier="searchSegue" modalPresentationStyle="fullScreen" id="emA-J6-OsC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fQ-ZI-coT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -502,13 +502,13 @@
                         <outlet property="mapView" destination="qnD-z8-iaQ" id="vhb-r0-TSb"/>
                         <outlet property="scrollView" destination="7km-if-BRN" id="u4a-OO-A9p"/>
                         <outlet property="titleLabel" destination="0cO-l4-iEO" id="Glm-PL-RqG"/>
+                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailSegue" id="bGI-lF-IGG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lv2-Z7-OyQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="4A6-pB-s1M">
                     <connections>
                         <action selector="imageTab:" destination="0sJ-25-mai" id="hyd-KM-vet"/>
-                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailsSegue" id="NjL-gk-mf2"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -563,7 +563,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="1QX-St-fjU">
-                                <rect key="frame" x="0.0" y="59" width="393" height="645"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="694"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultCell" id="g0A-gJ-b5N" customClass="ResultCell" customModule="TimeTraveler" customModuleProvider="target">
@@ -626,7 +626,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bt7-Zb-wQ8">
-                                <rect key="frame" x="165.66666666666666" y="712" width="62" height="35"/>
+                                <rect key="frame" x="165.66666666666666" y="761" width="62" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -649,7 +649,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="1QX-St-fjU" id="l3Z-yG-1qD"/>
-                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailSegue" modalPresentationStyle="pageSheet" modalTransitionStyle="crossDissolve" id="1Ao-XS-QgE"/>
+                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailSegue" id="1Ao-XS-QgE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxJ-u3-kEI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -658,7 +658,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="emA-J6-OsC"/>
+        <segue reference="rvq-aC-lSH"/>
         <segue reference="1Ao-XS-QgE"/>
     </inferredMetricsTieBreakers>
     <resources>

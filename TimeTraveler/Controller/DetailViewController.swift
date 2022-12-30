@@ -16,9 +16,11 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         nameLabel.text = selectedPlace.name
-//        mainImageView.image
+        if let imageData = selectedPlace.imageData {
+            mainImageView.image = UIImage(data: imageData)
+        }
     }
     
 

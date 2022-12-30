@@ -62,7 +62,13 @@ class HomeViewController: UIViewController {
     
     // MARK: - Photos Segue
     @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
-        performSegue(withIdentifier: "detailsSegue", sender: self)
+        performSegue(withIdentifier: "detailSegue", sender: fetchedLocationList.first!)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
+            DetailVC.selectedPlace = selectedPlace
+        }
     }
 }
 

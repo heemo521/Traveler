@@ -21,13 +21,12 @@ import UIKit
 class ResultViewController: UIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
-    var imageDataList = [[UIImage]]()
     
     @IBOutlet weak var tableView: UITableView!
     
-    
     @IBAction func BackButtonClicked(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +106,6 @@ private extension ResultViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-
         })
     }
 }
@@ -116,10 +114,13 @@ private extension ResultViewController {
 extension ResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "detailSegue", sender: "")
+        performSegue(withIdentifier: "detailSegue", sender: placesAPIList[indexPath.row])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
+            DetailVC.selectedPlace = selectedPlace
+        }
     }
 }
 
