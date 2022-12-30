@@ -77,6 +77,9 @@
                                 <rect key="frame" x="297" y="477.33333333333331" width="86" height="48.999999999999943"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title=" Like"/>
+                                <connections>
+                                    <action selector="likeButtonClicked:" destination="gOc-T9-l2p" eventType="touchUpInside" id="7Qi-F5-Ojc"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZl-ip-CLi" userLabel="Category Container">
                                 <rect key="frame" x="40" y="520.33333333333337" width="313" height="30"/>
@@ -166,9 +169,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wf7-rT-ONs"/>
                     <connections>
-                        <outlet property="likeButton" destination="f6f-bq-ptT" id="Tw5-f4-JGw"/>
+                        <outlet property="addressLabel" destination="nZa-JR-RTL" id="Inf-Ul-lrE"/>
+                        <outlet property="categoryLabel" destination="pwB-vI-Af0" id="CQH-VG-Fbz"/>
+                        <outlet property="likeStatusButton" destination="f6f-bq-ptT" id="Tw5-f4-JGw"/>
                         <outlet property="mainImageView" destination="4dr-Jq-ocg" id="Gf5-nT-tqV"/>
                         <outlet property="nameLabel" destination="mCS-dD-AyZ" id="GNR-cV-yeu"/>
+                        <outlet property="relatedPlace" destination="Vjh-H7-Ait" id="PdJ-Oa-UOL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocv-wb-424" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

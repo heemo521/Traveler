@@ -8,11 +8,11 @@
 import UIKit
 // [x] fetch data and display on cell
 // [x] like button implementation
+// [x] segue to details page
+// [] details page slidable image gallery
 // [] list/map split view
 // [] create map view cells
 // [] allow slidable action using tableview/collectionview?
-// [x] segue to details page
-// [] details page slidable image gallery
 // [] place reviews
 // [] maybe display reviews as a table on the bottonm
 // [] Show distance
@@ -38,7 +38,11 @@ class ResultViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        getLocationDataHTTP()
+        if placesAPIList.count == 0 {
+            getLocationDataHTTP()
+        } else {
+                
+        }
     }
 }
 
@@ -46,7 +50,7 @@ private extension ResultViewController {
     func getLocationDataHTTP() {
 //        showSpinner()
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        let queryItems = ["near" : queryString!.lowercased(), "categories": "16000", "fields": defaultFields]
+        let queryItems = ["near" : queryString!.lowercased(),"limit": "25", "categories": "16000", "fields": defaultFields]
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
@@ -65,7 +69,6 @@ private extension ResultViewController {
                         self.navigationController?.popViewController(animated: true)
                     }
                 }
-               
             }
             catch let error {
                 // Error when there is no response or data returned from API

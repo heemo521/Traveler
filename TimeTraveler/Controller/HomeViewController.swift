@@ -158,7 +158,7 @@ private extension HomeViewController {
             let (lat, lng) = shared.getLastUserLocation()
             ll = "\(String(lat)),\(String(lng))"
         }
-        let queryItems = ["query": "outdoor", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields]
+        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields]
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
