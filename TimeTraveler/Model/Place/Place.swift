@@ -17,6 +17,7 @@ class Place: NSObject, Decodable {
     var categories: [Category]?
     var geocodes: Geocode?
     var address: Address?
+    var imageData: Data?
     //  var relatedPlaces: [String]? // an object containing parent and child
     // Example:
     //    parent = Los Angeles International Airport

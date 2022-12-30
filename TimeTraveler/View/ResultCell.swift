@@ -14,7 +14,6 @@ class ResultCell: UITableViewCell {
 //    @IBOutlet weak var addressLabel: UILabel!
 //    @IBOutlet weak var mainImage: UIImageView!
     
-    @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var categoryLabelButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
@@ -22,14 +21,14 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var likeStatusImage: UIButton!
     
     func update(location: Place, index: Int) {
-        indexLabel.text = "\(index + 1)"
-        nameLabel.text = location.name
+        if let imageData = location.imageData {
+            mainImage.image = UIImage(data: imageData)
+        }
+        nameLabel.text =  "\(index + 1). \(location.name!)"
         categoryLabelButton.setTitle(location.categories?.first?.name, for: .normal)
-        categoryLabelButton.isEnabled = false
+        
         addressLabel.text = location.address?.formatted_address
 
     }
-    func update(imageData: UIImage) {
-        mainImage.image = imageData
-    }
+
 }

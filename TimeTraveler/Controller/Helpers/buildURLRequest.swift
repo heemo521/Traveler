@@ -18,7 +18,6 @@ struct buildURLRequest {
         
         //Final URL
         guard let finalUrl = urlComponents.url else { return nil }
-        print(finalUrl)
         
         //Build Request
         var request = URLRequest(url: finalUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
@@ -40,9 +39,9 @@ struct buildURLRequest {
                 return
             }
             
-            if let res = response as? HTTPURLResponse {
-                print("response for \(requestType) statuscode: \(res.statusCode)")
-            }
+//            if let res = response as? HTTPURLResponse {
+//                print("response for \(requestType) statuscode: \(res.statusCode)")
+//            }
             
             guard let data = data else {
                 print("Failed to receive data for \(requestType)")

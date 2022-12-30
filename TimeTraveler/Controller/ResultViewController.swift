@@ -22,6 +22,8 @@ class ResultViewController: UIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
     var imageDataList = [[UIImage]]()
+    var imageCount = 0
+
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -35,13 +37,13 @@ class ResultViewController: UIViewController {
             // pop the view and show warning
             navigationController?.popViewController(animated: true)
         }
-        print("queryString \(queryString!)")
+        print("queryString \(queryString)")
 //        getLocationDataHTTP()
         // fetch here since it takes time to load map view any ways
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
+//        navigationController?.isNavigationBarHidden = true
         getLocationDataHTTP()
     }
 }
@@ -63,13 +65,17 @@ private extension ResultViewController {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
                 self.placesAPIList = dataDecoded.results
-                print(dataDecoded.results.count)
+    
                 for (index, place) in self.placesAPIList.enumerated() {
                     self.getImageDetailsHTTP(with: place.id!, at: index)
                 }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                
+                if self.placesAPIList.count == 0 {
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
+               
             }
             catch let error {
                 // Error when there is no response or data returned from API
@@ -103,19 +109,13 @@ private extension ResultViewController {
         let request = URLRequest(url: url)
         
         buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
-            if let imageData = UIImage(data: data) {
+            self.placesAPIList[index].imageData = data
+            self.imageCount+=1
+//            if self.imageCount == self.placesAPIList.count {
                 DispatchQueue.main.async {
-//                    self.imageDataList[index].append(image)
-                    let indexPath = IndexPath(row: index, section: 0)
-                    let cell = self.tableView.cellForRow(at: indexPath) as! ResultCell
-                    cell.update(imageData: imageData)
-                    self.tableView.reloadRows(at: [indexPath], with: .fade)
-//                    self.tableView.reloadData()
-//                    if let firstImage = imageDataList[indexPath.row].first {
-//                        cell.update(imageData: firstImage)
-//                    }
+                    self.tableView.reloadData()
                 }
-            }
+//            }
         })
     }
 }
@@ -124,15 +124,16 @@ private extension ResultViewController {
 extension ResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "detailSegue", sender: "")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
     }
 }
 
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("placeAPILISTCOUNT \(placesAPIList.count)")
         return placesAPIList.count
     }
     
