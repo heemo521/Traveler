@@ -26,7 +26,10 @@ class ResultCell: UITableViewCell {
         nameLabel.text = location.name
         categoryLabelButton.setTitle(location.categories?.first?.name, for: .normal)
         categoryLabelButton.isEnabled = false
-        addressLabel.text = ""
-//        mainImage.image = UIImage()
+        addressLabel.text = location.address?.formatted_address
+
+    }
+    func update(imageData: UIImage) {
+        mainImage.image = imageData
     }
 }

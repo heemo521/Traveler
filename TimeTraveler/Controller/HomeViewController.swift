@@ -21,18 +21,16 @@ class HomeViewController: UIViewController {
     
     var didUpdateMapView = false
     var didUpdateImageView = false
-    var fetchedLocationList: [Place]!
-    var imageViewsList: [UIImage]!
+    var fetchedLocationList = [Place]()
+    var imageViewsList = [UIImage]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageViewsList = []
-        fetchedLocationList = []
         updateUI()
         locationManagerInit()
-        getLocationDataHTTP() // if the user doesn't allow the core location then use different data or just make random recommendation
+        getLocationDataHTTP()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -111,9 +109,7 @@ private extension HomeViewController {
     
     func updateContent(with selectedLocation: Place) {
         let categoryLabel = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
-
         categoryContainer.addSubview(categoryLabel)
-        
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
     }
