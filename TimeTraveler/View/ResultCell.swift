@@ -17,7 +17,7 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mainImage: UIImageView!
-    @IBOutlet weak var likeStatusImage: UIButton!
+    @IBOutlet weak var likeStatusImage: UIImageView!
     
     func update(location: Place, index: Int) {
         if let imageData = location.imageData {
@@ -25,6 +25,12 @@ class ResultCell: UITableViewCell {
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
+        let id = location.id!
+        if UserService.shared.checkLikedPlace(id: id) {
+            likeStatusImage.image = UIImage(systemName: "heart.fill")
+        } else {
+            likeStatusImage.image = UIImage(systemName: "heart")
+        }
     }
 
 }

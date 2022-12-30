@@ -57,7 +57,6 @@ class HomeViewController: UIViewController {
                   UserService.shared.likeAPlace(id: id)
                   likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
               }
-  
           }
     }
     
@@ -137,7 +136,6 @@ private extension HomeViewController {
             } else {
                 likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
-            
         }
     }
 }

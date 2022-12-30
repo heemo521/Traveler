@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    var selectedPlace: Place!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
@@ -15,7 +17,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        nameLabel.text = selectedPlace.name
+//        mainImageView.image
     }
     
 

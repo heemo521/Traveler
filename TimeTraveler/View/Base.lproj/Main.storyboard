@@ -574,44 +574,47 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nosign" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vTp-Wb-eWQ">
-                                                    <rect key="frame" x="20" y="12" width="196.66666666666666" height="167.33333333333331"/>
+                                                    <rect key="frame" x="20" y="12" width="196.66666666666666" height="177.66666666666666"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aq5-vu-AGq">
-                                                    <rect key="frame" x="234.66666666666666" y="41.333333333333336" width="127.33333333333334" height="15.666666666666664"/>
+                                                    <rect key="frame" x="234.66666666666663" y="41.333333333333336" width="148.33333333333337" height="15.666666666666664"/>
                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gx-Ne-C0V">
-                                                    <rect key="frame" x="311" y="144.66666666666666" width="51" height="35"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="tinted" image="heart" catalog="system"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k15-nw-5Al">
-                                                    <rect key="frame" x="234.66666666666666" y="10.999999999999998" width="127.33333333333334" height="20.333333333333329"/>
+                                                    <rect key="frame" x="234.66666666666663" y="10.999999999999998" width="148.33333333333337" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EvK-yy-5bV">
+                                                    <rect key="frame" x="353" y="162" width="30" height="27"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="Q8b-R5-EXy"/>
+                                                        <constraint firstAttribute="height" constant="30" id="iP9-Fw-7OF"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="k15-nw-5Al" firstAttribute="leading" secondItem="vTp-Wb-eWQ" secondAttribute="trailing" constant="18" id="06H-ux-6KJ"/>
                                                 <constraint firstItem="aq5-vu-AGq" firstAttribute="leading" secondItem="k15-nw-5Al" secondAttribute="leading" id="12i-ss-OQe"/>
                                                 <constraint firstItem="aq5-vu-AGq" firstAttribute="top" secondItem="k15-nw-5Al" secondAttribute="bottom" constant="10" id="5oG-BP-xaz"/>
                                                 <constraint firstItem="aq5-vu-AGq" firstAttribute="trailing" secondItem="k15-nw-5Al" secondAttribute="trailing" id="6EK-zA-E1C"/>
-                                                <constraint firstItem="k15-nw-5Al" firstAttribute="trailing" secondItem="9gx-Ne-C0V" secondAttribute="trailing" id="HQN-e3-uUs"/>
+                                                <constraint firstItem="EvK-yy-5bV" firstAttribute="bottom" secondItem="vTp-Wb-eWQ" secondAttribute="bottom" id="7IN-Rj-kye"/>
                                                 <constraint firstItem="vTp-Wb-eWQ" firstAttribute="leading" secondItem="oaR-xc-7Af" secondAttribute="leading" constant="20" symbolic="YES" id="OF9-dg-VzJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="9gx-Ne-C0V" secondAttribute="trailing" constant="31" id="dHp-ci-HVw"/>
-                                                <constraint firstAttribute="bottom" secondItem="9gx-Ne-C0V" secondAttribute="bottom" constant="20.333333333333343" id="dUe-V7-FbS"/>
+                                                <constraint firstItem="aq5-vu-AGq" firstAttribute="trailing" secondItem="EvK-yy-5bV" secondAttribute="trailing" id="bii-Z4-5Q2"/>
                                                 <constraint firstItem="vTp-Wb-eWQ" firstAttribute="width" secondItem="oaR-xc-7Af" secondAttribute="width" multiplier="0.5" id="fUY-Qj-zd1"/>
+                                                <constraint firstAttribute="bottom" secondItem="EvK-yy-5bV" secondAttribute="bottom" constant="10" id="iIg-Y5-rvm"/>
                                                 <constraint firstItem="k15-nw-5Al" firstAttribute="top" secondItem="oaR-xc-7Af" secondAttribute="top" constant="11" id="iSI-SK-hg8"/>
-                                                <constraint firstItem="vTp-Wb-eWQ" firstAttribute="bottom" secondItem="9gx-Ne-C0V" secondAttribute="bottom" id="kaZ-79-pw3"/>
+                                                <constraint firstAttribute="trailing" secondItem="EvK-yy-5bV" secondAttribute="trailing" constant="10" id="lmv-LS-K9a"/>
                                                 <constraint firstItem="vTp-Wb-eWQ" firstAttribute="top" secondItem="oaR-xc-7Af" secondAttribute="top" constant="11" id="xz7-sa-FaM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addressLabel" destination="aq5-vu-AGq" id="ck8-p8-9Ph"/>
+                                            <outlet property="likeStatusImage" destination="EvK-yy-5bV" id="SHX-nV-9y9"/>
                                             <outlet property="mainImage" destination="vTp-Wb-eWQ" id="2J1-Cw-dUO"/>
                                             <outlet property="nameLabel" destination="k15-nw-5Al" id="VQS-Jw-mMp"/>
                                         </connections>
@@ -651,12 +654,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxJ-u3-kEI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7558" y="-1892"/>
+            <point key="canvasLocation" x="7556.4885496183206" y="-1892.2535211267607"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="emA-J6-OsC"/>
-        <segue reference="NjL-gk-mf2"/>
+        <segue reference="1Ao-XS-QgE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>

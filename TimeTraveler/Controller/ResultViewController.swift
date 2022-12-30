@@ -7,7 +7,7 @@
 
 import UIKit
 // [x] fetch data and display on cell
-// [] like button implementation
+// [x] like button implementation
 // [] list/map split view
 // [] create map view cells
 // [] allow slidable action using tableview/collectionview?
