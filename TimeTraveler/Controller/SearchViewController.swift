@@ -35,7 +35,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = searchBarView
-
+        navigationItem.leftBarButtonItem?.title = ""
         searchCompleter.delegate = self
         recentSearchTitle.text = "Recent Search"
         recentSearchTitle.textColor = .systemBlue

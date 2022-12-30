@@ -41,6 +41,13 @@ class HomeViewController: UIViewController {
         if didUpdateImageView {
             scalingAnimation()
         }
+        if let first = fetchedLocationList.first {
+            if shared.checkLikedPlace(id: first.id!) {
+                likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+        }
     }
     
     // MARK: - Device Orientation Update
@@ -83,7 +90,7 @@ private extension HomeViewController {
     }
     
     func hideSpinner() {
-        UIView.transition(with: scrollView, duration: 1.0, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
+        UIView.transition(with: scrollView, duration: 0.6, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
         })
     }
     

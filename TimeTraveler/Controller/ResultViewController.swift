@@ -23,11 +23,15 @@ class ResultViewController: UIViewController {
     var placesAPIList = [Place]()
     
     @IBOutlet weak var tableView: UITableView!
-    
-    @IBAction func BackButtonClicked(_ sender: UIButton) {
+  
+    @IBAction func backButtonClicked(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
-//        self.dismiss(animated: true)
     }
+    
+//    @IBAction func BackButtonClicked(_ sender: UIButton) {
+//
+////        self.dismiss(animated: true)
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         if queryString == "" {
@@ -41,7 +45,7 @@ class ResultViewController: UIViewController {
         if placesAPIList.count == 0 {
             getLocationDataHTTP()
         } else {
-                
+            tableView.reloadData()
         }
     }
 }

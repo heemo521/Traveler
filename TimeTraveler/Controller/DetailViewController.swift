@@ -19,6 +19,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     
+    @IBAction func dismissButtonClicked(_ sender: UIButton) {
+//        navigationController?.dismiss(animated: true)
+        self.dismiss(animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         nameLabel.text = selectedPlace.name
