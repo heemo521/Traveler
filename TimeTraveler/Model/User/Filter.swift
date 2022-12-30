@@ -8,7 +8,6 @@
 import Foundation
 // For user settings / preference
 class Filter {
-    var categories = [Categories]()
 //    var limit: 10 15 25 50
     //sortBy = relevance, rating, distance enum
     

@@ -215,14 +215,14 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOS-D0-4pO">
-                                                    <rect key="frame" x="128" y="31.666666666666664" width="215" height="24.666666666666664"/>
-                                                    <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="23"/>
+                                                    <rect key="frame" x="128" y="31" width="215" height="26"/>
+                                                    <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="23"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tyd-L9-dh8">
-                                                    <rect key="frame" x="128" y="69.333333333333329" width="215" height="18.333333333333329"/>
-                                                    <fontDescription key="fontDescription" name="ArialHebrew" family="Arial Hebrew" pointSize="17"/>
+                                                    <rect key="frame" x="128" y="68.666666666666671" width="215" height="19"/>
+                                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -316,7 +316,7 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNn-wr-Ae9" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="891.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="887.66666666666663"/>
                                         <subviews>
                                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="VOT-dh-wG6">
                                                 <rect key="frame" x="71.666666666666686" y="82" width="250" height="250"/>
@@ -360,43 +360,43 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cO-l4-iEO">
-                                                <rect key="frame" x="40" y="347" width="313" height="36"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
+                                                <rect key="frame" x="40" y="347" width="313" height="33.666666666666686"/>
+                                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="30"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ7-xN-iyz" userLabel="Category Container">
-                                                <rect key="frame" x="40" y="395" width="313" height="20"/>
+                                                <rect key="frame" x="40" y="392.66666666666669" width="313" height="20"/>
                                                 <color key="backgroundColor" red="0.97590706416651463" green="0.98745022291216578" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="n9T-f7-z0X"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a view here and add address and distance calculated from the place in miles" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69M-zr-bJd">
-                                                <rect key="frame" x="40" y="461" width="313" height="54.333333333333371"/>
+                                                <rect key="frame" x="40" y="456.66666666666663" width="313" height="57"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="WFV-Q0-Lpl"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="ArialHebrew" family="Arial Hebrew" pointSize="17"/>
+                                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnD-z8-iaQ">
-                                                <rect key="frame" x="40" y="561.33333333333337" width="313" height="300"/>
+                                                <rect key="frame" x="40" y="557.66666666666663" width="313" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="OKd-yF-bCU"/>
                                                 </constraints>
                                                 <standardMapConfiguration key="preferredConfiguration"/>
                                             </mapView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUx-QN-Sne">
-                                                <rect key="frame" x="40" y="520.33333333333337" width="77" height="21"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                                <rect key="frame" x="40" y="518.66666666666663" width="77" height="19"/>
+                                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wma-zQ-zxw">
-                                                <rect key="frame" x="40" y="435" width="67" height="21"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                                <rect key="frame" x="39.999999999999993" y="432.66666666666663" width="68.333333333333314" height="19"/>
+                                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -570,12 +570,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nosign" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vTp-Wb-eWQ">
-                                                    <rect key="frame" x="20" y="11.999999999999993" width="196.66666666666666" height="126.66666666666666"/>
+                                                    <rect key="frame" x="20" y="12" width="196.66666666666666" height="167.33333333333331"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aq5-vu-AGq">
-                                                    <rect key="frame" x="234.66666666666666" y="41.333333333333336" width="127.33333333333334" height="20.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aq5-vu-AGq">
+                                                    <rect key="frame" x="234.66666666666666" y="41.333333333333336" width="127.33333333333334" height="15.666666666666664"/>
+                                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -586,7 +586,7 @@
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k15-nw-5Al">
                                                     <rect key="frame" x="234.66666666666666" y="10.999999999999998" width="127.33333333333334" height="20.333333333333329"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -602,7 +602,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="9gx-Ne-C0V" secondAttribute="bottom" constant="20.333333333333343" id="dUe-V7-FbS"/>
                                                 <constraint firstItem="vTp-Wb-eWQ" firstAttribute="width" secondItem="oaR-xc-7Af" secondAttribute="width" multiplier="0.5" id="fUY-Qj-zd1"/>
                                                 <constraint firstItem="k15-nw-5Al" firstAttribute="top" secondItem="oaR-xc-7Af" secondAttribute="top" constant="11" id="iSI-SK-hg8"/>
-                                                <constraint firstItem="vTp-Wb-eWQ" firstAttribute="height" secondItem="oaR-xc-7Af" secondAttribute="height" multiplier="0.64" id="qsh-Dx-tzp"/>
+                                                <constraint firstItem="vTp-Wb-eWQ" firstAttribute="bottom" secondItem="9gx-Ne-C0V" secondAttribute="bottom" id="kaZ-79-pw3"/>
                                                 <constraint firstItem="vTp-Wb-eWQ" firstAttribute="top" secondItem="oaR-xc-7Af" secondAttribute="top" constant="11" id="xz7-sa-FaM"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -652,7 +652,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="emA-J6-OsC"/>
-        <segue reference="NjL-gk-mf2"/>
+        <segue reference="1Ao-XS-QgE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>

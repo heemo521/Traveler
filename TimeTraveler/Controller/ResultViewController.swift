@@ -48,12 +48,8 @@ class ResultViewController: UIViewController {
 private extension ResultViewController {
     func getLocationDataHTTP() {
 //        showSpinner()
-        print("queryString \(queryString!)")
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-//        let searchQuery = "Empire building" // Replace with user location here - replace this with a searched text
-        let categories:[Categories] = [.historic, .nationalPark]
-        let combinedCategories = categories.map({$0.rawValue}).joined(separator: ",")
-        let queryItems = ["near" : queryString!, "categories": combinedCategories, "fields": defaultFields]
+        let queryItems = ["near" : queryString!.lowercased(), "categories": "16000", "fields": defaultFields]
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         

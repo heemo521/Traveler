@@ -1,26 +1,29 @@
+////
+////  Category.swift
+////  TimeTraveler
+////
+////  Created by Heemo on 12/28/22.
+////
 //
-//  Category.swift
-//  TimeTraveler
+//import Foundation
 //
-//  Created by Heemo on 12/28/22.
+//enum Categories: String {
+//    case 16000    Landmarks and Outdoors    all
+//    case 16001    Landmarks and Outdoors > Bathing Area    all
+//    case 16002    Landmarks and Outdoors > Bay    all
+//    case 16003    Landmarks and Outdoors > Beach    all
+//    case 16004    Landmarks and Outdoors > Bike Trail    all
+//    case 16005    Landmarks and Outdoors > Botanical Garden    all
+//    case 16006    Landmarks and Outdoors > Bridge    all
+//    
+//    case building = "16007"
+//    case forest = "16015"
+//    case historic = "16020"
+//    case mountain = "16027"
+//    case nationalPark = "16034"
+//    case naturalPark = "16035"
 //
-
-import Foundation
-
-enum Categories: String {
-    case building = "16007"
-    case forest = "16015"
-    case historic = "16020"
-    case mountain = "16027"
-    case nationalPark = "16034"
-    case naturalPark = "16035"
-//    16000    Landmarks and Outdoors    all
-//    16001    Landmarks and Outdoors > Bathing Area    all
-//    16002    Landmarks and Outdoors > Bay    all
-//    16003    Landmarks and Outdoors > Beach    all
-//    16004    Landmarks and Outdoors > Bike Trail    all
-//    16005    Landmarks and Outdoors > Botanical Garden    all
-//    16006    Landmarks and Outdoors > Bridge    all
+//
 //    16007    Landmarks and Outdoors > Building / Structure    all
 //    16008    Landmarks and Outdoors > Campground    all
 //    16009    Landmarks and Outdoors > Canal    all
@@ -69,4 +72,4 @@ enum Categories: String {
 //    16052    Landmarks and Outdoors > Waterfall    all
 //    16053    Landmarks and Outdoors > Waterfront    all
 //    16054    Landmarks and Outdoors > Windmill    all
-}
+//}
