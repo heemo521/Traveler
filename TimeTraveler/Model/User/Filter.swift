@@ -9,16 +9,10 @@ import Foundation
 // For user settings / preference
 class Filter {
     var categories = [Categories]()
-    var searchRadius: Int?
-    var useUserLocation: Bool
 //    var limit: 10 15 25 50
     //sortBy = relevance, rating, distance enum
     
-    init(searchRadius: Int, useUserLocation: Bool) {
-        self.searchRadius = searchRadius
-        self.useUserLocation = useUserLocation
-    }
-    
+    init() {}
     // add category
     // remove category
     

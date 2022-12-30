@@ -42,17 +42,17 @@
             <objects>
                 <viewController id="gOc-T9-l2p" customClass="DetailViewController" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Eqv-Q7-OC9">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITm-Zu-215">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="511.33333333333331"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="469.66666666666669"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4dr-Jq-ocg">
-                                        <rect key="frame" x="0.0" y="-8" width="393" height="511.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="-8" width="393" height="469.66666666666669"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
-                                        <rect key="frame" x="73" y="444" width="300" height="37.333333333333314"/>
+                                        <rect key="frame" x="73" y="402.33333333333331" width="300" height="37.333333333333314"/>
                                         <color key="backgroundColor" red="0.42059264520202022" green="0.42059264520202022" blue="0.42059264520202022" alpha="0.49694743377483441" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="tRh-Gu-4nz"/>
@@ -73,12 +73,12 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6f-bq-ptT">
-                                <rect key="frame" x="297" y="519" width="86" height="49"/>
+                                <rect key="frame" x="297" y="477.33333333333331" width="86" height="48.999999999999943"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title=" Like"/>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZl-ip-CLi" userLabel="Category Container">
-                                <rect key="frame" x="40" y="562" width="313" height="30"/>
+                                <rect key="frame" x="40" y="520.33333333333337" width="313" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="National Park" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pwB-vI-Af0">
                                         <rect key="frame" x="0.0" y="0.0" width="85.666666666666671" height="30"/>
@@ -97,7 +97,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zv8-nd-lAO">
-                                <rect key="frame" x="40" y="533" width="71" height="21"/>
+                                <rect key="frame" x="40" y="491.33333333333331" width="71" height="20.999999999999943"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="71" id="YQU-Ra-MRz"/>
                                 </constraints>
@@ -106,13 +106,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Dx-va-BC2">
-                                <rect key="frame" x="40" y="612" width="63" height="21"/>
+                                <rect key="frame" x="40" y="570.33333333333337" width="63" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="19623 Evergreen Mills Rd (Battlefield Parkway), Leesburg, VA 20175" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZa-JR-RTL">
-                                <rect key="frame" x="40" y="641" width="250" height="31.333333333333371"/>
+                                <rect key="frame" x="40" y="599.33333333333337" width="250" height="31.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="KfF-Td-9Ee"/>
                                 </constraints>
@@ -121,13 +121,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Related Places" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54h-Rt-U8Y">
-                                <rect key="frame" x="40" y="690" width="112" height="21"/>
+                                <rect key="frame" x="40" y="648.33333333333337" width="112" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="None" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vjh-H7-Ait">
-                                <rect key="frame" x="40" y="719" width="250" height="15.666666666666629"/>
+                                <rect key="frame" x="40" y="677.33333333333337" width="250" height="15.666666666666629"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="2UJ-Nd-SSw"/>
                                 </constraints>
@@ -469,6 +469,9 @@
                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" id="IMn-TU-Aum">
                             <rect key="frame" x="98.666666666666686" y="4.6666666666666679" width="196" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
+                            </accessibility>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" image="magnifyingglass" catalog="system" title=" Search destination"/>
                             <connections>
@@ -510,7 +513,7 @@
         <!--Home-->
         <scene sceneID="myD-XM-D13">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" hidesBarsOnTap="YES" id="2Sl-nr-2UO" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2Sl-nr-2UO" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="cnJ-TZ-qif"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gQN-sr-FqR">
@@ -518,6 +521,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BOj-8B-n2a">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="0sJ-25-mai" kind="relationship" relationship="rootViewController" id="Cx2-bw-T2Y"/>
                     </connections>
@@ -636,7 +642,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="1QX-St-fjU" id="l3Z-yG-1qD"/>
-                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailSegue" modalPresentationStyle="fullScreen" id="1Ao-XS-QgE"/>
+                        <segue destination="gOc-T9-l2p" kind="presentation" identifier="detailSegue" modalPresentationStyle="pageSheet" modalTransitionStyle="crossDissolve" id="1Ao-XS-QgE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxJ-u3-kEI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -646,7 +652,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="emA-J6-OsC"/>
-        <segue reference="1Ao-XS-QgE"/>
+        <segue reference="NjL-gk-mf2"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>

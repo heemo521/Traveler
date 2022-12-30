@@ -37,13 +37,10 @@ class ResultViewController: UIViewController {
             // pop the view and show warning
             navigationController?.popViewController(animated: true)
         }
-        print("queryString \(queryString)")
-//        getLocationDataHTTP()
-        // fetch here since it takes time to load map view any ways
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         getLocationDataHTTP()
     }
 }
@@ -80,6 +77,9 @@ private extension ResultViewController {
             catch let error {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         })
     }
