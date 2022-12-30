@@ -25,8 +25,8 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func BackButtonClicked(_ sender: UIButton) {
-//        navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
+//        self.dismiss(animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
