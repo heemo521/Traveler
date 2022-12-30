@@ -41,6 +41,16 @@ class UserService {
         }
     }
     
+    func saveLastUserLocation(latitude: String, longitude: String) {
+        user.lastLocation.latitude = Double(latitude)
+        user.lastLocation.longitude = Double(longitude)
+        saveUserData()
+    }
+    func getLastUserLocation()-> (Double, Double) {
+        let last = user.lastLocation
+        return (last.latitude ?? 41.8781, last.longitude ?? -87.6298)
+    }
+    
     func likeAPlace(id: String) {
         user.likedLocations.insert(id)
         saveUserData()

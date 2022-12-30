@@ -56,7 +56,7 @@ class Geocode: Decodable {
     var roof: Coordinates?
 }
 
-class Coordinates: Decodable {
+class Coordinates: Decodable, Encodable {
     var latitude: Double?
     var longitude: Double?
 }

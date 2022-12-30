@@ -26,6 +26,8 @@ class HomeViewController: UIViewController {
     var imageViewsList = [UIImage]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
+    let shared = UserService.shared
+    var count = 0 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,13 +50,11 @@ class HomeViewController: UIViewController {
     
     @IBAction func likeButtonClicked(_ sender: Any) {
           if let first = fetchedLocationList.first, let id = first.id {
-              if UserService.shared.checkLikedPlace(id: id) {
-                  print("un-liked")
-                  UserService.shared.unlikeAPlace(id: id)
+              if shared.checkLikedPlace(id: id) {
+                  shared.unlikeAPlace(id: id)
                   likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
               } else {
-                  print("liked")
-                  UserService.shared.likeAPlace(id: id)
+                  shared.likeAPlace(id: id)
                   likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
               }
           }
@@ -133,9 +133,7 @@ private extension HomeViewController {
         categoryContainer.addSubview(categoryLabel)
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
-        let shared = UserService.shared
-        print("user likes how many places: \(shared.getNumberOfLikedPlaces())")
-        
+    
         if let id = selectedLocation.id {
             if shared.checkLikedPlace(id: id) {
                 likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -143,17 +141,24 @@ private extension HomeViewController {
                 likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
+        self.updateMapViewWithCoordinates(at: 0)
+
     }
 }
 
 // MARK: - HTTP
 private extension HomeViewController {
-    func getLocationDataHTTP() {
+    func getLocationDataHTTP(lat: Double = 0.0, lng: Double = 0.0) {
         showSpinner()
-        
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        let searchQuery = "Empire building" // Replace with user location here - replace this with a searched text
-        let queryItems = ["near" : searchQuery, "categories": "16000", "fields": defaultFields]
+        var ll: String?
+        if lat != 0.0, lng != 0.0 {
+            ll = "\(String(lat)),\(String(lng))"
+        } else {
+            let (lat, lng) = shared.getLastUserLocation()
+            ll = "\(String(lat)),\(String(lng))"
+        }
+        let queryItems = ["query": "outdoor", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields]
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
@@ -174,7 +179,6 @@ private extension HomeViewController {
                 
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
-                    self.updateMapViewWIthCoordinates(at: 0)
                     
                     self.hideSpinner()
                 }
@@ -196,7 +200,6 @@ private extension HomeViewController {
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    print("image url \(url)")
                     self.getImageDataHTTP(with: url, at: 0)
                 }
             } catch let error {
@@ -210,6 +213,7 @@ private extension HomeViewController {
         let request = URLRequest(url: url)
         
         buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
+            self.fetchedLocationList[index].imageData = data
             if let image = UIImage(data: data) {
                 DispatchQueue.main.async {
                     self.didUpdateImageView = true // allow animation in the view will appear
@@ -219,7 +223,6 @@ private extension HomeViewController {
                     })
                     self.scalingAnimation()
                 }
-                
             }
         })
     }
@@ -262,11 +265,12 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         switch authorizationStatus {
             case .authorizedWhenInUse:
+                print("all good now!")
                 locationManager.startUpdatingLocation()
             case .restricted, .denied:
                 print("restricted")
             default:
-                print("Not authorized")
+                print("Not authorized yet")
         }
     }
     // First time when user starts the app / user allows the authorization
@@ -277,7 +281,8 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
-        print("location update latitude: \(location.coordinate.latitude) longitude \(location.coordinate.longitude)")
+        self.getLocationDataHTTP(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
+        
         let coord = location.coordinate
         let locationCoord = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
         currentLocation = LocationAnnotation(coordinate: locationCoord)
@@ -288,19 +293,23 @@ extension HomeViewController: CLLocationManagerDelegate {
 // MARK: - Map
 extension HomeViewController {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        if !didUpdateMapView {
-            print(userLocation.coordinate)
-            let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 300.0, longitudinalMeters: 300.0)
+//        if !didUpdateMapView {
+            let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
             mapView.setRegion(regionView, animated: true)
             didUpdateMapView = true
-        }
+//        }
     }
 
-    func updateMapViewWIthCoordinates(at index: Int) {
-        guard didUpdateMapView == false else { return }
-        if let geocodes = fetchedLocationList[index].geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
+    func updateMapViewWithCoordinates(at index: Int) {
+        count+=1
+        print(count)
+//        guard didUpdateMapView == false else { return }
+        print(fetchedLocationList[index].geocodes?.main?.latitude)
+        if let geocodes = fetchedLocationList.first?.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
             let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 100.0, longitudinalMeters: 100.0)
+            print("location coords is for \(fetchedLocationList.first?.name!) \(lat),\(lng)")
+            
+            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 10000.0, longitudinalMeters: 10000.0)
             mapView.setRegion(regionView, animated: true)
             mapView.addAnnotation(LocationAnnotation(coordinate: locationCoord))
             didUpdateMapView = true

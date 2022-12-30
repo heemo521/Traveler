@@ -12,4 +12,5 @@ class User: Decodable, Encodable {
     var likedLocations = Set<String>()
     var recentSearch = Set<RecentSearch>()
     var userFilter = Filter()
+    var lastLocation = Coordinates()
 }
