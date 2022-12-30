@@ -67,7 +67,7 @@ private extension HomeViewController {
     }
     
     func createCategoryLabel(title: String) -> UIButton {
-        let font = UIFont(name: "Arial", size: 20)
+        let font = UIFont(name: "Arial Hebrew", size: 20)
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = (title as NSString).size(withAttributes: fontAttributes as [NSAttributedString.Key : Any])
         let labelButton = UIButton(frame: CGRect(x: 0, y: 0, width: size.width + 10.0, height: size.height + 5.0))

@@ -15,7 +15,6 @@ class ResultCell: UITableViewCell {
 //    @IBOutlet weak var mainImage: UIImageView!
     
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var categoryLabelButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var likeStatusImage: UIButton!
@@ -25,10 +24,7 @@ class ResultCell: UITableViewCell {
             mainImage.image = UIImage(data: imageData)
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
-        categoryLabelButton.setTitle(location.categories?.first?.name, for: .normal)
-        
         addressLabel.text = location.address?.formatted_address
-
     }
 
 }

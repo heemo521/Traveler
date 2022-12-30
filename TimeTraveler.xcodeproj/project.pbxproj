@@ -28,6 +28,7 @@
 		71A3024B295AA5EE00019E05 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024A295AA5EE00019E05 /* Image.swift */; };
 		71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024E295BDFD500019E05 /* LocationAnnotation.swift */; };
 		71D811DA295C0ECF008CC116 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D811D9295C0ECF008CC116 /* SearchCell.swift */; };
+		71E6B169295EAA9D006B49AB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E6B168295EAA9D006B49AB /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		71A3024A295AA5EE00019E05 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		71A3024E295BDFD500019E05 /* LocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotation.swift; sourceTree = "<group>"; };
 		71D811D9295C0ECF008CC116 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		71E6B168295EAA9D006B49AB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				715656F0295908FC0083D612 /* HomeViewController.swift */,
 				71A3023A295A646C00019E05 /* SearchViewController.swift */,
 				7182A71C295CF129006D674D /* ResultViewController.swift */,
+				71E6B168295EAA9D006B49AB /* DetailViewController.swift */,
 				716510DD29578AE1002F56D8 /* Helpers */,
 			);
 			path = Controller;
@@ -257,6 +260,7 @@
 				716510DF29578AF0002F56D8 /* buildURLRequest.swift in Sources */,
 				71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */,
 				71A30241295A6AE500019E05 /* UserService.swift in Sources */,
+				71E6B169295EAA9D006B49AB /* DetailViewController.swift in Sources */,
 				7182A723295D369D006D674D /* RecentSearch.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
 				716510D329577DC3002F56D8 /* Place.swift in Sources */,

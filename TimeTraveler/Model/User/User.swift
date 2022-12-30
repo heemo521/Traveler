@@ -13,6 +13,5 @@ typealias SearchQuery = String
 class User {
     var likedLocations = Set<LocationId>()
     var recentSearch = Set<RecentSearch>()
-//    var userFilter = Filter(searchRadius: 0, useUserLocation: <#Bool#>)
-//    var userLocation = LocationCoordinates
+    var userFilter = Filter()
 }
