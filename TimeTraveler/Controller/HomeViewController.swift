@@ -9,16 +9,25 @@ import UIKit
 import MapKit
 import CoreLocation
 
+// [] Look into light/dark mode
+// [] Look at sllidable view
+// [] Translate storyboard to code
+// [] Check code
+// [] Refactor
+
 class HomeViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var iconLabel: UIImageView!
+    
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var likeStatusButton: UIButton!
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var likeStatusButton: UIButton!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    
     
     var didUpdateMapView = false
     var didUpdateImageView = false
@@ -82,6 +91,8 @@ class HomeViewController: UIViewController {
 
 // MARK: - UI
 private extension HomeViewController {
+    
+    
     func showSpinner() {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         imageView.isHidden = true

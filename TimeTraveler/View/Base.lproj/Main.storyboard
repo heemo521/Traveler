@@ -310,24 +310,24 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7km-if-BRN">
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeq-fY-dhg" userLabel="Guide View">
-                                        <rect key="frame" x="0.0" y="-103" width="393" height="420"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeq-fY-dhg" userLabel="NestedGuideView">
+                                        <rect key="frame" x="0.0" y="-103" width="393" height="426"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNn-wr-Ae9" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="949.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="937.33333333333337"/>
                                         <subviews>
                                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="VOT-dh-wG6">
-                                                <rect key="frame" x="46.666666666666657" y="57" width="300" height="300"/>
+                                                <rect key="frame" x="61.666666666666657" y="75.333333333333343" width="269.66666666666674" height="269.66666666666663"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alex-gorey-LXsChQXNqWE-unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="W6f-HA-Lah" userLabel="Canyon">
-                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil.and.outline" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="W6f-HA-Lah" userLabel="Canyon">
+                                                        <rect key="frame" x="0.0" y="-0.33333333333334281" width="269.66666666666669" height="269.66666666666663"/>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJ1-zm-4xC" userLabel="Layover">
-                                                        <rect key="frame" x="-0.66666666666665719" y="0.0" width="300.66666666666663" height="300"/>
+                                                        <rect key="frame" x="-15.666666666666657" y="0.0" width="285.33333333333326" height="269.66666666666669"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5Fv-bc-Uo7">
-                                                                <rect key="frame" x="140.33333333333334" y="113.66666666666669" width="19.666666666666657" height="73.666666666666686"/>
+                                                                <rect key="frame" x="133" y="101.99999999999997" width="19.666666666666657" height="66.000000000000028"/>
                                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </imageView>
                                                         </subviews>
@@ -357,13 +357,13 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cO-l4-iEO">
-                                                <rect key="frame" x="40" y="417" width="313" height="33.666666666666686"/>
+                                                <rect key="frame" x="40" y="405" width="313" height="33.666666666666686"/>
                                                 <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="30"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a view here and add address and distance calculated from the place in miles" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69M-zr-bJd">
-                                                <rect key="frame" x="40" y="518.33333333333337" width="306.66666666666669" height="57"/>
+                                                <rect key="frame" x="40" y="506.33333333333337" width="291.33333333333331" height="57"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="WFV-Q0-Lpl"/>
                                                 </constraints>
@@ -372,26 +372,26 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qnD-z8-iaQ">
-                                                <rect key="frame" x="40" y="619.33333333333337" width="306.66666666666669" height="300"/>
+                                                <rect key="frame" x="40" y="607.33333333333337" width="291.33333333333331" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="OKd-yF-bCU"/>
                                                 </constraints>
                                                 <standardMapConfiguration key="preferredConfiguration"/>
                                             </mapView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUx-QN-Sne">
-                                                <rect key="frame" x="40" y="580.33333333333337" width="77" height="19"/>
+                                                <rect key="frame" x="40" y="568.33333333333337" width="77" height="19"/>
                                                 <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wma-zQ-zxw">
-                                                <rect key="frame" x="39.999999999999993" y="494.33333333333337" width="68.333333333333314" height="19"/>
+                                                <rect key="frame" x="39.999999999999993" y="482.33333333333337" width="68.333333333333314" height="19"/>
                                                 <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCR-MO-dul">
-                                                <rect key="frame" x="40" y="462.66666666666663" width="39.333333333333343" height="18"/>
+                                                <rect key="frame" x="40" y="450.66666666666663" width="39.333333333333343" height="18"/>
                                                 <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -442,7 +442,7 @@
                             <constraint firstItem="aqc-7u-SVe" firstAttribute="trailing" secondItem="zeq-fY-dhg" secondAttribute="trailing" id="903-lQ-Rln"/>
                             <constraint firstItem="zeq-fY-dhg" firstAttribute="top" secondItem="7km-if-BRN" secondAttribute="top" constant="-103" id="H6L-lr-cVo"/>
                             <constraint firstItem="zeq-fY-dhg" firstAttribute="leading" secondItem="aqc-7u-SVe" secondAttribute="leading" id="Jxe-YK-Adu"/>
-                            <constraint firstItem="zeq-fY-dhg" firstAttribute="height" secondItem="dY4-jo-n6E" secondAttribute="height" multiplier="0.985915" id="aAn-0G-6vr"/>
+                            <constraint firstItem="zeq-fY-dhg" firstAttribute="height" secondItem="dY4-jo-n6E" secondAttribute="height" id="aAn-0G-6vr"/>
                             <constraint firstItem="7km-if-BRN" firstAttribute="bottom" secondItem="aqc-7u-SVe" secondAttribute="bottom" id="bbm-CH-cL0"/>
                             <constraint firstItem="aqc-7u-SVe" firstAttribute="trailing" secondItem="7km-if-BRN" secondAttribute="trailing" id="e6R-6w-gv6"/>
                             <constraint firstItem="dY4-jo-n6E" firstAttribute="height" secondItem="hCB-dy-wkz" secondAttribute="height" multiplier="0.5" id="ebL-hW-OVF"/>
@@ -648,11 +648,11 @@
         <segue reference="bGI-lF-IGG"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="alex-gorey-LXsChQXNqWE-unsplash" width="5184" height="3556"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="nosign" catalog="system" width="128" height="123"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+        <image name="pencil.and.outline" catalog="system" width="128" height="128"/>
         <image name="person.circle" catalog="system" width="128" height="123"/>
         <image name="square.and.arrow.up.circle" catalog="system" width="128" height="123"/>
         <image name="xmark.circle" catalog="system" width="128" height="123"/>
