@@ -14,11 +14,11 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var iconLabel: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var categoryContainer: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var likeStatusButton: UIButton!
+    @IBOutlet weak var categoryLabel: UILabel!
     
     var didUpdateMapView = false
     var didUpdateImageView = false
@@ -27,7 +27,8 @@ class HomeViewController: UIViewController {
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
     let shared = UserService.shared
-    var count = 0 
+    var count = 0
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,25 +95,17 @@ private extension HomeViewController {
         })
     }
     
-    func createCategoryLabel(title: String) -> UIButton {
-        let font = UIFont(name: "Arial Hebrew", size: 20)
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        let size = (title as NSString).size(withAttributes: fontAttributes as [NSAttributedString.Key : Any])
-        let labelButton = UIButton(frame: CGRect(x: 0, y: 0, width: size.width + 10.0, height: size.height + 5.0))
-        labelButton.backgroundColor = .systemBlue
-        labelButton.layer.cornerRadius = 15.0
-        labelButton.layer.borderWidth = 1
-        labelButton.layer.borderColor = UIColor.systemGray.cgColor
-        labelButton.setTitle(title, for: .normal)
-        labelButton.isEnabled = false
-        return labelButton
-    }
     
     func updateUI() {
         imageViewContainer.layer.cornerRadius = imageViewContainer.frame.width / 2
         imageViewContainer.clipsToBounds = true
-        imageViewContainer.layer.borderColor = UIColor.gray.cgColor
+        imageViewContainer.layer.borderColor = UIColor.lightGray.cgColor
         imageViewContainer.layer.borderWidth = 3
+        imageViewContainer.layer.shadowRadius = 10
+        imageViewContainer.layer.shadowOffset = .zero
+        imageViewContainer.layer.shadowOpacity = 0.5
+        imageViewContainer.layer.shadowColor = UIColor.black.cgColor
+        imageViewContainer.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
     }
     
     func scalingAnimation() {
@@ -136,8 +129,7 @@ private extension HomeViewController {
     }
     
     func updateContent(with selectedLocation: Place) {
-        let categoryLabel = createCategoryLabel(title: (selectedLocation.categories!.first?.name)!)
-        categoryContainer.addSubview(categoryLabel)
+        categoryLabel.text = selectedLocation.categories?.first?.name
         titleLabel.text = selectedLocation.name
         descriptionLabel.text = selectedLocation.address!.formatted_address!
     
