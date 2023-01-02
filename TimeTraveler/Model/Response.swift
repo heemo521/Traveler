@@ -8,5 +8,5 @@
 import Foundation
 
 class Response: NSObject, Decodable {
-    let results: [Location]
+    let results: [Place]
 }
