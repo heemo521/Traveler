@@ -6,19 +6,8 @@
 //
 
 import UIKit
-// [x] fetch data and display on cell
-// [x] like button implementation
-// [x] segue to details page
-// [] details page slidable image gallery
-// [] list/map split view
-// [] create map view cells
-// [] allow slidable action using tableview/collectionview?
-// [] place reviews
-// [] maybe display reviews as a table on the bottonm
-// [] Show distance
-// [] REFACTOR UI
 
-class ResultViewController: UIViewController {
+class ResultViewController: SuperUIViewController {
     var queryString: String!
     var placesAPIList = [Place]()
     
@@ -52,9 +41,9 @@ private extension ResultViewController {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         let queryItems = ["near" : queryString!.lowercased(),"limit": "25", "categories": "16000", "fields": defaultFields]
         
-        let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
+        let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        buildURLRequest.httpRequest(for: "data request type", request: request, onCompletion: { data in
+       makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -82,9 +71,9 @@ private extension ResultViewController {
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
     func getImageDetailsHTTP(with locationID: String, at index: Int) {
-        let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        buildURLRequest.httpRequest(for: "get image details", request: request, onCompletion: { data in
+        makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
@@ -104,7 +93,7 @@ private extension ResultViewController {
         let url = URL(string: imageURL)!
         let request = URLRequest(url: url)
         
-        buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
+        makeRequest(for: "image data", request: request, onCompletion: { data in
             self.placesAPIList[index].imageData = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()

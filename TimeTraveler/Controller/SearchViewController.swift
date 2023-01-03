@@ -13,56 +13,69 @@ import CoreLocation
 // [x] save recent search on the system
 
 class SearchViewController: UIViewController, UISearchBarDelegate {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var recentSearchTitle: UILabel!
-    @IBOutlet var searchBarView: UISearchBar!
+    let searchBar = UISearchBar()
+    let tableView = UITableView()
+//    @IBOutlet weak var tableView: UITableView!
+    var searchLabel: UILabel!
+//    @IBOutlet weak var recentSearchTitle: UILabel!
+//    @IBOutlet var searchBarView: UISearchBar!
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var currentLocation: LocationAnnotation!
-    var recentSearchList: [RecentSearch]!
-    @IBOutlet weak var editButton: UIButton!
+    var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
     
-    @IBAction func useCurrentLocationClicked(_ sender: UIButton) {
-        performSegue(withIdentifier: "useCurrentLocationSegue", sender: currentLocation)
-    }
+//    @IBOutlet weak var editButton: UIButton!
+    var editButton: ActionButton = {
+        let button = ActionButton()
+        button.setTitle("Edit", for: .normal)
+        return button
+    }()
     
-    @IBAction func editButtonClicked(_ sender: Any) {
-        tableView.isEditing.toggle()
-        navigationController?.isNavigationBarHidden = tableView.isEditing
-        editButton.setTitle( tableView.isEditing ? "Done" : "Edit", for: .normal)
-    }
+//    @IBAction func useCurrentLocationClicked(_ sender: UIButton) {
+//        performSegue(withIdentifier: "useCurrentLocationSegue", sender: currentLocation)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.titleView = searchBarView
-        navigationItem.leftBarButtonItem?.title = ""
+        searchBar.delegate = self
         searchCompleter.delegate = self
-        recentSearchTitle.text = "Recent Search"
-        recentSearchTitle.textColor = .systemBlue
-        recentSearchList = UserService.shared.getAllRecentSearch()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        navigationItem.titleView = searchBar
+        navigationItem.leftBarButtonItem?.title = ""
+        
+        editButton.buttonIsClicked {
+            self.tableView.isEditing.toggle()
+            self.navigationController?.isNavigationBarHidden = self.tableView.isEditing
+            self.editButton.setTitle( self.tableView.isEditing ? "Done" : "Edit", for: .normal)
+        }
+    
+        searchLabel.text = "Recent Search"
+        searchLabel.textColor = .systemBlue
         editButton.isHidden = recentSearchList.isEmpty
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
-        searchBarView.becomeFirstResponder()
+        searchBar.becomeFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchQuery = searchBarView.text!
+        let searchQuery = searchBar.text!
 
         if searchQuery.count <= 3  {
             editButton.isHidden = recentSearchList.isEmpty
             searchResults = []
-            recentSearchTitle.text = "Recent Search"
-            recentSearchTitle.textColor = .systemBlue
+            searchLabel.text = "Recent Search"
+            searchLabel.textColor = .systemBlue
             tableView.reloadData()
         } else {
             editButton.isHidden = true
             searchCompleter.queryFragment = searchQuery
-            recentSearchTitle.text = "Search Result"
-            recentSearchTitle.textColor = .black
+            searchLabel.text = "Search Result"
+            searchLabel.textColor = .black
         }
     }
     
@@ -74,7 +87,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
 
 extension SearchViewController: MKLocalSearchCompleterDelegate, UITableViewDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchQuery = searchBarView.text!
+        let searchQuery = searchBar.text!
         if searchQuery != "" {
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
