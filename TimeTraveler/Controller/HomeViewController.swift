@@ -93,19 +93,18 @@ private extension HomeViewController {
             searchBtn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
             searchBtn.backgroundColor = .lightGray
             searchBtn.buttonIsClicked { [unowned self] in
-                self.didTapSearchButton()
+                let searchVC = TempSearchViewController()
+                searchVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(searchVC, animated: true)
+//                self.present(searchVC, animated: true)
+                
             }
+            
             return searchBtn
         }()
         
         navigationItem.titleView = searchButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapLikeButton))
-    }
-
-    @objc private func didTapSearchButton() {
-        let searchVC = SearchViewController()
-        searchVC.title = "Search"
-        present(searchVC, animated: true)
     }
     
     @objc private func didTapLikeButton() {

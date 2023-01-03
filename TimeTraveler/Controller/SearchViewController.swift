@@ -92,20 +92,20 @@ extension SearchViewController: MKLocalSearchCompleterDelegate, UITableViewDeleg
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+//            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchResults.isEmpty {
             let searchResult = recentSearchList[indexPath.row]
-            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
+//            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
         } else {
             let searchResult = searchResults[indexPath.row]
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
+//            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

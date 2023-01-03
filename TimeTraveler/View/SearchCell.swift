@@ -9,9 +9,11 @@ import UIKit
 import MapKit
 
 class SearchCell: UITableViewCell {
-    @IBOutlet weak var cellImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
+    static let identifier = "SearchCell"
+    
+    let cellImageView = UIImageView()
+    let nameLabel = UILabel()
+    let addressLabel = UILabel()
     
     func update(location: RecentSearch) {
         cellImageView.image = UIImage(systemName: "magnifyingglass")
@@ -24,5 +26,14 @@ class SearchCell: UITableViewCell {
         cellImageView.tintColor = UIColor.tintColor
         nameLabel.text = searchResult.title
         addressLabel.text = searchResult.subtitle
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .orange
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
