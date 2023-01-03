@@ -20,7 +20,7 @@ class HomeViewController: SuperUIViewController {
 
     let imageContainerView = UIView()
     var imageView: UIImageView!
-    var iconView: UIImageView!
+    var iconView: UIImageView! // This needs to be placed
     
     var titleLabel: UILabel!
     var categoryLabel: UILabel!

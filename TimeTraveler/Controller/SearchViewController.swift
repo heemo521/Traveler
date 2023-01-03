@@ -56,7 +56,7 @@ private extension SearchViewController {
         if searchQuery != "" {
             let ResultVC = ResultViewController()
             ResultVC.queryString = searchQuery.lowercased()
-            ResultVC.modalTransitionStyle = .flipHorizontal
+            ResultVC.modalTransitionStyle = .coverVertical
             ResultVC.modalPresentationStyle = .fullScreen
             self.present(ResultVC, animated: true)
         }

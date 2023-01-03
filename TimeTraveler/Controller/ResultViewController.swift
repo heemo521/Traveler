@@ -8,36 +8,71 @@
 import UIKit
 
 class ResultViewController: SuperUIViewController {
-    var queryString: String!
+    var queryString: String! = "Red Rock"
     var placesAPIList = [Place]()
-    
-    @IBOutlet weak var tableView: UITableView!
   
-    @IBAction func backButtonClicked(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
-    }
+    var tableView: UITableView!
+    var backButton: ActionButton!
+    
+//    @IBOutlet weak var tableView: UITableView!
+  
+//    @IBAction func backButtonClicked(_ sender: UIButton) {
+//        navigationController?.popViewController(animated: true)
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if queryString == "" {
-            // pop the view and show warning
-            navigationController?.popViewController(animated: true)
-        }
+        initUI()
+        setupLayout()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
-        if placesAPIList.count == 0 {
-            getLocationDataHTTP()
-        } else {
-            tableView.reloadData()
-        }
+//        if placesAPIList.count == 0 {
+//            getLocationDataHTTP()
+//        } else {
+//            tableView.reloadData()
+//        }
+    }
+}
+
+private extension ResultViewController {
+    func initUI() {
+        view.backgroundColor = .white
+        tableView = {
+            let tableView = UITableView()
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            tableView.backgroundColor = .systemBlue
+            return tableView
+        }()
+        
+        backButton = {
+            let backButton = ActionButton()
+            backButton.translatesAutoresizingMaskIntoConstraints = false
+            backButton.setTitle("Back", for: .normal)
+            backButton.setTitleColor(UIColor.systemBlue , for: .normal)
+            backButton.buttonIsClicked {
+                self.dismiss(animated: true)
+            }
+            return backButton
+        }()
+    }
+    
+    func setupLayout() {
+        view.addSubview(tableView)
+        view.addSubview(backButton)
+        
+        backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -50).isActive = true
     }
 }
 
 private extension ResultViewController {
     func getLocationDataHTTP() {
-//        showSpinner()
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         let queryItems = ["near" : queryString!.lowercased(),"limit": "25", "categories": "16000", "fields": defaultFields]
         
@@ -119,7 +154,8 @@ extension ResultViewController: UITableViewDelegate {
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("placeAPILISTCOUNT \(placesAPIList.count)")
-        return placesAPIList.count
+        let count = placesAPIList.count
+        return count == 0 ? 5 :count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
