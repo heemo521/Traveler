@@ -15,8 +15,6 @@ class SuperUIViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
  
-    
-    
     func createLabel(with labelText: String, size: Int, weight: UIFont.Weight) -> UILabel {
         let label = UILabel()
         label.text = labelText
@@ -25,16 +23,6 @@ class SuperUIViewController: UIViewController {
         return label
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func buildRequest(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
         //Build URL
         let urlComponents = NSURLComponents()

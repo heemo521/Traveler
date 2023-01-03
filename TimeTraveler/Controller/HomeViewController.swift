@@ -9,23 +9,9 @@ import UIKit
 import MapKit
 import CoreLocation
 
-// [] Look into light/dark mode
-// [] Look at sllidable view
-// [x] Translate storyboard to code
-// [] Check code
-// [] Refactor
-// [] MARK: - Map
-// [] MARK: - Core Location
-
 class HomeViewController: SuperUIViewController {
     // MARK: Navigation
-    var searchButton: UIButton = {
-        let searchBtn = UIButton()
-        searchBtn.setTitle("Search destination", for: .normal)
-        searchBtn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        searchBtn.backgroundColor = .lightGray
-        return searchBtn
-    }()
+    var searchButton: ActionButton!
     
     // MARK: Views
     let scrollView = UIScrollView()
@@ -54,12 +40,13 @@ class HomeViewController: SuperUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Home"
+        
         initNavigationBar()
         initUI()
         setupScrollView()
         setupLayout()
         configureUI()
-
+        
         locationManagerInit()
         getLocationDataHTTP()
     }
@@ -97,15 +84,24 @@ class HomeViewController: SuperUIViewController {
 //    }
 }
 
-// MARK: - UI
+// MARK: Navigation
 private extension HomeViewController {
-    // MARK: - Nav
     func initNavigationBar() {
-        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+        searchButton = {
+            let searchBtn = ActionButton()
+            searchBtn.setTitle("Search destination", for: .normal)
+            searchBtn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+            searchBtn.backgroundColor = .lightGray
+            searchBtn.buttonIsClicked { [unowned self] in
+                self.didTapSearchButton()
+            }
+            return searchBtn
+        }()
+        
         navigationItem.titleView = searchButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapLikeButton))
     }
-    
+
     @objc private func didTapSearchButton() {
         let searchVC = SearchViewController()
         searchVC.title = "Search"
@@ -123,8 +119,10 @@ private extension HomeViewController {
             }
         }
     }
-    
-    // MARK: - Core UI
+}
+
+// MARK: - UI
+private extension HomeViewController {
     func initUI() {
         view.backgroundColor = .white
         
@@ -406,6 +404,7 @@ extension HomeViewController: CLLocationManagerDelegate {
 // MARK: - Map
 extension HomeViewController {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        print("udpating user locaiton")
         let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
         self.mapView.setRegion(regionView, animated: true)
         didUpdateMapView = true
