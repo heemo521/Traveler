@@ -14,6 +14,8 @@ import CoreLocation
 // [x] Translate storyboard to code
 // [] Check code
 // [] Refactor
+// [] MARK: - Map
+// [] MARK: - Core Location
 
 class HomeViewController: SuperUIViewController {
     // MARK: Navigation
@@ -81,16 +83,18 @@ class HomeViewController: SuperUIViewController {
         scalingAnimation()
     }
     
-    // MARK: - Photos Segue
-    @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
-        performSegue(withIdentifier: "detailSegue", sender: fetchedLocationList.first!)
-    }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
-            DetailVC.selectedPlace = selectedPlace
-        }
-    }
+    
+    // MARK: - Photos Segue
+//    @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
+//        performSegue(withIdentifier: "detailSegue", sender: fetchedLocationList.first!)
+//    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
+//            DetailVC.selectedPlace = selectedPlace
+//        }
+//    }
 }
 
 // MARK: - UI
@@ -243,27 +247,31 @@ private extension HomeViewController {
     }
     
     func hideSpinner() {
-        UIView.transition(with: scrollView, duration: 0.6, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
+        UIView.transition(with: scrollView, duration: 1, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
         })
     }
     
     func scalingAnimation() {
+//        UIView.animate(withDuration: 1, delay: 0, animations: {self.imageView.transform = CGAffineTransform.identity})
         if UIDevice.current.orientation.isLandscape {
-            UIView.animate(withDuration: 0.6, animations: {
-                self.imageView.transform = CGAffineTransform.identity
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.6, animations: {
-                    self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-                })
-            })
-        } else {
-            UIView.animate(withDuration: 0.6, animations: {
-                self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.6, animations: {
-                     self.imageView.transform = CGAffineTransform.identity
-                })
-            })
+            
+//            UIView.animate(withDuration: 0.6, delay: 0, animations: {self.imageView.transform = CGAffineTransform.identity})
+            
+//            UIView.animate(withDuration: 0.6, animations: {
+//                self.imageView.transform = CGAffineTransform.identity
+//            }, completion: { _ in
+//                UIView.animate(withDuration: 0.6, animations: {
+//                    self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+//                })
+//            })
+//        } else {
+//            UIView.animate(withDuration: 0.6, animations: {
+//                self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+//            }, completion: { _ in
+//                UIView.animate(withDuration: 0.6, animations: {
+//                     self.imageView.transform = CGAffineTransform.identity
+//                })
+//            })
         }
     }
     
@@ -290,17 +298,19 @@ private extension HomeViewController {
         showSpinner()
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         var ll: String!
+        
         if lat != 0.0, lng != 0.0 {
             ll = "\(String(lat)),\(String(lng))"
         } else {
             let (lat, lng) = shared.getLastUserLocation()
             ll = "\(String(lat)),\(String(lng))"
         }
+        
         let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
-        let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
+        let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        buildURLRequest.httpRequest(for: "data request type", request: request, onCompletion: { data in
+        makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -312,7 +322,7 @@ private extension HomeViewController {
                 
                 if let iconURLs = dataDecoded.results.first?.categories?.first?.icon, let prefix = iconURLs.prefix, let suffix = iconURLs.suffix {
                     let url = prefix + "64" + suffix
-                    self.getIconDataHTTP(with: url)
+                    self.iconView.loadFrom(url: url)
                 }
                 
                 DispatchQueue.main.async {
@@ -329,59 +339,21 @@ private extension HomeViewController {
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
     func getImageDetailsHTTP(with locationID: String, at: Int) {
-        let request = buildURLRequest.build(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        buildURLRequest.httpRequest(for: "get image details", request: request, onCompletion: { data in
+        makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    self.getImageDataHTTP(with: url)
+                    self.imageView.loadFrom(url: url)
                 }
             } catch let error {
                 print("\(String(describing: error.localizedDescription))")
             }
         })
-    }
-    
-    func getImageDataHTTP(with imageURL: String) {
-        imageView.loadFrom(url: imageURL)
-        
-//        let url = URL(string: imageURL)!
-//        let request = URLRequest(url: url)
-//
-//        buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
-//            self.fetchedLocationList[index].imageData = data
-//            if let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    self.didUpdateImageView = true // allow animation in the view will appear
-//                    self.imageView.image = image
-//                    UIView.transition(with: self.imageView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-//                        self.imageView.isHidden = false
-//                    })
-//                    self.scalingAnimation()
-//                }
-//            }
-//        })
-    }
-    
-    func getIconDataHTTP(with imageURL: String) {
-        iconView.loadFrom(url: imageURL)
-//        let url = URL(string: imageURL)!
-//        let request = URLRequest(url: u/rl)
-//
-//        buildURLRequest.httpRequest(for: "get icon data", request: request, onCompletion: { data in
-//            if let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    self.iconView.image = image
-//                    UIView.transition(with: self.iconView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-//                        self.iconView.isHidden = false
-//                    })
-//                }
-//            }
-//        })
     }
 }
 
@@ -446,7 +418,7 @@ extension HomeViewController {
         if let geocodes = fetchedLocationList.first?.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
             let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
     
-            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 10000.0, longitudinalMeters: 10000.0)
+            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
             mapView.setRegion(regionView, animated: true)
             mapView.addAnnotation(LocationAnnotation(coordinate: locationCoord))
             didUpdateMapView = true
