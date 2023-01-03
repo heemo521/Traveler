@@ -51,6 +51,16 @@ private extension SearchViewController {
     @objc private func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func presentResultView(searchQuery: String) {
+        if searchQuery != "" {
+            let ResultVC = ResultViewController()
+            ResultVC.queryString = searchQuery.lowercased()
+            ResultVC.modalTransitionStyle = .flipHorizontal
+            ResultVC.modalPresentationStyle = .fullScreen
+            self.present(ResultVC, animated: true)
+        }
+    }
 }
 
 // MARK: UI
@@ -105,7 +115,7 @@ private extension SearchViewController {
 
     }
 }
-
+// MARK: SearchBar
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBar.text!
@@ -125,7 +135,7 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
 }
-
+// MARK: MK Local Search
 extension SearchViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
@@ -138,22 +148,26 @@ extension SearchViewController: MKLocalSearchCompleterDelegate {
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
 //            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+            presentResultView(searchQuery: searchQuery)
         }
     }
 }
-
+// MARK: TableView Delegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var searchResult = ""
         if searchResults.isEmpty {
-            let searchResult = recentSearchList[indexPath.row]
+            searchResult = recentSearchList[indexPath.row].title
 //            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
+           
         } else {
-            let searchResult = searchResults[indexPath.row]
-            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
+            let result = searchResults[indexPath.row]
+            searchResult = result.title
+            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: result.title, subTitle: result.subtitle))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-//            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
         }
+        presentResultView(searchQuery: searchResult)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -181,6 +195,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
+// MARK: TableView Data Source
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.isEmpty ? UserService.shared.numberOfRecentSearch() : searchResults.count
