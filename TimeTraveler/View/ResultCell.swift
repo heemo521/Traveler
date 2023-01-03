@@ -8,31 +8,64 @@
 import UIKit
 
 class ResultCell: UITableViewCell {
-//    @IBOutlet weak var indexLabel: UILabel!
-//    @IBOutlet weak var nameLabel: UILabel!
-//    @IBOutlet weak var addressOneLabel: UILabel!
-//    @IBOutlet weak var addressLabel: UILabel!
-//    @IBOutlet weak var mainImage: UIImageView!
+    static let identifier = "ResultCell"
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var mainImage: UIImageView!
-    @IBOutlet weak var likeStatusImage: UIImageView!
+    let nameLabel: UILabel = {
+        let nameLabel = UILabel()
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.text = "Loading..."
+        return nameLabel
+    }()
+    
+    let addressLabel: UILabel = {
+        let addressLabel = UILabel()
+        addressLabel.numberOfLines = 2
+        addressLabel.text = ""
+        addressLabel.translatesAutoresizingMaskIntoConstraints = false
+        return addressLabel
+    }()
+    
+    let mainImage: UIImageView = {
+        let mainImage = UIImageView()
+        mainImage.image = UIImage(systemName: "doc.text.image")
+        mainImage.translatesAutoresizingMaskIntoConstraints = false
+        mainImage.layer.cornerRadius = 10.0
+        return mainImage
+    }()
+    
+    let likeStatusImage: UIImageView = {
+        let likeStatusImage = UIImageView()
+        likeStatusImage.translatesAutoresizingMaskIntoConstraints = false
+        return likeStatusImage
+    }()
     
     func update(location: Place, index: Int) {
-        mainImage.layer.cornerRadius = 10.0
         if let imageData = location.imageData {
+            //get url as argument and update it here using loadFrom
+//            mainImage.loadFrom(url: <#T##String#>)
             mainImage.image = UIImage(data: imageData)
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
-        let id = location.id!
         
-        if UserService.shared.checkLikedPlace(id: id) {
-            likeStatusImage.image = UIImage(systemName: "heart.fill")
-        } else {
-            likeStatusImage.image = UIImage(systemName: "heart")
-        }
+        let id = location.id!
+        let imageName = UserService.shared.checkLikedPlace(id: id) ? "heart.fill" : "heart"
+        likeStatusImage.image = UIImage(systemName: imageName)
     }
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(addressLabel)
+        contentView.addSubview(mainImage)
+        contentView.addSubview(likeStatusImage)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
 }
