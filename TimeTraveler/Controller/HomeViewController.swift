@@ -25,6 +25,7 @@ class HomeViewController: SuperUIViewController {
         return searchBtn
     }()
     
+    // MARK: Views
     let scrollView = UIScrollView()
     let contentView = UIView()
     let nestedGuideView = UIView()
@@ -37,14 +38,13 @@ class HomeViewController: SuperUIViewController {
     var categoryLabel: UILabel!
     var addressLabel: UILabel!
     var distanceLabel: UILabel!
-    var bottomLabel: UILabel!
     
     let mapView = MKMapView()
     
+    // MARK: State
     var didUpdateMapView = false
     var didUpdateImageView = false
     var fetchedLocationList = [Place]()
-    var imageViewsList = [UIImage]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
     let shared = UserService.shared
@@ -53,13 +53,11 @@ class HomeViewController: SuperUIViewController {
         super.viewDidLoad()
         title = "Home"
         initNavigationBar()
-        view.backgroundColor = .white
-        
         initUI()
         setupScrollView()
         setupLayout()
         configureUI()
-        ////////////////////????
+
         locationManagerInit()
         getLocationDataHTTP()
     }
@@ -83,10 +81,6 @@ class HomeViewController: SuperUIViewController {
         scalingAnimation()
     }
     
-//    @IBAction func likeButtonClicked(_ sender: Any) {
-//
-//    }
-    
     // MARK: - Photos Segue
     @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
         performSegue(withIdentifier: "detailSegue", sender: fetchedLocationList.first!)
@@ -101,6 +95,7 @@ class HomeViewController: SuperUIViewController {
 
 // MARK: - UI
 private extension HomeViewController {
+    // MARK: - Nav
     func initNavigationBar() {
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         navigationItem.titleView = searchButton
@@ -114,7 +109,6 @@ private extension HomeViewController {
     }
     
     @objc private func didTapLikeButton() {
-        print("hello testing like button")
         if let first = fetchedLocationList.first, let id = first.id {
             if shared.checkLikedPlace(id: id) {
                 shared.unlikeAPlace(id: id)
@@ -126,7 +120,10 @@ private extension HomeViewController {
         }
     }
     
+    // MARK: - Core UI
     func initUI() {
+        view.backgroundColor = .white
+        
         imageView = {
            let imageView = UIImageView()
            imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -237,11 +234,6 @@ private extension HomeViewController {
         imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
     }
     
-}
-
-private extension HomeViewController {
-    
-    
     func showSpinner() {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
         imageView.isHidden = true
@@ -297,14 +289,14 @@ private extension HomeViewController {
     func getLocationDataHTTP(lat: Double = 0.0, lng: Double = 0.0) {
         showSpinner()
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        var ll: String?
+        var ll: String!
         if lat != 0.0, lng != 0.0 {
             ll = "\(String(lat)),\(String(lng))"
         } else {
             let (lat, lng) = shared.getLastUserLocation()
             ll = "\(String(lat)),\(String(lng))"
         }
-        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields]
+        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
         let request = buildURLRequest.build(for: "get", with: queryItems, from: "/search")!
         
@@ -346,7 +338,7 @@ private extension HomeViewController {
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    self.getImageDataHTTP(with: url, at: 0)
+                    self.getImageDataHTTP(with: url)
                 }
             } catch let error {
                 print("\(String(describing: error.localizedDescription))")
@@ -354,39 +346,42 @@ private extension HomeViewController {
         })
     }
     
-    func getImageDataHTTP(with imageURL: String, at index: Int) {
-        let url = URL(string: imageURL)!
-        let request = URLRequest(url: url)
+    func getImageDataHTTP(with imageURL: String) {
+        imageView.loadFrom(url: imageURL)
         
-        buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
-            self.fetchedLocationList[index].imageData = data
-            if let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.didUpdateImageView = true // allow animation in the view will appear
-                    self.imageView.image = image
-                    UIView.transition(with: self.imageView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                        self.imageView.isHidden = false
-                    })
-                    self.scalingAnimation()
-                }
-            }
-        })
+//        let url = URL(string: imageURL)!
+//        let request = URLRequest(url: url)
+//
+//        buildURLRequest.httpRequest(for: "image data", request: request, onCompletion: { data in
+//            self.fetchedLocationList[index].imageData = data
+//            if let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    self.didUpdateImageView = true // allow animation in the view will appear
+//                    self.imageView.image = image
+//                    UIView.transition(with: self.imageView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+//                        self.imageView.isHidden = false
+//                    })
+//                    self.scalingAnimation()
+//                }
+//            }
+//        })
     }
     
     func getIconDataHTTP(with imageURL: String) {
-        let url = URL(string: imageURL)!
-        let request = URLRequest(url: url)
-        
-        buildURLRequest.httpRequest(for: "get icon data", request: request, onCompletion: { data in
-            if let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.iconView.image = image
-                    UIView.transition(with: self.iconView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                        self.iconView.isHidden = false
-                    })
-                }
-            }
-        })
+        iconView.loadFrom(url: imageURL)
+//        let url = URL(string: imageURL)!
+//        let request = URLRequest(url: u/rl)
+//
+//        buildURLRequest.httpRequest(for: "get icon data", request: request, onCompletion: { data in
+//            if let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    self.iconView.image = image
+//                    UIView.transition(with: self.iconView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+//                        self.iconView.isHidden = false
+//                    })
+//                }
+//            }
+//        })
     }
 }
 
@@ -439,11 +434,9 @@ extension HomeViewController: CLLocationManagerDelegate {
 // MARK: - Map
 extension HomeViewController {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-//        if !didUpdateMapView {
-            let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
-            mapView.setRegion(regionView, animated: true)
-            didUpdateMapView = true
-//        }
+        let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
+        self.mapView.setRegion(regionView, animated: true)
+        didUpdateMapView = true
     }
 
     func updateMapViewWithCoordinates(at index: Int) {

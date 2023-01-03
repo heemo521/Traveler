@@ -25,6 +25,7 @@ class SuperUIViewController: UIViewController {
         return label
     }
     
+    
     /*
     // MARK: - Navigation
 
@@ -35,4 +36,8 @@ class SuperUIViewController: UIViewController {
     }
     */
 
+}
+
+extension UIImageView {
+    
 }
