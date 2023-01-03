@@ -61,7 +61,6 @@ private extension TempSearchViewController {
         tableView = {
             let tableView = UITableView()
             tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
-            tableView.backgroundColor = .green
             return tableView
         }()
         
@@ -178,16 +177,13 @@ extension TempSearchViewController: UITableViewDelegate {
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let SearchResultVC = segue.destination as? ResultViewController, let searchQuery = sender as? String {
-//            SearchResultVC.queryString = searchQuery.lowercased()
-//        }
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
 }
 
 extension TempSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(searchResults.count)
         return searchResults.isEmpty ? UserService.shared.numberOfRecentSearch() : searchResults.count
     }
     
