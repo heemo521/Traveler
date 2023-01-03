@@ -12,8 +12,9 @@ class ResultCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = UIFont.systemFont(ofSize: CGFloat(20), weight: .bold)
         nameLabel.text = "Loading..."
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         return nameLabel
     }()
     
@@ -21,6 +22,7 @@ class ResultCell: UITableViewCell {
         let addressLabel = UILabel()
         addressLabel.numberOfLines = 2
         addressLabel.text = ""
+        addressLabel.font = UIFont.systemFont(ofSize: CGFloat(14), weight: .light)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         return addressLabel
     }()
@@ -28,8 +30,8 @@ class ResultCell: UITableViewCell {
     let mainImage: UIImageView = {
         let mainImage = UIImageView()
         mainImage.image = UIImage(systemName: "doc.text.image")
-        mainImage.translatesAutoresizingMaskIntoConstraints = false
         mainImage.layer.cornerRadius = 10.0
+        mainImage.translatesAutoresizingMaskIntoConstraints = false
         return mainImage
     }()
     
@@ -40,10 +42,8 @@ class ResultCell: UITableViewCell {
     }()
     
     func update(location: Place, index: Int) {
-        if let imageData = location.imageData {
-            //get url as argument and update it here using loadFrom
-//            mainImage.loadFrom(url: <#T##String#>)
-            mainImage.image = UIImage(data: imageData)
+        if let imageUrl = location.imageUrl {
+            mainImage.loadFrom(url: imageUrl)
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address

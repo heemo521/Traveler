@@ -17,7 +17,7 @@ class Place: NSObject, Decodable {
     var categories: [Category]?
     var geocodes: Geocode?
     var address: Address?
-    var imageData: Data?
+    var imageUrl: String?
     //  var relatedPlaces: [String]? // an object containing parent and child
     // Example:
     //    parent = Los Angeles International Airport
@@ -41,7 +41,6 @@ class Place: NSObject, Decodable {
         categories = try container.decodeIfPresent([Category].self, forKey: .categories)
         geocodes = try container.decodeIfPresent(Geocode.self, forKey: .geocodes)
         address = try container.decodeIfPresent(Address.self, forKey: .address)
-
     }
 }
 

@@ -70,6 +70,7 @@ private extension SearchViewController {
         tableView = {
             let tableView = UITableView()
             tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
+            tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
         
@@ -100,7 +101,7 @@ private extension SearchViewController {
         view.addSubview(editButton)
         view.addSubview(tableView)
 
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+
 
         searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
         searchLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
@@ -191,7 +192,7 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return CGFloat(100)
     }
 }
 

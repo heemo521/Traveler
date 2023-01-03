@@ -13,25 +13,20 @@ class ResultViewController: SuperUIViewController {
   
     var tableView: UITableView!
     var backButton: ActionButton!
-    
-//    @IBOutlet weak var tableView: UITableView!
   
-//    @IBAction func backButtonClicked(_ sender: UIButton) {
-//        navigationController?.popViewController(animated: true)
-//    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
         setupLayout()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if placesAPIList.count == 0 {
-//            getLocationDataHTTP()
-//        } else {
-//            tableView.reloadData()
-//        }
+        if placesAPIList.count == 0 {
+            getLocationDataHTTP()
+        } else {
+            tableView.reloadData()
+        }
     }
 }
 
@@ -40,8 +35,9 @@ private extension ResultViewController {
         view.backgroundColor = .white
         tableView = {
             let tableView = UITableView()
-            tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.backgroundColor = .systemBlue
+            tableView.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
+            tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
         
@@ -90,7 +86,7 @@ private extension ResultViewController {
                 
                 if self.placesAPIList.count == 0 {
                     DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
+                        self.dismiss(animated: true)
                     }
                 }
             }
@@ -98,7 +94,7 @@ private extension ResultViewController {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
                 DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true)
                 }
             }
         })
@@ -114,24 +110,13 @@ private extension ResultViewController {
                 let dataDecoded = try decoder.decode([Image].self, from: data)
                 
                 if let firstImage = dataDecoded.first {
-                    let url = "\(firstImage.prefix!)500x300\(firstImage.suffix!)"
-                    self.getImageDataHTTP(with: url, at: index)
+                    let imageUrl = "\(firstImage.prefix!)500x300\(firstImage.suffix!)"
+                    self.placesAPIList[index].imageUrl = imageUrl
+                    self.tableView.reloadData()
                 }
             }
             catch let error {
                 print("\(String(describing: error.localizedDescription))")
-            }
-        })
-    }
-    
-    func getImageDataHTTP(with imageURL: String, at index: Int) {
-        let url = URL(string: imageURL)!
-        let request = URLRequest(url: url)
-        
-        makeRequest(for: "image data", request: request, onCompletion: { data in
-            self.placesAPIList[index].imageData = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
             }
         })
     }
@@ -141,25 +126,32 @@ private extension ResultViewController {
 extension ResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "detailSegue", sender: placesAPIList[indexPath.row])
+//        performSegue(withIdentifier: "detailSegue", sender: placesAPIList[indexPath.row])
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
-            DetailVC.selectedPlace = selectedPlace
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(200)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
+//            DetailVC.selectedPlace = selectedPlace
+//        }
+//    }
 }
 
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("placeAPILISTCOUNT \(placesAPIList.count)")
         let count = placesAPIList.count
-        return count == 0 ? 5 :count
+        return count == 0 ? 5 : count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell") as! ResultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ResultCell.identifier) as! ResultCell
+        if !placesAPIList.isEmpty {
+            return cell
+        }
         let place = placesAPIList[indexPath.row]
         cell.update(location: place, index: indexPath.row)
         return cell
