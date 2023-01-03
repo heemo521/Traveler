@@ -27,8 +27,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
-    
-    
     var didUpdateMapView = false
     var didUpdateImageView = false
     var fetchedLocationList = [Place]()
