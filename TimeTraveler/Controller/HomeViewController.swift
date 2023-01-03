@@ -93,7 +93,7 @@ private extension HomeViewController {
             searchBtn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
             searchBtn.backgroundColor = .lightGray
             searchBtn.buttonIsClicked { [unowned self] in
-                let searchVC = TempSearchViewController()
+                let searchVC = SearchViewController()
                 searchVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.pushViewController(searchVC, animated: true)
 //                self.present(searchVC, animated: true)

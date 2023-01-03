@@ -169,10 +169,10 @@
             </objects>
             <point key="canvasLocation" x="6763" y="-1515"/>
         </scene>
-        <!--Search View Controller-->
+        <!--Old Search View-->
         <scene sceneID="YjA-Zm-P5w">
             <objects>
-                <viewController id="gnK-cE-36f" customClass="SearchViewController" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gnK-cE-36f" customClass="oldSearchView" customModule="TimeTraveler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kdq-VO-6P7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

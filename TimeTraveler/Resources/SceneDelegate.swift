@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 //        window?.windowScene = windowScene
 //        let rootController = HomeViewController()
-        let rootController = TempSearchViewController()
+        let rootController = SearchViewController()
         
         let navigation = UINavigationController(rootViewController: rootController)
         window?.rootViewController = navigation
