@@ -22,8 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 //        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 //        window?.windowScene = windowScene
-//        let rootController = HomeViewController()
-        let rootController = SearchViewController()
+        let rootController = HomeViewController()
+//        let rootController = SearchViewController()
+//        let rootController = ResultViewController()
         
         let navigation = UINavigationController(rootViewController: rootController)
         window?.rootViewController = navigation

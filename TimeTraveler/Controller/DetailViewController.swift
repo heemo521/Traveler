@@ -8,22 +8,33 @@
 // [] swipable images
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: SuperUIViewController {
     var selectedPlace: Place!
-    var shared = UserService.shared
+    let shared = UserService.shared
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var mainImageView: UIImageView!
-    @IBOutlet weak var likeStatusButton: UIButton!
-    @IBOutlet weak var relatedPlace: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
+    var scrollView = UIScrollView()
+    var guideView = UIView()
+    var mainImageView: UIImageView!
+    var nameLabel: UILabel!
+    var relatedPlace: UILabel!
+    var addressLabel: UILabel!
+    var categoryLabel: UILabel!
+    var likeButton: UIButton!
+    var dismissButton: UIButton!
     
-    @IBAction func dismissButtonClicked(_ sender: UIButton) {
-        self.dismiss(animated: true)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        initUI()
+        setupLayout()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        likeButton.setImage(UIImage(systemName: shared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
+    }
+}
+
+private extension DetailViewController {
+    func initUI() {
         nameLabel.text = selectedPlace.name
         nameLabel.layer.cornerRadius = 10.0
         categoryLabel.text = selectedPlace.categories?.first?.name
@@ -32,23 +43,33 @@ class DetailViewController: UIViewController {
             mainImageView.image = UIImage(data: imageData)
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if shared.checkLikedPlace(id: selectedPlace.id!) {
-            likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
+    
+    func setupScrollView() {
+        
     }
     
-    @IBAction func likeButtonClicked(_ sender: UIButton) {
+    func setupLayout() {
+        //        var mainImageView: UIImageView!
+        //        var nameLabel: UILabel!
+        //        var relatedPlace: UILabel!
+        //        var addressLabel: UILabel!
+        //        var categoryLabel: UILabel!
+        //        var likeButton: UIButton!
+        //        var dismissButton: UIButton!
+    }
+    
+    @objc func dismissButtonClicked(_ sender: UIButton) {
+        self.dismiss(animated: true)
+    }
+    
+    @objc private func likeButtonClicked() {
         let id = selectedPlace.id!
         if shared.checkLikedPlace(id: id) {
           shared.unlikeAPlace(id: id)
-          likeStatusButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         } else {
           shared.likeAPlace(id: id)
-          likeStatusButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
     }
 }
