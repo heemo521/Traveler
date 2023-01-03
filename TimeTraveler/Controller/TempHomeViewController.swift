@@ -39,9 +39,7 @@ class TempHomeViewController: SuperUIViewController {
     var imageViewsList = [UIImage]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
-    
-
-//    let shared = UserService.shared
+    let shared = UserService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
