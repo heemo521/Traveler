@@ -39,8 +39,8 @@ private extension DetailViewController {
         nameLabel.layer.cornerRadius = 10.0
         categoryLabel.text = selectedPlace.categories?.first?.name
         addressLabel.text = selectedPlace.address?.formatted_address
-        if let imageData = selectedPlace.imageData {
-            mainImageView.image = UIImage(data: imageData)
+        if let imageUrl = selectedPlace.imageUrl {
+            mainImageView.loadFrom(url: imageUrl)
         }
     }
     

@@ -18,6 +18,9 @@ class ResultViewController: SuperUIViewController {
         super.viewDidLoad()
         initUI()
         setupLayout()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,12 +46,12 @@ private extension ResultViewController {
         
         backButton = {
             let backButton = ActionButton()
-            backButton.translatesAutoresizingMaskIntoConstraints = false
             backButton.setTitle("Back", for: .normal)
             backButton.setTitleColor(UIColor.systemBlue , for: .normal)
             backButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }
+            backButton.translatesAutoresizingMaskIntoConstraints = false
             return backButton
         }()
     }
@@ -83,10 +86,12 @@ private extension ResultViewController {
                 for (index, place) in self.placesAPIList.enumerated() {
                     self.getImageDetailsHTTP(with: place.id!, at: index)
                 }
-                
-                if self.placesAPIList.count == 0 {
-                    DispatchQueue.main.async {
+                    
+                DispatchQueue.main.async {
+                    if self.placesAPIList.count == 0 {
                         self.dismiss(animated: true)
+                    } else {
+                        self.tableView.reloadData()
                     }
                 }
             }
@@ -112,7 +117,9 @@ private extension ResultViewController {
                 if let firstImage = dataDecoded.first {
                     let imageUrl = "\(firstImage.prefix!)500x300\(firstImage.suffix!)"
                     self.placesAPIList[index].imageUrl = imageUrl
-                    self.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
             catch let error {
@@ -149,7 +156,7 @@ extension ResultViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultCell.identifier) as! ResultCell
-        if !placesAPIList.isEmpty {
+        if placesAPIList.isEmpty {
             return cell
         }
         let place = placesAPIList[indexPath.row]
