@@ -12,6 +12,7 @@ class ResultCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
+        nameLabel.numberOfLines = 2
         nameLabel.font = UIFont.systemFont(ofSize: CGFloat(20), weight: .bold)
         nameLabel.text = "Loading..."
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -67,5 +68,21 @@ class ResultCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+//        contentView.backgroundColor = .green
+        mainImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        mainImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
+        mainImage.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        
+//        likeStatusImage.
+        
+        nameLabel.topAnchor.constraint(equalTo: mainImage.topAnchor).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: 10).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
+        
+        addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        addressLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
+        addressLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor).isActive = true
+        
     }
 }
