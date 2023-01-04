@@ -639,12 +639,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxJ-u3-kEI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7576" y="-2251"/>
+            <point key="canvasLocation" x="7574.8091603053435" y="-2251.4084507042253"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="emA-J6-OsC"/>
-        <segue reference="bGI-lF-IGG"/>
+        <segue reference="1Ao-XS-QgE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="doc.text.image" catalog="system" width="115" height="128"/>

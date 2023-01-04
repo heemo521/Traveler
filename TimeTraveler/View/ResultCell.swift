@@ -32,6 +32,7 @@ class ResultCell: UITableViewCell {
         let mainImage = UIImageView()
         mainImage.image = UIImage(systemName: "doc.text.image")
         mainImage.layer.cornerRadius = 10.0
+        mainImage.layer.masksToBounds = true
         mainImage.translatesAutoresizingMaskIntoConstraints = false
         return mainImage
     }()
@@ -51,7 +52,8 @@ class ResultCell: UITableViewCell {
         
         let id = location.id!
         let imageName = UserService.shared.checkLikedPlace(id: id) ? "heart.fill" : "heart"
-        likeStatusImage.image = UIImage(systemName: imageName)
+        let image = UIImage(systemName: imageName)?.withTintColor(.white, renderingMode: .alwaysTemplate)
+        likeStatusImage.image = image
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -68,13 +70,17 @@ class ResultCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        contentView.backgroundColor = .green
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: CGFloat(10), right: 0))
+        
         mainImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         mainImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
         mainImage.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
-//        likeStatusImage.
+        likeStatusImage.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -60).isActive = true
+        likeStatusImage.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -60).isActive = true
+        likeStatusImage.widthAnchor.constraint(equalTo: mainImage.widthAnchor, multiplier: 0.25).isActive = true
+        likeStatusImage.heightAnchor.constraint(equalTo: likeStatusImage.widthAnchor).isActive = true
         
         nameLabel.topAnchor.constraint(equalTo: mainImage.topAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: 10).isActive = true

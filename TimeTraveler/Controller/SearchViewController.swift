@@ -35,9 +35,11 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.reloadData() // update recent search data after coming from result view
         navigationController?.isNavigationBarHidden = false
         searchBar.becomeFirstResponder()
     }
+    
     
 }
 
@@ -101,8 +103,6 @@ private extension SearchViewController {
         view.addSubview(editButton)
         view.addSubview(tableView)
 
-
-
         searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
         searchLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
        
@@ -120,14 +120,12 @@ private extension SearchViewController {
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBar.text!
-        print(searchQuery)
 
         if searchQuery.count <= 3  {
             editButton.isHidden = recentSearchList.isEmpty
             searchResults = []
             searchLabel.text = "Recent Search"
             searchLabel.textColor = .systemBlue
-            tableView.reloadData()
         } else {
             editButton.isHidden = true
             searchCompleter.queryFragment = searchQuery
@@ -140,7 +138,6 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
-        tableView.reloadData()
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchQuery = searchBar.text!
@@ -148,7 +145,7 @@ extension SearchViewController: MKLocalSearchCompleterDelegate {
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-//            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+            
             presentResultView(searchQuery: searchQuery)
         }
     }
@@ -159,7 +156,7 @@ extension SearchViewController: UITableViewDelegate {
         var searchResult = ""
         if searchResults.isEmpty {
             searchResult = recentSearchList[indexPath.row].title
-//            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
+
            
         } else {
             let result = searchResults[indexPath.row]
