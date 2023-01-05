@@ -97,7 +97,6 @@ private extension HomeViewController {
                 SearchVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.modalTransitionStyle = .flipHorizontal
                 self.navigationController?.pushViewController(SearchVC, animated: true)
-//                self.present(SearchVC, animated: true)
                 
             }
             
@@ -119,6 +118,14 @@ private extension HomeViewController {
             }
         }
     }
+    
+    @objc private func imageViewClicked() {
+        let DetailVC = DetailViewController()
+        DetailVC.selectedPlace = fetchedLocationList.first!
+        DetailVC.modalTransitionStyle = .flipHorizontal
+        DetailVC.modalPresentationStyle = .fullScreen
+        self.present(DetailVC, animated: true)
+    }
 }
 
 // MARK: - UI
@@ -127,17 +134,21 @@ private extension HomeViewController {
         view.backgroundColor = .white
         
         imageView = {
-           let imageView = UIImageView()
-           imageView.translatesAutoresizingMaskIntoConstraints = false
-           imageView.image = UIImage(named: "temp.jpeg")
-           imageView.contentMode = .scaleToFill
+            let imageView = UIImageView()
+            imageView.image = UIImage(named: "temp.jpeg")
+            imageView.contentMode = .scaleToFill
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(self.imageViewClicked))
+            gesture.numberOfTapsRequired = 1
+            imageView.addGestureRecognizer(gesture)
+            imageView.isUserInteractionEnabled = true
+            imageView.translatesAutoresizingMaskIntoConstraints = false
            return imageView
         }()
-        
+    
         iconView = {
             let icon = UIImageView()
-            icon.translatesAutoresizingMaskIntoConstraints = false
             icon.image = UIImage(systemName: "square.and.arrow.up.circle")
+            icon.translatesAutoresizingMaskIntoConstraints = false
             return icon
         }()
         
@@ -146,6 +157,8 @@ private extension HomeViewController {
         addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
         distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
     }
+    
+ 
     
     func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -179,6 +192,7 @@ private extension HomeViewController {
         
         contentView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
+        imageView.addSubview(iconView)
         
         imageContainerView.centerXAnchor.constraint(equalTo: guideView.centerXAnchor).isActive = true
         imageContainerView.centerYAnchor.constraint(equalTo: guideView.centerYAnchor).isActive = true
@@ -189,6 +203,9 @@ private extension HomeViewController {
         imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor).isActive = true
+        
+        iconView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        iconView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(categoryLabel)
@@ -225,7 +242,7 @@ private extension HomeViewController {
         titleLabel.numberOfLines = 2
         addressLabel.numberOfLines = 2
         
-        imageView.layer.cornerRadius = imageView.frame.width / 2
+        imageView.layer.cornerRadius = 500 / 2
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.lightGray.cgColor
         imageView.layer.borderWidth = 3
@@ -238,9 +255,9 @@ private extension HomeViewController {
     
     func showSpinner() {
         // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
-        imageView.isHidden = true
-        scrollView.isHidden = true
-        iconView.isHidden = true
+//        imageView.isHidden = true
+//        scrollView.isHidden = true
+//        iconView.isHidden = true
         // *****Create a loading spinnner here!!!!!
     }
     
@@ -325,7 +342,6 @@ private extension HomeViewController {
                 
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
-                    
                     self.hideSpinner()
                 }
             } catch let error {
@@ -346,6 +362,7 @@ private extension HomeViewController {
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
+                    self.fetchedLocationList.first?.imageUrl = url
                     self.imageView.loadFrom(url: url)
                 }
             } catch let error {

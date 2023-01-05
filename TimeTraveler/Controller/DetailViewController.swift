@@ -25,8 +25,8 @@ class DetailViewController: SuperUIViewController {
     var relatedPlaceLabel: UILabel!
     var relatedPlaceText: UITextView!
     
-    var likeButton: UIButton!
-    var dismissButton: UIButton!
+    var likeButton: ActionButton!
+    var dismissButton: ActionButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,7 @@ class DetailViewController: SuperUIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        scrollView.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -49,6 +50,8 @@ private extension DetailViewController {
         
         collectionView = {
             let layout = UICollectionViewFlowLayout()
+            layout.minimumLineSpacing = 0
+            layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             let size = UIScreen.main.bounds
             layout.itemSize = CGSize(width: size.width, height: size.height * 0.6)
@@ -99,7 +102,6 @@ private extension DetailViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        collectionView.backgroundColor = .blue
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -111,7 +113,6 @@ private extension DetailViewController {
         scrollView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        contentView.backgroundColor = .green
         contentView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor, constant: 40).isActive = true
         contentView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor, constant: -40).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
@@ -120,15 +121,32 @@ private extension DetailViewController {
         contentView.heightAnchor.constraint(equalToConstant: 600).isActive = true
         
         likeButton = {
-            let likeButton = UIButton()
+            let likeButton = ActionButton()
+            likeButton.buttonIsClicked {
+                let id = self.selectedPlace.id!
+                if self.shared.checkLikedPlace(id: id) {
+                    self.shared.unlikeAPlace(id: id)
+                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                } else {
+                    self.shared.likeAPlace(id: id)
+                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                }
+            }
             likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             likeButton.setTitle("Like", for: .normal)
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
         dismissButton = {
-            let dismissButton = UIButton()
+            let dismissButton = ActionButton()
+            dismissButton.buttonIsClicked {
+                self.dismiss(animated: true)
+            }
             dismissButton.setTitle("Dismiss", for: .normal)
+            dismissButton.setTitleColor(UIColor.systemBlue , for: .normal)
+            dismissButton.backgroundColor = UIColor(cgColor: CGColor(red: 232/255, green: 232/255, blue: 235/255, alpha: 0.5))
+            dismissButton.layer.cornerRadius = 10.0
+            dismissButton.layer.masksToBounds = true
             dismissButton.translatesAutoresizingMaskIntoConstraints = false
             return dismissButton
         }()
@@ -142,8 +160,7 @@ private extension DetailViewController {
         addressText.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
 //        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
-
-
+        
 //        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
         contentView.addSubview(categoryText)
@@ -152,24 +169,23 @@ private extension DetailViewController {
         contentView.addSubview(relatedPlaceLabel)
 //        contentView.addSubview(relatedPlaceText)
         contentView.addSubview(likeButton)
-        contentView.addSubview(dismissButton)
+        view.addSubview(dismissButton)
  
+        dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
-    
-    @objc func dismissButtonClicked(_ sender: UIButton) {
-        self.dismiss(animated: true)
-    }
-    
-    @objc private func likeButtonClicked() {
-        let id = selectedPlace.id!
-        if shared.checkLikedPlace(id: id) {
-          shared.unlikeAPlace(id: id)
-            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        } else {
-          shared.likeAPlace(id: id)
-            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }
-    }
+}
+
+extension DetailViewController: UIScrollViewDelegate {
+//    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+//        <#code#>
+//    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        <#code#>
+//    }
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//     
+//    }
 }
 
 extension DetailViewController: UICollectionViewDelegate {

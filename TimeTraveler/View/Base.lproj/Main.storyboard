@@ -94,6 +94,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btD-hD-RsH">
                                 <rect key="frame" x="154.66666666666666" y="783" width="84" height="35"/>
+                                <color key="backgroundColor" red="0.90980392156862744" green="0.91123729939999998" blue="0.92220073940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="gray" title="Dismiss"/>
                                 <connections>
