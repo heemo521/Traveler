@@ -33,6 +33,19 @@ class ResultViewController: SuperUIViewController {
     }
 }
 
+// MARK: Navigation
+private extension ResultViewController {
+    @objc private func presentDetailView(index: Int) {
+        guard placesAPIList.count > 0 else { return }
+        let DetailVC = DetailViewController()
+        DetailVC.selectedPlace = placesAPIList[index]
+        DetailVC.modalTransitionStyle = .flipHorizontal
+        DetailVC.modalPresentationStyle = .fullScreen
+        self.present(DetailVC, animated: true)
+    }
+}
+
+// MARK: UI
 private extension ResultViewController {
     func initUI() {
         view.backgroundColor = .white
@@ -73,7 +86,7 @@ private extension ResultViewController {
 private extension ResultViewController {
     func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        let queryItems = ["near" : queryString!.lowercased(),"limit": "25", "categories": "16000", "fields": defaultFields]
+        let queryItems = ["near" : queryString!.lowercased(),"limit": "15", "categories": "16000", "fields": defaultFields]
         
         let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
@@ -133,23 +146,17 @@ private extension ResultViewController {
 extension ResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        performSegue(withIdentifier: "detailSegue", sender: placesAPIList[indexPath.row])
+        presentDetailView(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(200)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
-//            DetailVC.selectedPlace = selectedPlace
-//        }
-//    }
 }
 
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("placeAPILISTCOUNT \(placesAPIList.count)")
         let count = placesAPIList.count
         return count == 0 ? 5 : count
     }

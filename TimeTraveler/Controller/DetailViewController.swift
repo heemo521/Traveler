@@ -12,7 +12,7 @@ class DetailViewController: SuperUIViewController {
     var selectedPlace: Place!
     let shared = UserService.shared
         
-    var collectionView = UICollectionView()
+    var collectionView: UICollectionView!
     var mainImageView: UIImageView!
     
     let scrollView = UIScrollView()
@@ -31,6 +31,7 @@ class DetailViewController: SuperUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
+        setupSubviews()
         setupLayout()
         
         collectionView.delegate = self
@@ -46,19 +47,51 @@ private extension DetailViewController {
     func initUI() {
         view.backgroundColor = .white
         
+        collectionView = {
+            let layout = UICollectionViewFlowLayout()
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            let size = UIScreen.main.bounds
+            layout.itemSize = CGSize(width: size.width, height: size.height * 0.6)
+            layout.scrollDirection = .horizontal
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.isPagingEnabled = true
+            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
+            collectionView.alwaysBounceVertical = false
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            return collectionView
+        }()
+        
         nameLabel = createLabel(with: selectedPlace.name!, size: 30, weight: .bold)
         nameLabel.layer.cornerRadius = 10.0
         
         categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
-        categoryText.text = selectedPlace.categories?.first?.name ?? "None"
         addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
-        addressText.text = selectedPlace.address?.formatted_address ?? "Not available"
         relatedPlaceLabel = createLabel(with: "Related Place", size: 16, weight: .semibold)
+        
+        categoryText = {
+            let categoryText = UITextView()
+            if let category = selectedPlace.categories?.first?.name {
+                categoryText.text = category
+            } else {
+                categoryText.text = "None"
+            }
+            return categoryText
+        }()
+        addressText = {
+            let addressText = UITextView()
+            if let address = selectedPlace.address?.formatted_address {
+                addressText.text = address
+            } else {
+                addressText.text = "Not available"
+            }
+            return addressText
+        }()
+        
 //        relatedPlaceText.text = selectedPlace.
     }
     
     func setupSubviews() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+     
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -85,6 +118,20 @@ private extension DetailViewController {
         contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -80).isActive = true
         contentView.heightAnchor.constraint(equalToConstant: 600).isActive = true
+        
+        likeButton = {
+            let likeButton = UIButton()
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            likeButton.setTitle("Like", for: .normal)
+            likeButton.translatesAutoresizingMaskIntoConstraints = false
+            return likeButton
+        }()
+        dismissButton = {
+            let dismissButton = UIButton()
+            dismissButton.setTitle("Dismiss", for: .normal)
+            dismissButton.translatesAutoresizingMaskIntoConstraints = false
+            return dismissButton
+        }()
     }
     
     func setupLayout() {
@@ -94,9 +141,8 @@ private extension DetailViewController {
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressText.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
-        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+//        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
+
 
 //        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
@@ -104,7 +150,7 @@ private extension DetailViewController {
         contentView.addSubview(addressLabel)
         contentView.addSubview(addressText)
         contentView.addSubview(relatedPlaceLabel)
-        contentView.addSubview(relatedPlaceText)
+//        contentView.addSubview(relatedPlaceText)
         contentView.addSubview(likeButton)
         contentView.addSubview(dismissButton)
  
@@ -127,20 +173,23 @@ private extension DetailViewController {
 }
 
 extension DetailViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Selected a picture")
+    }
 }
 
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
+        if let imageUrl = selectedPlace.imageUrl {
+            cell.imageView.loadFrom(url: imageUrl)
+        }
+        return cell
     }
-    
 }
-extension DetailViewController: UICollectionViewDelegateFlowLayout {
-    
-}
+
