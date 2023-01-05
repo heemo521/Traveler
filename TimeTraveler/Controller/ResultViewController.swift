@@ -131,7 +131,9 @@ private extension ResultViewController {
                     let imageUrl = "\(firstImage.prefix!)500x300\(firstImage.suffix!)"
                     self.placesAPIList[index].imageUrl = imageUrl
                     DispatchQueue.main.async {
-                        self.tableView.reloadData()
+                        let indexPath = IndexPath(row: index, section: 0)
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+                        
                     }
                 }
             }
