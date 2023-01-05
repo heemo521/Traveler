@@ -177,15 +177,16 @@ private extension DetailViewController {
 }
 
 extension DetailViewController: UIScrollViewDelegate {
-//    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-//        <#code#>
-//    }
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        <#code#>
-//    }
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//     
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            self.dismissButton.isHidden = true
+        })
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            self.dismissButton.isHidden = false
+        })
+    }
 }
 
 extension DetailViewController: UICollectionViewDelegate {
