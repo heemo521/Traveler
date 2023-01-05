@@ -126,15 +126,17 @@ private extension ResultViewController {
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
-                
-                if let firstImage = dataDecoded.first {
-                    let imageUrl = "\(firstImage.prefix!)500x300\(firstImage.suffix!)"
-                    self.placesAPIList[index].imageUrl = imageUrl
-                    DispatchQueue.main.async {
-                        let indexPath = IndexPath(row: index, section: 0)
-                        self.tableView.reloadRows(at: [indexPath], with: .fade)
-                        
+                if dataDecoded.count > 0 {
+                    for image in dataDecoded {
+                        let imageUrl = "\(image.prefix!)500x300\(image.suffix!)"
+                        self.placesAPIList[index].imageUrls.append(imageUrl)
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    
                 }
             }
             catch let error {

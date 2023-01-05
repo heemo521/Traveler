@@ -249,15 +249,15 @@ extension DetailViewController: UICollectionViewDelegate {
 
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return selectedPlace.imageUrls.count
     }
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        if let imageUrl = selectedPlace.imageUrl {
-            cell.imageView.loadFrom(url: imageUrl)
-        }
+        let imageUrl = selectedPlace.imageUrls[indexPath.row]
+        cell.imageView.loadFrom(url: imageUrl)
+        
         return cell
     }
 }

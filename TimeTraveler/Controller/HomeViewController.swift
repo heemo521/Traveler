@@ -350,7 +350,7 @@ private extension HomeViewController {
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    self.fetchedLocationList.first?.imageUrl = url
+                    self.fetchedLocationList.first?.imageUrls.append(url)
                     self.imageView.loadFrom(url: url)
                 }
             } catch let error {
