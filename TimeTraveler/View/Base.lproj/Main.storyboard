@@ -10,34 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="Tib-7s-Fcw">
-            <objects>
-                <viewController id="9UF-WW-WAS" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="818-63-7z6">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l07-IP-kb4">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <standardMapConfiguration key="preferredConfiguration"/>
-                            </mapView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="POt-hC-iT6"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="l07-IP-kb4" secondAttribute="bottom" id="dO4-36-EKl"/>
-                            <constraint firstItem="l07-IP-kb4" firstAttribute="trailing" secondItem="POt-hC-iT6" secondAttribute="trailing" id="rjF-Qu-Foq"/>
-                            <constraint firstItem="l07-IP-kb4" firstAttribute="leading" secondItem="POt-hC-iT6" secondAttribute="leading" id="vNL-vc-8Dg"/>
-                            <constraint firstItem="l07-IP-kb4" firstAttribute="top" secondItem="818-63-7z6" secondAttribute="top" id="wgL-gO-XEA"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="tSJ-PQ-wce"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cC6-Jq-214" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8384" y="-2251"/>
-        </scene>
         <!--Detail View Controller-->
         <scene sceneID="r8t-dv-sbf">
             <objects>

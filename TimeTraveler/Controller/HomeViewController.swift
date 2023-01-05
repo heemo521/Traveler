@@ -16,7 +16,7 @@ class HomeViewController: SuperUIViewController {
     // MARK: Views
     let scrollView = UIScrollView()
     let contentView = UIView()
-    let nestedGuideView = UIView()
+    let guideView = UIView()
 
     let imageContainerView = UIView()
     var imageView: UIImageView!
@@ -150,10 +150,10 @@ private extension HomeViewController {
     func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        nestedGuideView.translatesAutoresizingMaskIntoConstraints = false
+        guideView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(scrollView)
-        scrollView.addSubview(nestedGuideView)
+        scrollView.addSubview(guideView)
         scrollView.addSubview(contentView)
         
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -162,10 +162,10 @@ private extension HomeViewController {
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        nestedGuideView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        nestedGuideView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        nestedGuideView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        nestedGuideView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        guideView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        guideView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        guideView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        guideView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
         
         contentView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor, constant: 40).isActive = true
         contentView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor, constant: -40).isActive = true
@@ -180,9 +180,9 @@ private extension HomeViewController {
         contentView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
         
-        imageContainerView.centerXAnchor.constraint(equalTo: nestedGuideView.centerXAnchor).isActive = true
-        imageContainerView.centerYAnchor.constraint(equalTo: nestedGuideView.centerYAnchor).isActive = true
-        imageContainerView.widthAnchor.constraint(equalTo: nestedGuideView.heightAnchor, multiplier: 0.7).isActive = true
+        imageContainerView.centerXAnchor.constraint(equalTo: guideView.centerXAnchor).isActive = true
+        imageContainerView.centerYAnchor.constraint(equalTo: guideView.centerYAnchor).isActive = true
+        imageContainerView.widthAnchor.constraint(equalTo: guideView.heightAnchor, multiplier: 0.7).isActive = true
         imageContainerView.heightAnchor.constraint(equalTo: imageContainerView.widthAnchor).isActive = true
         
         imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor).isActive = true
