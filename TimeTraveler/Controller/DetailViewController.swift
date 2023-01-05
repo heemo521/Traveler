@@ -7,6 +7,7 @@
 
 // [] swipable images
 import UIKit
+import MapKit
 
 class DetailViewController: SuperUIViewController {
     var selectedPlace: Place!
@@ -24,6 +25,8 @@ class DetailViewController: SuperUIViewController {
     var addressText: UITextView!
     var relatedPlaceLabel: UILabel!
     var relatedPlaceText: UITextView!
+    
+    let mapView = MKMapView()
     
     var likeButton: ActionButton!
     var dismissButton: ActionButton!
@@ -73,15 +76,25 @@ private extension DetailViewController {
         
         categoryText = {
             let categoryText = UITextView()
+//            categoryText.textColor = .black
+            categoryText.isEditable = false
+            categoryText.isScrollEnabled = false
+            categoryText.textAlignment = .left
+            categoryText.font = UIFont.boldSystemFont(ofSize: 12)
             if let category = selectedPlace.categories?.first?.name {
                 categoryText.text = category
             } else {
-                categoryText.text = "None"
+                categoryText.text = "Loading"
             }
             return categoryText
         }()
+        
         addressText = {
             let addressText = UITextView()
+            addressText.isEditable = false
+            addressText.isScrollEnabled = false
+            addressText.textAlignment = .left
+            addressText.font = UIFont.boldSystemFont(ofSize: 12)
             if let address = selectedPlace.address?.formatted_address {
                 addressText.text = address
             } else {
@@ -89,8 +102,51 @@ private extension DetailViewController {
             }
             return addressText
         }()
-        
-//        relatedPlaceText.text = selectedPlace.
+        relatedPlaceText = {
+            let relatedPlaceText = UITextView()
+            relatedPlaceText.isEditable = false
+            relatedPlaceText.isScrollEnabled = false
+            relatedPlaceText.textAlignment = .left
+            relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 12)
+            relatedPlaceText.text = "None"
+//            if false {
+//                relatedPlaceText.text = selectedPlace.address?.formatted_address // change here
+//            } else {
+//                relatedPlaceText.text = "None"
+//            }
+            return relatedPlaceText
+        }()
+        likeButton = {
+            let likeButton = ActionButton()
+            likeButton.buttonIsClicked {
+                let id = self.selectedPlace.id!
+                if self.shared.checkLikedPlace(id: id) {
+                    self.shared.unlikeAPlace(id: id)
+                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                } else {
+                    self.shared.likeAPlace(id: id)
+                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                }
+            }
+            likeButton.setTitle(" Like", for: .normal)
+            likeButton.setTitleColor(.systemBlue, for: .normal)
+            likeButton.setTitleColor(.darkGray, for: .selected)
+            likeButton.translatesAutoresizingMaskIntoConstraints = false
+            return likeButton
+        }()
+        dismissButton = {
+            let dismissButton = ActionButton()
+            dismissButton.buttonIsClicked {
+                self.dismiss(animated: true)
+            }
+            dismissButton.setTitle("Dismiss", for: .normal)
+            dismissButton.setTitleColor(UIColor.systemBlue , for: .normal)
+            dismissButton.backgroundColor = UIColor(cgColor: CGColor(red: 232/255, green: 232/255, blue: 235/255, alpha: 0.5))
+            dismissButton.layer.cornerRadius = 10.0
+            dismissButton.layer.masksToBounds = true
+            dismissButton.translatesAutoresizingMaskIntoConstraints = false
+            return dismissButton
+        }()
     }
     
     func setupSubviews() {
@@ -115,41 +171,10 @@ private extension DetailViewController {
         
         contentView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor, constant: 40).isActive = true
         contentView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor, constant: -40).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 35).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -80).isActive = true
-        contentView.heightAnchor.constraint(equalToConstant: 600).isActive = true
-        
-        likeButton = {
-            let likeButton = ActionButton()
-            likeButton.buttonIsClicked {
-                let id = self.selectedPlace.id!
-                if self.shared.checkLikedPlace(id: id) {
-                    self.shared.unlikeAPlace(id: id)
-                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                } else {
-                    self.shared.likeAPlace(id: id)
-                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                }
-            }
-            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            likeButton.setTitle("Like", for: .normal)
-            likeButton.translatesAutoresizingMaskIntoConstraints = false
-            return likeButton
-        }()
-        dismissButton = {
-            let dismissButton = ActionButton()
-            dismissButton.buttonIsClicked {
-                self.dismiss(animated: true)
-            }
-            dismissButton.setTitle("Dismiss", for: .normal)
-            dismissButton.setTitleColor(UIColor.systemBlue , for: .normal)
-            dismissButton.backgroundColor = UIColor(cgColor: CGColor(red: 232/255, green: 232/255, blue: 235/255, alpha: 0.5))
-            dismissButton.layer.cornerRadius = 10.0
-            dismissButton.layer.masksToBounds = true
-            dismissButton.translatesAutoresizingMaskIntoConstraints = false
-            return dismissButton
-        }()
+
     }
     
     func setupLayout() {
@@ -159,7 +184,8 @@ private extension DetailViewController {
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressText.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
-//        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
+        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         
 //        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
@@ -167,10 +193,35 @@ private extension DetailViewController {
         contentView.addSubview(addressLabel)
         contentView.addSubview(addressText)
         contentView.addSubview(relatedPlaceLabel)
-//        contentView.addSubview(relatedPlaceText)
+        contentView.addSubview(relatedPlaceText)
+        contentView.addSubview(mapView)
         contentView.addSubview(likeButton)
         view.addSubview(dismissButton)
- 
+        
+        categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoryText.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10).isActive = true
+        categoryText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        addressLabel.topAnchor.constraint(equalTo: categoryText.bottomAnchor, constant: 30).isActive = true
+        addressLabel.leadingAnchor.constraint(equalTo: categoryText.leadingAnchor).isActive = true
+        addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
+        addressText.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor).isActive = true
+        relatedPlaceLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 30).isActive = true
+        relatedPlaceLabel.leadingAnchor.constraint(equalTo: addressText.leadingAnchor).isActive = true
+        relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
+        relatedPlaceText.leadingAnchor.constraint(equalTo: relatedPlaceLabel.leadingAnchor).isActive = true
+        
+        mapView.topAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 50).isActive = true
+        mapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        
+        contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 50).isActive = true
+        
+        likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
+        likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
@@ -182,6 +233,7 @@ extension DetailViewController: UIScrollViewDelegate {
             self.dismissButton.isHidden = true
         })
     }
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.dismissButton.isHidden = false

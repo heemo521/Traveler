@@ -70,18 +70,6 @@ class HomeViewController: SuperUIViewController {
         scalingAnimation()
     }
     
-    
-    
-    // MARK: - Photos Segue
-//    @IBAction func imageTab(_ sender: UITapGestureRecognizer) {
-//        performSegue(withIdentifier: "detailSegue", sender: fetchedLocationList.first!)
-//    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let DetailVC = segue.destination as? DetailViewController, let selectedPlace = sender as? Place {
-//            DetailVC.selectedPlace = selectedPlace
-//        }
-//    }
 }
 
 // MARK: Navigation
@@ -121,7 +109,7 @@ private extension HomeViewController {
     
     @objc private func imageViewClicked() {
         let DetailVC = DetailViewController()
-        DetailVC.selectedPlace = fetchedLocationList.first!
+        DetailVC.selectedPlace = fetchedLocationList.first
         DetailVC.modalTransitionStyle = .flipHorizontal
         DetailVC.modalPresentationStyle = .fullScreen
         self.present(DetailVC, animated: true)
