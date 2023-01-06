@@ -78,10 +78,11 @@ private extension SearchViewController {
 // MARK: UI
 private extension SearchViewController {
     func initUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         tableView = {
             let tableView = UITableView()
             tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
+            tableView.backgroundColor = .tertiarySystemBackground
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
@@ -194,7 +195,7 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(100)
+        return SearchCell.rowHeight
     }
 }
 
@@ -206,6 +207,7 @@ extension SearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier) as! SearchCell
+        cell.backgroundColor = SearchCell.backgroundColor
         if searchResults.isEmpty {
             let recentSearch = recentSearchList[indexPath.row]
             cell.update(location: recentSearch)

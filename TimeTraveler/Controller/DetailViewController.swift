@@ -22,6 +22,10 @@ class DetailViewController: SuperUIViewController {
     var selectedPlace: Place!
     let shared = UserService.shared
     
+    var mainBackgroundColor: UIColor = .systemBackground
+    var contentBackgroundColor: UIColor = .secondarySystemBackground
+    var hightlightColor: UIColor = .systemPurple
+    
     var collectionView: UICollectionView!
     var mainImageView: UIImageView!
     
@@ -71,7 +75,8 @@ private extension DetailViewController {
     }
     
     func initUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = mainBackgroundColor
+        scrollView.backgroundColor = contentBackgroundColor
         
         likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
         
@@ -109,6 +114,7 @@ private extension DetailViewController {
             } else {
                 categoryText.text = "Loading"
             }
+            categoryText.backgroundColor = contentBackgroundColor
             categoryText.translatesAutoresizingMaskIntoConstraints = false
             return categoryText
         }()
@@ -124,6 +130,7 @@ private extension DetailViewController {
             } else {
                 addressText.text = "Not available"
             }
+            addressText.backgroundColor = contentBackgroundColor
             addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
@@ -134,11 +141,7 @@ private extension DetailViewController {
             relatedPlaceText.textAlignment = .left
             relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 12)
             relatedPlaceText.text = "None"
-//            if false {
-//                relatedPlaceText.text = selectedPlace.address?.formatted_address // change here
-//            } else {
-//                relatedPlaceText.text = "None"
-//            }
+            relatedPlaceText.backgroundColor = contentBackgroundColor
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
         }()
@@ -149,7 +152,7 @@ private extension DetailViewController {
             configuration.buttonSize = .medium
             configuration.title = "Like"
             configuration.image = UIImage(systemName: "heart")
-            configuration.background.backgroundColor = .purple
+            configuration.background.backgroundColor = hightlightColor
             likeButton.configuration = configuration
             likeButton.configurationUpdateHandler = {
                 [unowned self] button in
@@ -165,7 +168,7 @@ private extension DetailViewController {
             let dismissButton = ActionButton()
             dismissButton.configure(title: "Dismiss", padding: 10, configuration: .gray())
             dismissButton.configuration?.buttonSize = .large
-            dismissButton.configuration?.baseForegroundColor = .purple
+            dismissButton.configuration?.baseForegroundColor = hightlightColor
             dismissButton.configurationUpdateHandler = {
                 button in
                 var config = button.configuration
@@ -234,6 +237,8 @@ private extension DetailViewController {
         addressLabel.leadingAnchor.constraint(equalTo: categoryText.leadingAnchor).isActive = true
         addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
         addressText.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor).isActive = true
+        addressText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         relatedPlaceLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 30).isActive = true
         relatedPlaceLabel.leadingAnchor.constraint(equalTo: addressText.leadingAnchor).isActive = true
         relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true

@@ -28,6 +28,7 @@ class ResultViewController: SuperUIViewController {
     var placesAPIList = [Place]()
     var useUserLocation: Bool = false
     var queryString: String!
+    
     private var searchLimit: String = "10" {
         didSet {
             limitFilterButton.setNeedsUpdateConfiguration()
@@ -39,6 +40,11 @@ class ResultViewController: SuperUIViewController {
             sortFilterButton.setNeedsUpdateConfiguration()
         }
     }
+    
+    var mainBackgroundColor: UIColor = .systemBackground
+    var contentBackgroundColor: UIColor = .secondarySystemBackground
+    var hightlightColor: UIColor = .systemPurple
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +81,10 @@ private extension ResultViewController {
 private extension ResultViewController {
     
     func initUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = mainBackgroundColor
         tableView = {
             let tableView = UITableView()
-            tableView.backgroundColor = .lightGray
+            tableView.backgroundColor = .tertiarySystemBackground
             tableView.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
@@ -89,7 +95,7 @@ private extension ResultViewController {
             backButton.configure(title: "Back", padding: 10, configuration: .gray())
             var configuration = backButton.configuration
             configuration?.buttonSize = .large
-            configuration?.baseForegroundColor = .purple
+            configuration?.baseForegroundColor = hightlightColor
             backButton.configuration = configuration
             backButton.buttonIsClicked {
                 self.dismiss(animated: true)
@@ -146,8 +152,8 @@ private extension ResultViewController {
                 print("the filter is on!")
             })
             var configuration = UIButton.Configuration.plain()
-            configuration.baseForegroundColor = .purple
-            configuration.baseBackgroundColor = .purple
+            configuration.baseForegroundColor = hightlightColor
+            configuration.baseBackgroundColor = hightlightColor
             let likedPlacesFilterButton = UIButton(configuration: configuration, primaryAction: likedFilterAction)
             likedPlacesFilterButton.changesSelectionAsPrimaryAction = true
 //            likedPlacesFilterButton.isSelected = UserService.shared.searchFilter.likedPlacesOnly
@@ -271,6 +277,8 @@ extension ResultViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultCell.identifier) as! ResultCell
+        cell.backgroundColor = ResultCell.backgroundColor
+        
         if placesAPIList.isEmpty {
             return cell
         }

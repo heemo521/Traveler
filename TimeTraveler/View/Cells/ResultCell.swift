@@ -10,6 +10,7 @@ import UIKit
 class ResultCell: UITableViewCell {
     static let identifier = "ResultCell"
     static let rowHeight = CGFloat(200)
+    static let backgroundColor: UIColor = .secondarySystemBackground
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()

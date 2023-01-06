@@ -11,6 +11,7 @@ import CoreLocation
 
 
 // [] - Refactor & Final Clean up
+// [] - Create a global background color property when refatoring
 // [x] - Fetch correct image size based on the imageview's frame width & height
 // [x] - Searchbar style
 // [x] - Draw direction to the place and display distance
@@ -30,7 +31,7 @@ class HomeViewController: SuperUIViewController {
     
     // MARK: Views
     let scrollView = UIScrollView()
-    let contentView = UIView()
+    var contentView = UIView()
     let guideView = UIView()
 
     var imageContainerView: UIView!
@@ -55,6 +56,10 @@ class HomeViewController: SuperUIViewController {
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
     let shared = UserService.shared
+    
+    var mainBackgroundColor: UIColor = .systemBackground
+    var contentBackgroundColor: UIColor = .secondarySystemBackground
+    var hightlightColor: UIColor = .systemPurple
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +103,7 @@ private extension HomeViewController {
             let searchBtn = ActionButton()
             let image = UIImage(systemName: "magnifyingglass")
             searchBtn.configure(title: "Search destination", image: image!, padding: 5.0, configuration: .gray())
+            searchBtn.configuration?.baseForegroundColor = hightlightColor
             searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()
@@ -135,13 +141,14 @@ private extension HomeViewController {
 // MARK: - UI
 private extension HomeViewController {
     func initUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
+        scrollView.backgroundColor = contentBackgroundColor
         
         imageContainerView = {
             let imageContainerView = UIView()
-            imageContainerView.backgroundColor = .systemBlue
-            imageContainerView.layer.borderWidth = 3
-            imageContainerView.layer.borderColor = UIColor.gray.cgColor
+            imageContainerView.backgroundColor = .tertiarySystemBackground
+            imageContainerView.layer.borderWidth = 10
+            imageContainerView.layer.borderColor = hightlightColor.cgColor
             imageContainerView.translatesAutoresizingMaskIntoConstraints = false
             return imageContainerView
         }()
@@ -175,7 +182,7 @@ private extension HomeViewController {
             let likeButton = ActionButton()
             let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
             likeButton.setImage(image, for: .normal)
-            likeButton.tintColor = .white
+            likeButton.tintColor = hightlightColor
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             likeButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
             likeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -202,6 +209,7 @@ private extension HomeViewController {
         }()
         categoryText = {
             let categoryText = UITextView()
+            categoryText.backgroundColor = contentBackgroundColor
             categoryText.isEditable = false
             categoryText.isScrollEnabled = false
             categoryText.textAlignment = .left
@@ -223,6 +231,7 @@ private extension HomeViewController {
             addressText.textAlignment = .left
             addressText.font = UIFont.boldSystemFont(ofSize: 12)
             addressText.text = "..."
+            addressText.backgroundColor = contentBackgroundColor
             addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
@@ -238,6 +247,7 @@ private extension HomeViewController {
             distanceText.textAlignment = .left
             distanceText.font = UIFont.boldSystemFont(ofSize: 12)
             distanceText.text = "..."
+            distanceText.backgroundColor = contentBackgroundColor
             distanceText.translatesAutoresizingMaskIntoConstraints = false
             return distanceText
         }()
@@ -495,7 +505,9 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
+        
         shared.saveLastUserLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        print(location.coordinate.longitude, location.coordinate.latitude)
         self.getLocationDataHTTP()
         
         let coord = location.coordinate
@@ -518,7 +530,7 @@ extension HomeViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.systemPurple
+        renderer.strokeColor = hightlightColor
         renderer.lineWidth = 3.0
         return renderer
     }

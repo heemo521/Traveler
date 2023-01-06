@@ -10,6 +10,8 @@ import MapKit
 
 class SearchCell: UITableViewCell {
     static let identifier = "SearchCell"
+    static let rowHeight = CGFloat(120)
+    static let backgroundColor: UIColor = .secondarySystemBackground
     
     let cellImageView: UIImageView = {
         let cellImageView = UIImageView()
@@ -58,6 +60,7 @@ class SearchCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0))
+      
         cellImageView.translatesAutoresizingMaskIntoConstraints = false
         
         cellImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
