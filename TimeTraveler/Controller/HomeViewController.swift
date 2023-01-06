@@ -9,9 +9,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-// [] - Searchbar style
-// [] - Liked Page using resultview and detail view
+
 // [] - Refactor & Final Clean up
+// [] - OPT: Liked Page using resultview and detail view
+
+// [x] - Searchbar style
 // [x] - Draw direction to the place and display distance
 // [x] - texts and labels
 // [x] - Clean up transition animations
@@ -66,7 +68,6 @@ class HomeViewController: SuperUIViewController {
         locationManagerInit()
         
         mapView.delegate = self
-        mapView.showsUserLocation = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -95,20 +96,20 @@ private extension HomeViewController {
     func initNavigationBar() {
         searchButton = {
             let searchBtn = ActionButton()
-            searchBtn.setTitle("Search destination", for: .normal)
-            searchBtn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-            searchBtn.backgroundColor = .lightGray
-            searchBtn.buttonIsClicked { [unowned self] in
-                let SearchVC = SearchViewController()
-                SearchVC.modalPresentationStyle = .fullScreen
-                self.navigationController?.modalTransitionStyle = .flipHorizontal
-                self.navigationController?.pushViewController(SearchVC, animated: true)
-            }
+            let image = UIImage(systemName: "magnifyingglass")
+            searchBtn.configure(title: "Search destination", image: image!, padding: 10.0, corner: 10.0)
+            searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()
         
         navigationItem.titleView = searchButton
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapLikeButton))
+    }
+    
+    @objc private func searchButtonClicked() {
+        let SearchVC = SearchViewController()
+        SearchVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.modalTransitionStyle = .flipHorizontal
+        self.navigationController?.pushViewController(SearchVC, animated: true)
     }
     
     @objc private func didTapLikeButton() {
@@ -496,15 +497,7 @@ extension HomeViewController: CLLocationManagerDelegate {
 
 // MARK: - Map
 extension HomeViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        print("updating user location")
-//        let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
-//        self.mapView.setRegion(regionView, animated: true)
-    }
-
     func updateMapViewWithCoordinates(lat: Double, lng: Double) {
-//        guard didUpdateMapView == false else { return }
-
         let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         
         mapView.addAnnotation(LocationAnnotation(title: "Current Location", coordinate: currentLocation.coordinate))
@@ -530,7 +523,7 @@ extension HomeViewController: MKMapViewDelegate {
         directionRequest.transportType = .automobile
         
         let directions = MKDirections(request: directionRequest)
-        directions.calculate(completionHandler: {(response, error) in
+        directions.calculate() {(response, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -538,8 +531,8 @@ extension HomeViewController: MKMapViewDelegate {
             if let response = response {
                 let route = response.routes.first!
                 self.mapView.addOverlay(route.polyline, level: .aboveLabels)
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0), animated: true)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 25.0, left: 25.0, bottom: 25.0, right: 25.0), animated: true)
             }
-        })
+        }
     }
 }
