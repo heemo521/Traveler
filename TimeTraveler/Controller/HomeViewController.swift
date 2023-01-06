@@ -143,7 +143,6 @@ private extension HomeViewController {
             imageContainerView.backgroundColor = .systemBlue
             imageContainerView.layer.borderWidth = 3
             imageContainerView.layer.borderColor = UIColor.gray.cgColor
-            
             imageContainerView.translatesAutoresizingMaskIntoConstraints = false
             return imageContainerView
         }()

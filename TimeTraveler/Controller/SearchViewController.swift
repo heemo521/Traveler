@@ -5,9 +5,14 @@
 //  Created by Heemo on 1/2/23.
 //
 
-// [] - get rid of edit button
-// [] - build use core location button
-// [] - make a swipe gesture to get back to the main page 
+// [] - Refactor & Final Clean up
+
+// [] - OPT: make a swipe gesture to get back to the main page
+// [] - OPT: build use core location button
+
+// [x] - get rid of edit button
+// [x] - update local search complete result type to address (to filter out only for destination)
+
 
 import UIKit
 import MapKit
@@ -17,7 +22,6 @@ class SearchViewController: UIViewController {
     let searchBar = UISearchBar()
     var tableView: UITableView!
     var searchLabel: UILabel!
-    var editButton: ActionButton!
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var currentLocation: LocationAnnotation!
@@ -33,18 +37,18 @@ class SearchViewController: UIViewController {
         
         searchBar.delegate = self
         searchCompleter.delegate = self
+        searchCompleter.resultTypes = .address
+
         tableView.delegate = self
         tableView.dataSource = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // update recent search data after coming from result view
         navigationController?.isNavigationBarHidden = false
         searchBar.becomeFirstResponder()
     }
-    
-    
 }
 
 // MARK: Navigation
@@ -54,6 +58,7 @@ private extension SearchViewController {
         navigationItem.titleView = searchBar
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
     }
+    
     @objc private func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
@@ -82,68 +87,43 @@ private extension SearchViewController {
         
         searchLabel = {
             let searchLabel = UILabel()
-            searchLabel.translatesAutoresizingMaskIntoConstraints = false
             searchLabel.text = "Recent Search"
+            searchLabel.translatesAutoresizingMaskIntoConstraints = false
             return searchLabel
         }()
-        
-        editButton = {
-            let button = ActionButton()
-            button.buttonIsClicked {
-                self.tableView.isEditing.toggle()
-                self.navigationController?.isNavigationBarHidden = self.tableView.isEditing
-                self.editButton.setTitle( self.tableView.isEditing ? "Done" : "Edit", for: .normal)
-            }
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitle("Edit", for: .normal)
-            button.setTitleColor(UIColor.systemBlue, for: .normal)
-            return button
-        }()
-
     }
     
     func setupLayout() {
         view.addSubview(searchLabel)
-        view.addSubview(editButton)
         view.addSubview(tableView)
 
         searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
         searchLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
-       
-        editButton.centerYAnchor.constraint(equalTo: searchLabel.centerYAnchor).isActive = true
-        editButton.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
-
+    
         tableView.topAnchor.constraint(equalTo: searchLabel.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-
     }
 }
+
 // MARK: SearchBar
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBar.text!
 
         if searchQuery.count <= 3  {
-            editButton.isHidden = recentSearchList.isEmpty
             searchResults = []
             searchLabel.text = "Recent Search"
             searchLabel.textColor = .systemBlue
         } else {
-            editButton.isHidden = true
             searchCompleter.queryFragment = searchQuery
             searchLabel.text = "Search Result"
             searchLabel.textColor = .black
         }
         tableView.reloadData()
     }
-}
-// MARK: MK Local Search
-extension SearchViewController: MKLocalSearchCompleterDelegate {
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchQuery = searchBar.text!
         if searchQuery != "" {
@@ -153,6 +133,12 @@ extension SearchViewController: MKLocalSearchCompleterDelegate {
             
             presentResultView(searchQuery: searchQuery)
         }
+    }
+}
+// MARK: MK Local Search
+extension SearchViewController: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
     }
 }
 // MARK: TableView Delegate
@@ -187,8 +173,6 @@ extension SearchViewController: UITableViewDelegate {
             UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             tableView.deleteRows(at: [indexPath], with: .fade)
-            editButton.isHidden = recentSearchList.isEmpty
-            navigationController?.isNavigationBarHidden = !recentSearchList.isEmpty
         }
     }
     
