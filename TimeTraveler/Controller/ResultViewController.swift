@@ -8,7 +8,7 @@
 import UIKit
 
 // [] - Refactor & Final Clean up
-// [] OPT - Add a filter - create a enum for limit & sort for filter
+// [] OPT - Add a filter - create a enum for limit & sort for filter // add it to user configuration
 
 // [x] - Fetch correct image size based on the imageview's frame width & height
 // [x] Fix labels and spacing between the address and name`
@@ -23,6 +23,7 @@ class ResultViewController: SuperUIViewController {
     var filterLabel: UILabel!
     var sortFilterButton: UIButton!
     var limitFilterButton: UIButton!
+    var likedPlacesFilterButton: UIButton!
     
     var placesAPIList = [Place]()
     var useUserLocation: Bool = false
@@ -72,6 +73,7 @@ private extension ResultViewController {
 
 // MARK: UI
 private extension ResultViewController {
+    
     func initUI() {
         view.backgroundColor = .white
         tableView = {
@@ -84,13 +86,14 @@ private extension ResultViewController {
         
         backButton = {
             let backButton = ActionButton()
-            var configuration = UIButton.Configuration.plain()
-            configuration.title = "Back"
-        
+            backButton.configure(title: "Back", padding: 10, configuration: .gray())
+            var configuration = backButton.configuration
+            configuration?.buttonSize = .large
+            configuration?.baseForegroundColor = .purple
+            backButton.configuration = configuration
             backButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }
-            backButton.configuration = configuration
             backButton.translatesAutoresizingMaskIntoConstraints = false
             return backButton
         }()
@@ -137,19 +140,40 @@ private extension ResultViewController {
             limitFilterButton.translatesAutoresizingMaskIntoConstraints = false
             return limitFilterButton
         }()
+        
+        likedPlacesFilterButton = {
+            let likedFilterAction = UIAction(title: "Liked Places Only", handler: { _ in
+                print("the filter is on!")
+            })
+            var configuration = UIButton.Configuration.plain()
+            configuration.baseForegroundColor = .purple
+            configuration.baseBackgroundColor = .purple
+            let likedPlacesFilterButton = UIButton(configuration: configuration, primaryAction: likedFilterAction)
+            likedPlacesFilterButton.changesSelectionAsPrimaryAction = true
+//            likedPlacesFilterButton.isSelected = UserService.shared.searchFilter.likedPlacesOnly
+            likedPlacesFilterButton.translatesAutoresizingMaskIntoConstraints = false
+            return likedPlacesFilterButton
+        }()
     }
     
     func setupLayout() {
         view.addSubview(tableView)
         view.addSubview(backButton)
+        view.addSubview(filterContainer)
+        filterContainer.addSubview(likedPlacesFilterButton)
+        
+        filterContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        filterContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        filterContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        filterContainer.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        tableView.topAnchor.constraint(equalTo: filterContainer.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -10).isActive = true
         
         backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -20).isActive = true
     }
 }
 

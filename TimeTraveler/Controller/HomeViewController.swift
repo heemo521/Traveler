@@ -11,8 +11,6 @@ import CoreLocation
 
 
 // [] - Refactor & Final Clean up
-// [] - OPT: Liked Page using resultview and detail view
-
 // [x] - Fetch correct image size based on the imageview's frame width & height
 // [x] - Searchbar style
 // [x] - Draw direction to the place and display distance
