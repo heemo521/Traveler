@@ -7,10 +7,10 @@
 
 import UIKit
 
-// [] - Refactor & Final Clean up
-// [] OPT - Add a filter - create a enum for limit & sort for filter // add it to user configuration
+// [] Refactor & Final Clean up
 
-// [x] - Fetch correct image size based on the imageview's frame width & height
+// [x] Add a filter - create a enum for limit & sort for filter // add it to user configuration
+// [x] Fetch correct image size based on the imageview's frame width & height
 // [x] Fix labels and spacing between the address and name`
 // [x] Resize the image to fit in to the cell
 // [x] smaller distance between the back button and the table view
@@ -20,37 +20,25 @@ class ResultViewController: SuperUIViewController {
     var tableView: UITableView!
     var backButton: ActionButton!
     var filterContainer: UIView!
-    var filterLabel: UILabel!
-    var sortFilterButton: UIButton!
-    var limitFilterButton: UIButton!
-    var likedPlacesFilterButton: UIButton!
+    var openNowFilterButton: UIButton!
+    var sortFilterButton = UIButton()
+    var limitFilterButton = UIButton()
+    private var placesAPIList = [Place]()
     
-    var placesAPIList = [Place]()
     var useUserLocation: Bool = false
     var queryString: String!
-    
-    private var searchLimit: String = "10" {
-        didSet {
-            limitFilterButton.setNeedsUpdateConfiguration()
-        }
-    }
-    
-    private var sortBy: String = "relevance" {
-        didSet {
-            sortFilterButton.setNeedsUpdateConfiguration()
-        }
-    }
+    var sortBy: String!
+    var searchLimit: String!
+    var openNow: Bool = false
     
     var mainBackgroundColor: UIColor = .systemBackground
     var contentBackgroundColor: UIColor = .secondarySystemBackground
     var hightlightColor: UIColor = .systemPurple
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
         setupLayout()
-        
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -58,6 +46,8 @@ class ResultViewController: SuperUIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if placesAPIList.count == 0 {
+            sortBy = sortFilterButton.menu?.selectedElements.first?.title
+            searchLimit = limitFilterButton.menu?.selectedElements.first?.title
             getLocationDataHTTP()
         } else {
             tableView.reloadData()
@@ -79,7 +69,6 @@ private extension ResultViewController {
 
 // MARK: UI
 private extension ResultViewController {
-    
     func initUI() {
         view.backgroundColor = mainBackgroundColor
         tableView = {
@@ -109,23 +98,30 @@ private extension ResultViewController {
             filterContainer.translatesAutoresizingMaskIntoConstraints = false
             return filterContainer
         }()
-        
-        filterLabel = {
-            let filterLabel = createLabel(with: "Filter", size: 18, weight: .bold)
-            filterLabel.translatesAutoresizingMaskIntoConstraints = false
-            return filterLabel
-        }()
-        
+     
         sortFilterButton = {
-            let sortFilterButton = ActionButton()
-            var configuration = UIButton.Configuration.plain()
-            configuration.title = "Sort"
-            sortFilterButton.configuration = configuration
+            let closure =  { (action: UIAction) in
+                self.sortBy = action.title
+                self.placesAPIList = []
+                self.getLocationDataHTTP()
+            }
+            let sortFilterButton = ActionButton(primaryAction: nil)
+            sortFilterButton.menu = UIMenu(children: [
+                UIAction(title:"Relevance", state: .on, handler: closure),
+                UIAction(title:"Rating", handler: closure),
+                UIAction(title:"Distance", handler: closure),
+            ])
+            sortFilterButton.showsMenuAsPrimaryAction = true
+            sortFilterButton.changesSelectionAsPrimaryAction = true
+            
             sortFilterButton.configurationUpdateHandler = {
                 [unowned self] button in
-                var config = button.configuration
-                config?.title = button.isHighlighted ? "Back to Search" : "Back"
-                config?.subtitle = self.sortBy
+                var config = UIButton.Configuration.plain()
+                config.title = button.isHighlighted ? "Change" : "Sort"
+                config.subtitle = button.menu?.selectedElements.first?.title
+                config.titleAlignment = .center
+                config.baseForegroundColor = hightlightColor
+                config.baseBackgroundColor = hightlightColor
                 button.configuration = config
             }
             sortFilterButton.translatesAutoresizingMaskIntoConstraints = false
@@ -133,32 +129,48 @@ private extension ResultViewController {
         }()
         
         limitFilterButton = {
-            let limitFilterButton = ActionButton()
-            var configuration = UIButton.Configuration.plain()
-            configuration.title = "Limit"
-//            configuration.showsActivityIndicator = true
+            let closure =  { (action: UIAction) in
+                self.searchLimit = action.title
+                self.placesAPIList = []
+                self.getLocationDataHTTP()
+            }
+            let limitFilterButton = ActionButton(primaryAction: nil)
+            limitFilterButton.menu = UIMenu(children: [
+                UIAction(title:"5", handler: closure),
+                UIAction(title:"10", state: .on, handler: closure),
+                UIAction(title:"25", handler: closure),
+                UIAction(title: "50", handler: closure)
+            ])
+            limitFilterButton.showsMenuAsPrimaryAction = true
+            limitFilterButton.changesSelectionAsPrimaryAction = true
+
             limitFilterButton.configurationUpdateHandler = {
                 [unowned self] button in
-                var config = button.configuration
-                config?.subtitle = self.searchLimit
+                var config = UIButton.Configuration.plain()
+                config.title = button.isHighlighted ? "Change" : "Limit"
+                config.subtitle = button.menu?.selectedElements.first?.title
+                config.titleAlignment = .center
+                config.baseForegroundColor = hightlightColor
+                config.baseBackgroundColor = hightlightColor
                 button.configuration = config
             }
             limitFilterButton.translatesAutoresizingMaskIntoConstraints = false
             return limitFilterButton
         }()
         
-        likedPlacesFilterButton = {
-            let likedFilterAction = UIAction(title: "Liked Places Only", handler: { _ in
-                print("the filter is on!")
+        openNowFilterButton = {
+            let openFilterAction = UIAction(title: "Open Now", handler: { _ in
+                self.openNow = !self.openNow
+                self.placesAPIList = []
+                self.getLocationDataHTTP()
             })
             var configuration = UIButton.Configuration.plain()
             configuration.baseForegroundColor = hightlightColor
             configuration.baseBackgroundColor = hightlightColor
-            let likedPlacesFilterButton = UIButton(configuration: configuration, primaryAction: likedFilterAction)
-            likedPlacesFilterButton.changesSelectionAsPrimaryAction = true
-//            likedPlacesFilterButton.isSelected = UserService.shared.searchFilter.likedPlacesOnly
-            likedPlacesFilterButton.translatesAutoresizingMaskIntoConstraints = false
-            return likedPlacesFilterButton
+            let openNowFilterButton = UIButton(configuration: configuration, primaryAction: openFilterAction)
+            openNowFilterButton.changesSelectionAsPrimaryAction = true
+            openNowFilterButton.translatesAutoresizingMaskIntoConstraints = false
+            return openNowFilterButton
         }()
     }
     
@@ -166,12 +178,25 @@ private extension ResultViewController {
         view.addSubview(tableView)
         view.addSubview(backButton)
         view.addSubview(filterContainer)
-        filterContainer.addSubview(likedPlacesFilterButton)
+        filterContainer.addSubview(openNowFilterButton)
+        filterContainer.addSubview(limitFilterButton)
+        filterContainer.addSubview(sortFilterButton)
         
         filterContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         filterContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         filterContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         filterContainer.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        openNowFilterButton.centerYAnchor.constraint(equalTo: filterContainer.centerYAnchor).isActive = true
+        openNowFilterButton.leadingAnchor.constraint(equalTo: filterContainer.leadingAnchor, constant: 10).isActive = true
+        
+        limitFilterButton.centerYAnchor.constraint(equalTo: openNowFilterButton.centerYAnchor).isActive = true
+        limitFilterButton.leadingAnchor.constraint(equalTo: openNowFilterButton.trailingAnchor, constant: 10).isActive = true
+        limitFilterButton.widthAnchor.constraint(equalTo: sortFilterButton.widthAnchor).isActive = true
+        
+        sortFilterButton.leadingAnchor.constraint(equalTo: limitFilterButton.trailingAnchor, constant: 10).isActive = true
+        sortFilterButton.centerYAnchor.constraint(equalTo: filterContainer.centerYAnchor).isActive = true
+        sortFilterButton.trailingAnchor.constraint(equalTo: filterContainer.trailingAnchor).isActive = true
         
         tableView.topAnchor.constraint(equalTo: filterContainer.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -188,8 +213,8 @@ private extension ResultViewController {
     func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         
-        var queryItems = ["limit": searchLimit, "sort": sortBy, "categories": "16000", "fields": defaultFields]
-        
+        var queryItems = ["limit": searchLimit!, "sort": sortBy!, "open_now": String(openNow), "categories": "16000", "fields": defaultFields]
+    
         if useUserLocation {
             let (lat, lng) = UserService.shared.getLastUserLocation()
             queryItems["ll"] = "\(lat),\(lng)"
@@ -218,7 +243,6 @@ private extension ResultViewController {
                 }
             }
             catch let error {
-                // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
