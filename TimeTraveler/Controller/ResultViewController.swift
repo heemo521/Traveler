@@ -7,11 +7,14 @@
 
 import UIKit
 
+// [] - Refactor & Final Clean up
 // [] disable clicking a row until the image has been fetched and received (even if there is no data) and use additional boolean property on Place model
-// [] Resize the image to fit in to the cell
-// [] Heart should be in white and maybe add a circle?
-// [] Fix labels and spacing between the address and name
-// [] smaller distance between the back button and the table view
+// [] OPT - Add a filter
+
+// [x] Fix labels and spacing between the address and name
+// [x] Resize the image to fit in to the cell
+// [x] smaller distance between the back button and the table view
+// [x] Heart should be in white and maybe add a circle?
 
 class ResultViewController: SuperUIViewController {
     var tableView: UITableView!
@@ -19,6 +22,8 @@ class ResultViewController: SuperUIViewController {
     
     var useUserLocation: Bool = false
     var queryString: String!
+    var searchLimit: String = "25" // create a enum for limit & sort for filter
+    var sortBy: String = "relevance"
     var placesAPIList = [Place]()
     
     override func viewDidLoad() {
@@ -90,11 +95,12 @@ private extension ResultViewController {
     }
 }
 
+// MARK: - HTTP
 private extension ResultViewController {
     func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         
-        var queryItems = ["limit": "15", "categories": "16000", "fields": defaultFields]
+        var queryItems = ["limit": searchLimit, "sort": sortBy, "categories": "16000", "fields": defaultFields]
         
         if useUserLocation {
             let (lat, lng) = UserService.shared.getLastUserLocation()
@@ -133,7 +139,6 @@ private extension ResultViewController {
         })
     }
     
-    // MARK: - Fetch image url using the ids of locations from func httpRequest()
     func getImageDetailsHTTP(with locationID: String, at index: Int) {
         let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
@@ -161,7 +166,7 @@ private extension ResultViewController {
     }
 }
 
-
+// MARK: TableView Delegate
 extension ResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -174,6 +179,7 @@ extension ResultViewController: UITableViewDelegate {
     
 }
 
+// MARK: TableView Data Source
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = placesAPIList.count

@@ -12,7 +12,7 @@ class ResultCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.numberOfLines = 2
+        nameLabel.numberOfLines = 3
         nameLabel.font = UIFont.systemFont(ofSize: CGFloat(20), weight: .bold)
         nameLabel.text = "Loading..."
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +21,7 @@ class ResultCell: UITableViewCell {
     
     let addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.numberOfLines = 2
+        addressLabel.numberOfLines = 3
         addressLabel.text = ""
         addressLabel.font = UIFont.systemFont(ofSize: CGFloat(14), weight: .light)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +39,7 @@ class ResultCell: UITableViewCell {
     
     let likeStatusImage: UIImageView = {
         let likeStatusImage = UIImageView()
+        likeStatusImage.tintColor = .white
         likeStatusImage.translatesAutoresizingMaskIntoConstraints = false
         return likeStatusImage
     }()
@@ -52,7 +53,7 @@ class ResultCell: UITableViewCell {
         
         let id = location.id!
         let imageName = UserService.shared.checkLikedPlace(id: id) ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)?.withTintColor(.white, renderingMode: .alwaysTemplate)
+        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
         likeStatusImage.image = image
     }
 
@@ -70,25 +71,25 @@ class ResultCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: CGFloat(10), right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0))
         
         mainImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         mainImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
+        mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         mainImage.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
         likeStatusImage.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -60).isActive = true
         likeStatusImage.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -60).isActive = true
-        likeStatusImage.widthAnchor.constraint(equalTo: mainImage.widthAnchor, multiplier: 0.25).isActive = true
+        likeStatusImage.widthAnchor.constraint(equalTo: mainImage.widthAnchor, multiplier: 0.2).isActive = true
         likeStatusImage.heightAnchor.constraint(equalTo: likeStatusImage.widthAnchor).isActive = true
         
         nameLabel.topAnchor.constraint(equalTo: mainImage.topAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: 10).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         
         addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
         addressLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
-        addressLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor).isActive = true
+        addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
     }
 }

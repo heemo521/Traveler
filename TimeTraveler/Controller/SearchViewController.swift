@@ -6,11 +6,9 @@
 //
 
 // [] - Refactor & Final Clean up
-// [] - OPT: build use core location button
-
 // [] - OPT: make a swipe gesture to get back to the main page
 
-
+// [x] - build use core location button
 // [x] - get rid of edit button
 // [x] - update local search complete result type to address (to filter out only for destination)
 
