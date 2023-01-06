@@ -9,6 +9,7 @@ import UIKit
 
 class ResultCell: UITableViewCell {
     static let identifier = "ResultCell"
+    static let rowHeight = CGFloat(200)
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()

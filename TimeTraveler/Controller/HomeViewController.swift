@@ -13,6 +13,7 @@ import CoreLocation
 // [] - Refactor & Final Clean up
 // [] - OPT: Liked Page using resultview and detail view
 
+// [x] - Fetch correct image size based on the imageview's frame width & height
 // [x] - Searchbar style
 // [x] - Draw direction to the place and display distance
 // [x] - texts and labels
@@ -405,13 +406,12 @@ private extension HomeViewController {
                 self.placesAPIList = dataDecoded.results
                 
                 if let id = dataDecoded.results.first!.id {
-                    self.getImageDetailsHTTP(with: id, at: 0)
+                    self.getImageDetailsHTTP(with: id)
                 }
                 
                 if let iconURLs = dataDecoded.results.first?.categories?.first?.icon, let prefix = iconURLs.prefix, let suffix = iconURLs.suffix {
                     let url = prefix + "64" + suffix
                     self.iconView.loadFrom(url: url)
-                    
                 }
                 
                 DispatchQueue.main.async {
@@ -425,18 +425,30 @@ private extension HomeViewController {
     }
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
-    func getImageDetailsHTTP(with locationID: String, at: Int) {
+    func getImageDetailsHTTP(with locationID: String) {
         let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
         makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
-
-                if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
-                    let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    self.placesAPIList.first?.imageUrls.append(url)
-                    self.imageView.loadFrom(url: url)
+                if dataDecoded.count > 0 {
+                    var imageHeight: String!
+                    var imageWidth: String!
+                    
+                    DispatchQueue.main.async {
+                        imageHeight = "\(Int(self.imageView.frame.height * 2))"
+                        imageWidth = "\(Int(self.imageView.frame.width * 2))"
+                    }
+                    
+                    for (index, image) in dataDecoded.enumerated() {
+                        let imageUrl = "\(image.prefix!)\(imageHeight ?? "600")x\(imageWidth ?? "600")\(image.suffix!)"
+                        self.placesAPIList[0].imageUrls.append(imageUrl)
+                        if index == 0 {
+                            self.imageView.loadFrom(url: imageUrl)
+                        }
+                    }
+                    
                 }
             } catch let error {
                 print("\(String(describing: error.localizedDescription))")
@@ -501,7 +513,7 @@ extension HomeViewController: MKMapViewDelegate {
     func updateMapViewWithCoordinates(lat: Double, lng: Double) {
         let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         
-        mapView.addAnnotation(LocationAnnotation(title: "Current Location", coordinate: currentLocation.coordinate))
+        mapView.addAnnotation(currentLocation)
         mapView.addAnnotation(LocationAnnotation(title: (placesAPIList.first?.name)!, coordinate: destinationCoord))
         displayRoute(destination: destinationCoord)
     

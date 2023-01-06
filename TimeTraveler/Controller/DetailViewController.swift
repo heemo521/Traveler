@@ -5,13 +5,14 @@
 //  Created by Heemo on 12/29/22.
 //
 
-// [x] swipable images
+// [] - Refactor & Final Clean up
+// [] Render with the initial lower quality image, then fetch the image again for the correct screen size 
 // [] show pagination 
 // [] change the scroll/content view to a slidable modal instead
 // [] implement coordinates to the map
 // [] make the buttons change in color when clicked onto
 // [] Placd the name label on top of the image
-
+// [x] swipable images
 
 
 import UIKit

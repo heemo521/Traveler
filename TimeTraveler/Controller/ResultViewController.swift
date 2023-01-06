@@ -8,10 +8,10 @@
 import UIKit
 
 // [] - Refactor & Final Clean up
-// [] disable clicking a row until the image has been fetched and received (even if there is no data) and use additional boolean property on Place model
-// [] OPT - Add a filter
+// [] OPT - Add a filter - create a enum for limit & sort for filter
 
-// [x] Fix labels and spacing between the address and name
+// [x] - Fetch correct image size based on the imageview's frame width & height
+// [x] Fix labels and spacing between the address and name`
 // [x] Resize the image to fit in to the cell
 // [x] smaller distance between the back button and the table view
 // [x] Heart should be in white and maybe add a circle?
@@ -22,7 +22,7 @@ class ResultViewController: SuperUIViewController {
     
     var useUserLocation: Bool = false
     var queryString: String!
-    var searchLimit: String = "25" // create a enum for limit & sort for filter
+    var searchLimit: String = "25"
     var sortBy: String = "relevance"
     var placesAPIList = [Place]()
     
@@ -146,9 +146,11 @@ private extension ResultViewController {
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
+            
                 if dataDecoded.count > 0 {
+                    let height = "\(Int(ResultCell.rowHeight) * 2)"
                     for image in dataDecoded {
-                        let imageUrl = "\(image.prefix!)500x300\(image.suffix!)"
+                        let imageUrl = "\(image.prefix!)\(height)x\(height)\(image.suffix!)"
                         self.placesAPIList[index].imageUrls.append(imageUrl)
                     }
                 }
@@ -156,7 +158,6 @@ private extension ResultViewController {
                 DispatchQueue.main.async {
                     let indexPath = IndexPath(row: index, section: 0)
                     self.tableView.reloadRows(at: [indexPath], with: .fade)
-                    
                 }
             }
             catch let error {
@@ -174,7 +175,7 @@ extension ResultViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(200)
+        return ResultCell.rowHeight
     }
     
 }
