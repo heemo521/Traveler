@@ -99,7 +99,7 @@ private extension HomeViewController {
         searchButton = {
             let searchBtn = ActionButton()
             let image = UIImage(systemName: "magnifyingglass")
-            searchBtn.configure(title: "Search destination", image: image!, padding: 5.0, corner: 10.0, configuration: .gray())
+            searchBtn.configure(title: "Search destination", image: image!, padding: 5.0, configuration: .gray())
             searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()

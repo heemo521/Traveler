@@ -147,14 +147,10 @@ private extension DetailViewController {
         }()
         dismissButton = {
             let dismissButton = ActionButton()
+            dismissButton.configure(title: "Dismiss", padding: 10, configuration: .gray())
             dismissButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }
-            dismissButton.setTitle("Dismiss", for: .normal)
-            dismissButton.setTitleColor(UIColor.systemBlue , for: .normal)
-            dismissButton.backgroundColor = UIColor(cgColor: CGColor(red: 232/255, green: 232/255, blue: 235/255, alpha: 0.5))
-            dismissButton.layer.cornerRadius = 10.0
-            dismissButton.layer.masksToBounds = true
             dismissButton.translatesAutoresizingMaskIntoConstraints = false
             return dismissButton
         }()

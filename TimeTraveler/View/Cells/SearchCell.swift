@@ -57,6 +57,7 @@ class SearchCell: UITableViewCell {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0))
         cellImageView.translatesAutoresizingMaskIntoConstraints = false
         
         cellImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true

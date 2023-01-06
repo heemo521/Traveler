@@ -19,6 +19,8 @@ import UIKit
 class ResultViewController: SuperUIViewController {
     var tableView: UITableView!
     var backButton: ActionButton!
+    var filterContainer: UIView!
+//    var sortDropButton: NSButton!
     
     var useUserLocation: Bool = false
     var queryString: String!

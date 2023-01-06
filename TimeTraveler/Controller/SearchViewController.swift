@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
     var tableView: UITableView!
     var searchLabel: UILabel!
     var useCurrentLocationButton: ActionButton!
+    
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
@@ -95,7 +96,7 @@ private extension SearchViewController {
         useCurrentLocationButton = {
             let image = UIImage(systemName: "paperplane.fill")
             let useCurrentLocationButton = ActionButton()
-            useCurrentLocationButton.configure(title: " Use Current Location", image: image!, padding: 5.0, corner: 5.0, configuration: .gray())
+            useCurrentLocationButton.configure(title: "Use Current Location", image: image!, padding: 5.0, configuration: .gray())
             useCurrentLocationButton.buttonIsClicked {
                 self.presentResultView(searchQuery: "", useUserLocation: true)
             }
@@ -109,7 +110,7 @@ private extension SearchViewController {
         view.addSubview(searchLabel)
         view.addSubview(tableView)
         
-        useCurrentLocationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        useCurrentLocationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         useCurrentLocationButton.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
 
         searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
