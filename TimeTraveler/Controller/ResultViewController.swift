@@ -14,7 +14,7 @@ import UIKit
 // [] smaller distance between the back button and the table view
 
 class ResultViewController: SuperUIViewController {
-    var queryString: String! = "Red Rock"
+    var queryString: String!
     var placesAPIList = [Place]()
   
     var tableView: UITableView!

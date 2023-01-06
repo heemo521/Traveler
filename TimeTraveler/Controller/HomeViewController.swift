@@ -11,9 +11,10 @@ import CoreLocation
 
 // [] - Searchbar style
 // [] - Liked Page using resultview and detail view
-// [] - Clean up transition animations
-// [] - Draw direction to the place and display distance
-// [] - Refactor
+// [] - Refactor & Final Clean up
+// [x] - Draw direction to the place and display distance
+// [x] - texts and labels
+// [x] - Clean up transition animations
 // [x] - Remove the heart from the first page
 // [x] - User last location saved
 // [x] - Make sure for correct rendering data (image)
@@ -36,8 +37,7 @@ class HomeViewController: SuperUIViewController {
     var iconView: UIImageView!
     var likeButton: ActionButton!
     
-    var titleLabel: UILabel!
-    var titleText: UITextView!
+    var nameLabel: UILabel!
     var categoryLabel: UILabel!
     var categoryText: UITextView!
     var addressLabel: UILabel!
@@ -49,8 +49,8 @@ class HomeViewController: SuperUIViewController {
     
     // MARK: State
     var didUpdateMapView = false
-    var didUpdateImageView = false
-    var fetchedLocationList = [Place]()
+    var locationRadiusInMeters = 5000.0
+    var placesAPIList = [Place]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
     let shared = UserService.shared
@@ -64,12 +64,15 @@ class HomeViewController: SuperUIViewController {
         setupScrollView()
         setupLayout()
         locationManagerInit()
+        
+        mapView.delegate = self
+        mapView.showsUserLocation = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scalingAnimation()
-        if let first = fetchedLocationList.first {
+        if let first = placesAPIList.first {
             let heartType = shared.checkLikedPlace(id: first.id!) ? "heart.fill" : "heart"
             likeButton.setImage(UIImage(systemName: heartType), for: .normal)
         }
@@ -109,7 +112,7 @@ private extension HomeViewController {
     }
     
     @objc private func didTapLikeButton() {
-        if let first = fetchedLocationList.first, let id = first.id {
+        if let first = placesAPIList.first, let id = first.id {
             if shared.checkLikedPlace(id: id) {
                 shared.unlikeAPlace(id: id)
                 likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -122,7 +125,7 @@ private extension HomeViewController {
     
     @objc private func imageViewClicked() {
         let DetailVC = DetailViewController()
-        DetailVC.selectedPlace = fetchedLocationList.first
+        DetailVC.selectedPlace = placesAPIList.first
         DetailVC.modalTransitionStyle = .flipHorizontal
         DetailVC.modalPresentationStyle = .fullScreen
         self.present(DetailVC, animated: true)
@@ -187,27 +190,57 @@ private extension HomeViewController {
             return likeButton
         }()
         
-        titleLabel = {
-            let titleLabel = createLabel(with: "Loading...", size: 32, weight: .bold)
-            titleLabel.numberOfLines = 2
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            return titleLabel
+        nameLabel = {
+            let nameLabel = createLabel(with: "Loading...", size: 32, weight: .bold)
+            nameLabel.numberOfLines = 2
+            nameLabel.translatesAutoresizingMaskIntoConstraints = false
+            return nameLabel
         }()
         categoryLabel = {
             let categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
             categoryLabel.translatesAutoresizingMaskIntoConstraints = false
             return categoryLabel
         }()
+        categoryText = {
+            let categoryText = UITextView()
+            categoryText.isEditable = false
+            categoryText.isScrollEnabled = false
+            categoryText.textAlignment = .left
+            categoryText.font = UIFont.boldSystemFont(ofSize: 12)
+            categoryText.text = "..."
+            categoryText.translatesAutoresizingMaskIntoConstraints = false
+            return categoryText
+        }()
+        
         addressLabel = {
             let addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
-            addressLabel.numberOfLines = 2
             addressLabel.translatesAutoresizingMaskIntoConstraints = false
             return addressLabel
+        }()
+        addressText = {
+            let addressText = UITextView()
+            addressText.isEditable = false
+            addressText.isScrollEnabled = false
+            addressText.textAlignment = .left
+            addressText.font = UIFont.boldSystemFont(ofSize: 12)
+            addressText.text = "..."
+            addressText.translatesAutoresizingMaskIntoConstraints = false
+            return addressText
         }()
         distanceLabel = {
             let distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
             distanceLabel.translatesAutoresizingMaskIntoConstraints = false
             return distanceLabel
+        }()
+        distanceText = {
+            let distanceText = UITextView()
+            distanceText.isEditable = false
+            distanceText.isScrollEnabled = false
+            distanceText.textAlignment = .left
+            distanceText.font = UIFont.boldSystemFont(ofSize: 12)
+            distanceText.text = "..."
+            distanceText.translatesAutoresizingMaskIntoConstraints = false
+            return distanceText
         }()
     }
     
@@ -262,42 +295,57 @@ private extension HomeViewController {
         likeButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -20).isActive = true
         likeButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
+        contentView.addSubview(categoryText)
         contentView.addSubview(addressLabel)
+        contentView.addSubview(addressText)
         contentView.addSubview(distanceLabel)
+        contentView.addSubview(distanceText)
         contentView.addSubview(mapView)
         
-        titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
-        categoryLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12).isActive = true
+        categoryLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
-        addressLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor,constant: 12).isActive = true
+        categoryText.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 2).isActive = true
+        categoryText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoryText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        addressLabel.topAnchor.constraint(equalTo: categoryText.bottomAnchor,constant: 12).isActive = true
         addressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
-        distanceLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 12).isActive = true
+        addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor,constant: 2).isActive = true
+        addressText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        addressText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        distanceLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 12).isActive = true
         distanceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         distanceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
+        distanceText.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 2).isActive = true
+        distanceText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        distanceText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 24).isActive = true
+        mapView.topAnchor.constraint(equalTo: distanceText.bottomAnchor, constant: 24).isActive = true
         mapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
         contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 30).isActive = true
     }
     
     func updateContent(with selectedLocation: Place) {
-        categoryLabel.text = selectedLocation.categories?.first?.name
-        titleLabel.text = selectedLocation.name
-        addressLabel.text = selectedLocation.address!.formatted_address!
-    
+        nameLabel.text = selectedLocation.name
+        categoryText.text = selectedLocation.categories?.first?.name
+        addressText.text = selectedLocation.address!.formatted_address!
+        
         if let id = selectedLocation.id {
             if shared.checkLikedPlace(id: id) {
                 likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -305,7 +353,15 @@ private extension HomeViewController {
                 likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
-        self.updateMapViewWithCoordinates()
+        
+        if let geocodes = selectedLocation.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
+            let userLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+            let desinationLocation = CLLocation(latitude: lat, longitude: lng)
+            let distance = userLocation.distance(from: desinationLocation)  * 0.000621371
+            distanceText.text = "\(String(format: "%.2f", distance)) mi"
+            
+            updateMapViewWithCoordinates(lat: lat, lng: lng)
+        }
     }
     
     func scalingAnimation() {
@@ -337,7 +393,7 @@ private extension HomeViewController {
         let (lat, lng) = shared.getLastUserLocation()
         let ll = "\(lat),\(lng)"
         
-        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
+        let queryItems = ["query": "outdoor", "limit": "1", "range": String(Int(locationRadiusInMeters)), "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
         let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
@@ -345,7 +401,7 @@ private extension HomeViewController {
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
-                self.fetchedLocationList = dataDecoded.results
+                self.placesAPIList = dataDecoded.results
                 
                 if let id = dataDecoded.results.first!.id {
                     self.getImageDetailsHTTP(with: id, at: 0)
@@ -377,7 +433,7 @@ private extension HomeViewController {
 
                 if let first = dataDecoded.first, let prefix = first.prefix, let suffix = first.suffix {
                     let url = prefix + "500x500" + String(suffix[suffix.startIndex...])
-                    self.fetchedLocationList.first?.imageUrls.append(url)
+                    self.placesAPIList.first?.imageUrls.append(url)
                     self.imageView.loadFrom(url: url)
                 }
             } catch let error {
@@ -408,15 +464,15 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         switch authorizationStatus {
             case .authorizedWhenInUse, .authorizedAlways:
-                titleLabel.text = "Finding the nearest outdoor place!"
+                nameLabel.text = "Finding the nearest outdoor place!"
                 locationManager.startUpdatingLocation()
             case .restricted, .denied:
                 print("Location use restricted")
-                titleLabel.text = "Location use restricted, accessing last location"
+                nameLabel.text = "Location use restricted, accessing last location"
                 self.getLocationDataHTTP()
             default:
                 print("Not authorized yet")
-                titleLabel.text = "Location use not authorized, accessing last location"
+                nameLabel.text = "Location use not authorized, accessing last location"
                 self.getLocationDataHTTP()
         }
     }
@@ -433,31 +489,57 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         let coord = location.coordinate
         let locationCoord = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-        currentLocation = LocationAnnotation(coordinate: locationCoord)
+        currentLocation = LocationAnnotation(title: "Current Location", coordinate: locationCoord)
         locationManager.stopUpdatingLocation()
     }
 }
 
 // MARK: - Map
-extension HomeViewController {
+extension HomeViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        print("udpating user locaiton")
-        let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
-        self.mapView.setRegion(regionView, animated: true)
-        didUpdateMapView = true
+        print("updating user location")
+//        let regionView = MKCoordinateRegion(center: userLocation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
+//        self.mapView.setRegion(regionView, animated: true)
     }
 
-    func updateMapViewWithCoordinates() {
-    
+    func updateMapViewWithCoordinates(lat: Double, lng: Double) {
 //        guard didUpdateMapView == false else { return }
-   
-        if let geocodes = fetchedLocationList.first?.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
-            let locationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+
+        let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        
+        mapView.addAnnotation(LocationAnnotation(title: "Current Location", coordinate: currentLocation.coordinate))
+        mapView.addAnnotation(LocationAnnotation(title: (placesAPIList.first?.name)!, coordinate: destinationCoord))
+        displayRoute(destination: destinationCoord)
     
-            let regionView = MKCoordinateRegion(center: locationCoord, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
-            mapView.setRegion(regionView, animated: true)
-            mapView.addAnnotation(LocationAnnotation(coordinate: locationCoord))
-            didUpdateMapView = true
-        }
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.systemPurple
+        renderer.lineWidth = 3.0
+        return renderer
+    }
+    
+    func displayRoute(destination: CLLocationCoordinate2D) {
+        let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocation.coordinate)
+        let destinationPlaceMark = MKPlacemark(coordinate: destination)
+        
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = MKMapItem(placemark: sourcePlaceMark)
+        directionRequest.destination = MKMapItem(placemark: destinationPlaceMark)
+        directionRequest.transportType = .automobile
+        
+        let directions = MKDirections(request: directionRequest)
+        directions.calculate(completionHandler: {(response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if let response = response {
+                let route = response.routes.first!
+                self.mapView.addOverlay(route.polyline, level: .aboveLabels)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0), animated: true)
+            }
+        })
     }
 }

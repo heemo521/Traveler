@@ -84,7 +84,6 @@ private extension DetailViewController {
         
         categoryText = {
             let categoryText = UITextView()
-//            categoryText.textColor = .black
             categoryText.isEditable = false
             categoryText.isScrollEnabled = false
             categoryText.textAlignment = .left
@@ -94,6 +93,7 @@ private extension DetailViewController {
             } else {
                 categoryText.text = "Loading"
             }
+            categoryText.translatesAutoresizingMaskIntoConstraints = false
             return categoryText
         }()
         
@@ -108,6 +108,7 @@ private extension DetailViewController {
             } else {
                 addressText.text = "Not available"
             }
+            addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
         relatedPlaceText = {
@@ -122,6 +123,7 @@ private extension DetailViewController {
 //            } else {
 //                relatedPlaceText.text = "None"
 //            }
+            relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
         }()
         likeButton = {
@@ -158,7 +160,6 @@ private extension DetailViewController {
     }
     
     func setupSubviews() {
-     
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -188,11 +189,8 @@ private extension DetailViewController {
     func setupLayout() {
 //        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryText.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressText.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
-        relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
 //        contentView.addSubview(nameLabel)
