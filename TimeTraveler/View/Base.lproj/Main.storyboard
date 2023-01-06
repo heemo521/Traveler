@@ -556,8 +556,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EvK-yy-5bV">
-                                                    <rect key="frame" x="171.66666666666666" y="152" width="30" height="27"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EvK-yy-5bV">
+                                                    <rect key="frame" x="171.66666666666666" y="151" width="30" height="28.666666666666686"/>
                                                     <color key="tintColor" systemColor="tertiarySystemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="Q8b-R5-EXy"/>

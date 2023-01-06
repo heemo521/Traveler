@@ -21,7 +21,7 @@ import MapKit
 class DetailViewController: SuperUIViewController {
     var selectedPlace: Place!
     let shared = UserService.shared
-        
+    
     var collectionView: UICollectionView!
     var mainImageView: UIImageView!
     
@@ -37,15 +37,22 @@ class DetailViewController: SuperUIViewController {
     
     let mapView = MKMapView()
     
-    var likeButton: ActionButton!
-    var dismissButton: ActionButton!
+    var likeButton = UIButton()
+    var dismissButton: UIButton!
+    
+    var likedStatus: Bool? {
+        didSet {
+            likeButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
+        
         initUI()
         setupSubviews()
         setupLayout()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         scrollView.delegate = self
@@ -57,8 +64,16 @@ class DetailViewController: SuperUIViewController {
 }
 
 private extension DetailViewController {
+    @objc private func likeButtonClicked() {
+        let id = self.selectedPlace.id!
+        self.shared.toggleLike(id: id)
+        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
+    }
+    
     func initUI() {
         view.backgroundColor = .white
+        
+        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
         
         collectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -129,25 +144,35 @@ private extension DetailViewController {
         }()
         likeButton = {
             let likeButton = ActionButton()
-            likeButton.buttonIsClicked {
-                let id = self.selectedPlace.id!
-                if self.shared.checkLikedPlace(id: id) {
-                    self.shared.unlikeAPlace(id: id)
-                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                } else {
-                    self.shared.likeAPlace(id: id)
-                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                }
+            likeButton.buttonIsClicked(do: likeButtonClicked)
+            var configuration = UIButton.Configuration.filled()
+            configuration.buttonSize = .medium
+            configuration.title = "Like"
+            configuration.image = UIImage(systemName: "heart")
+            configuration.background.backgroundColor = .purple
+            likeButton.configuration = configuration
+            likeButton.configurationUpdateHandler = {
+                [unowned self] button in
+                var config = button.configuration
+                config?.image = self.likedStatus! ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill")
+                button.configuration = config
             }
-            likeButton.setTitle(" Like", for: .normal)
-            likeButton.setTitleColor(.systemBlue, for: .normal)
-            likeButton.setTitleColor(.darkGray, for: .selected)
+            
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
         dismissButton = {
             let dismissButton = ActionButton()
             dismissButton.configure(title: "Dismiss", padding: 10, configuration: .gray())
+            dismissButton.configuration?.buttonSize = .large
+            dismissButton.configuration?.baseForegroundColor = .purple
+            dismissButton.configurationUpdateHandler = {
+                button in
+                var config = button.configuration
+                config?.title = button.isHighlighted ? "" : "Dismiss"
+                config?.image = button.isHighlighted ? UIImage(systemName: "xmark.circle") : UIImage()
+                button.configuration = config
+            }
             dismissButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }

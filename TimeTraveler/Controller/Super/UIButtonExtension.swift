@@ -9,12 +9,13 @@ import UIKit
 
 extension UIButton {
     func configure(title: String, image: UIImage! = nil, padding: CGFloat, configuration: UIButton.Configuration) {
-        self.configuration = configuration
-        self.configuration?.title = title
-        self.configuration?.imagePadding = 10
-        self.configuration?.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding + 8.0, bottom: padding, trailing: padding + 8.0)
+        var config = configuration
         if let image = image {
-            self.configuration?.image = image
+            config.image = image
+            config.imagePadding = 10
         }
+        config.title = title
+        config.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding + 8.0, bottom: padding, trailing: padding + 8.0)
+        self.configuration = config
     }
 }

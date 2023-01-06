@@ -20,13 +20,24 @@ class ResultViewController: SuperUIViewController {
     var tableView: UITableView!
     var backButton: ActionButton!
     var filterContainer: UIView!
-//    var sortDropButton: NSButton!
+    var filterLabel: UILabel!
+    var sortFilterButton: UIButton!
+    var limitFilterButton: UIButton!
     
+    var placesAPIList = [Place]()
     var useUserLocation: Bool = false
     var queryString: String!
-    var searchLimit: String = "25"
-    var sortBy: String = "relevance"
-    var placesAPIList = [Place]()
+    private var searchLimit: String = "10" {
+        didSet {
+            limitFilterButton.setNeedsUpdateConfiguration()
+        }
+    }
+    
+    private var sortBy: String = "relevance" {
+        didSet {
+            sortFilterButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,13 +84,58 @@ private extension ResultViewController {
         
         backButton = {
             let backButton = ActionButton()
-            backButton.setTitle("Back", for: .normal)
-            backButton.setTitleColor(UIColor.systemBlue , for: .normal)
+            var configuration = UIButton.Configuration.plain()
+            configuration.title = "Back"
+        
             backButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }
+            backButton.configuration = configuration
             backButton.translatesAutoresizingMaskIntoConstraints = false
             return backButton
+        }()
+        
+        filterContainer = {
+            let filterContainer = UIView()
+            filterContainer.translatesAutoresizingMaskIntoConstraints = false
+            return filterContainer
+        }()
+        
+        filterLabel = {
+            let filterLabel = createLabel(with: "Filter", size: 18, weight: .bold)
+            filterLabel.translatesAutoresizingMaskIntoConstraints = false
+            return filterLabel
+        }()
+        
+        sortFilterButton = {
+            let sortFilterButton = ActionButton()
+            var configuration = UIButton.Configuration.plain()
+            configuration.title = "Sort"
+            sortFilterButton.configuration = configuration
+            sortFilterButton.configurationUpdateHandler = {
+                [unowned self] button in
+                var config = button.configuration
+                config?.title = button.isHighlighted ? "Back to Search" : "Back"
+                config?.subtitle = self.sortBy
+                button.configuration = config
+            }
+            sortFilterButton.translatesAutoresizingMaskIntoConstraints = false
+            return sortFilterButton
+        }()
+        
+        limitFilterButton = {
+            let limitFilterButton = ActionButton()
+            var configuration = UIButton.Configuration.plain()
+            configuration.title = "Limit"
+//            configuration.showsActivityIndicator = true
+            limitFilterButton.configurationUpdateHandler = {
+                [unowned self] button in
+                var config = button.configuration
+                config?.subtitle = self.searchLimit
+                button.configuration = config
+            }
+            limitFilterButton.translatesAutoresizingMaskIntoConstraints = false
+            return limitFilterButton
         }()
     }
     

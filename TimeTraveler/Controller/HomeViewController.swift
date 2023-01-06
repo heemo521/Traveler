@@ -116,11 +116,10 @@ private extension HomeViewController {
     
     @objc private func didTapLikeButton() {
         if let first = placesAPIList.first, let id = first.id {
+            shared.toggleLike(id: id)
             if shared.checkLikedPlace(id: id) {
-                shared.unlikeAPlace(id: id)
                 likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             } else {
-                shared.likeAPlace(id: id)
                 likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             }
         }

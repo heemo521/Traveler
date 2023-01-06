@@ -51,6 +51,14 @@ class UserService {
         return (last.latitude ?? 41.8781, last.longitude ?? -87.6298)
     }
     
+    func toggleLike(id: String) {
+        if checkLikedPlace(id: id) {
+            unlikeAPlace(id: id)
+        } else {
+            likeAPlace(id: id)
+        }
+    }
+    
     func likeAPlace(id: String) {
         user.likedLocations.insert(id)
         saveUserData()
