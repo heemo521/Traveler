@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7128B0922967DBE000CDBE12 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */; };
 		7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEA2956C8050067B2DC /* AppDelegate.swift */; };
 		7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEC2956C8050067B2DC /* SceneDelegate.swift */; };
 		7142BEF22956C8050067B2DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7142BEF02956C8050067B2DC /* Main.storyboard */; };
@@ -22,7 +23,7 @@
 		71A30241295A6AE500019E05 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30240295A6AE500019E05 /* UserService.swift */; };
 		71A3024B295AA5EE00019E05 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024A295AA5EE00019E05 /* Image.swift */; };
 		71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A3024E295BDFD500019E05 /* LocationAnnotation.swift */; };
-		71A8AD132963D48000429A1F /* ExtendImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8AD122963D48000429A1F /* ExtendImageView.swift */; };
+		71A8AD132963D48000429A1F /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8AD122963D48000429A1F /* UIImageViewExtension.swift */; };
 		71A8AD172963F75B00429A1F /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8AD162963F75B00429A1F /* ActionButton.swift */; };
 		71A8AD192963FD1000429A1F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8AD182963FD1000429A1F /* SearchViewController.swift */; };
 		71B1B32929639EA800FAEE98 /* SuperUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B1B32829639EA800FAEE98 /* SuperUIViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		7142BEE72956C8050067B2DC /* TimeTraveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTraveler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7142BEEA2956C8050067B2DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7142BEEC2956C8050067B2DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,7 +51,7 @@
 		71A30240295A6AE500019E05 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		71A3024A295AA5EE00019E05 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		71A3024E295BDFD500019E05 /* LocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotation.swift; sourceTree = "<group>"; };
-		71A8AD122963D48000429A1F /* ExtendImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendImageView.swift; sourceTree = "<group>"; };
+		71A8AD122963D48000429A1F /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		71A8AD162963F75B00429A1F /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		71A8AD182963FD1000429A1F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		71B1B32829639EA800FAEE98 /* SuperUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperUIViewController.swift; sourceTree = "<group>"; };
@@ -173,7 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				71B1B32829639EA800FAEE98 /* SuperUIViewController.swift */,
-				71A8AD122963D48000429A1F /* ExtendImageView.swift */,
+				71A8AD122963D48000429A1F /* UIImageViewExtension.swift */,
+				7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */,
 				71A8AD162963F75B00429A1F /* ActionButton.swift */,
 			);
 			path = Super;
@@ -251,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				716510E12957AD14002F56D8 /* Response.swift in Sources */,
+				7128B0922967DBE000CDBE12 /* UIButtonExtension.swift in Sources */,
 				71D811DA295C0ECF008CC116 /* SearchCell.swift in Sources */,
 				71A8AD192963FD1000429A1F /* SearchViewController.swift in Sources */,
 				7182A71D295CF129006D674D /* ResultViewController.swift in Sources */,
@@ -260,7 +264,7 @@
 				716510DC29578130002F56D8 /* ResultCell.swift in Sources */,
 				71A3024F295BDFD500019E05 /* LocationAnnotation.swift in Sources */,
 				71B1B32929639EA800FAEE98 /* SuperUIViewController.swift in Sources */,
-				71A8AD132963D48000429A1F /* ExtendImageView.swift in Sources */,
+				71A8AD132963D48000429A1F /* UIImageViewExtension.swift in Sources */,
 				71A30241295A6AE500019E05 /* UserService.swift in Sources */,
 				71E6B169295EAA9D006B49AB /* DetailViewController.swift in Sources */,
 				7182A723295D369D006D674D /* RecentSearch.swift in Sources */,
