@@ -27,7 +27,7 @@
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.49306705298013243" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky Mountains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-dD-AyZ">
-                                        <rect key="frame" x="124.33333333333333" y="449.33333333333331" width="248.66666666666669" height="32"/>
+                                        <rect key="frame" x="124.33333333333331" y="449.33333333333331" width="248.66666666666669" height="32"/>
                                         <color key="backgroundColor" red="0.42059264520202022" green="0.42059264520202022" blue="0.42059264520202022" alpha="0.49694743377483441" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -238,7 +238,6 @@
                             <constraint firstItem="9G2-UU-1Zy" firstAttribute="top" secondItem="9PN-J8-XoL" secondAttribute="top" constant="74" id="14v-gI-YoX"/>
                             <constraint firstItem="94r-Ih-PF5" firstAttribute="trailing" secondItem="A01-8S-d6e" secondAttribute="trailing" id="Rcw-4a-DhW"/>
                             <constraint firstItem="9G2-UU-1Zy" firstAttribute="centerY" secondItem="A01-8S-d6e" secondAttribute="centerY" id="Wfn-f5-yR4"/>
-                            <constraint firstItem="94r-Ih-PF5" firstAttribute="leading" secondItem="9PN-J8-XoL" secondAttribute="leading" constant="166" id="dMP-JY-aOd"/>
                             <constraint firstItem="94r-Ih-PF5" firstAttribute="top" secondItem="9PN-J8-XoL" secondAttribute="top" id="dkK-xj-gxp"/>
                             <constraint firstItem="9PN-J8-XoL" firstAttribute="trailing" secondItem="zok-V3-14M" secondAttribute="trailing" constant="10" id="eGF-yW-b8C"/>
                             <constraint firstItem="A01-8S-d6e" firstAttribute="trailing" secondItem="zok-V3-14M" secondAttribute="trailing" id="hZN-1a-2vM"/>

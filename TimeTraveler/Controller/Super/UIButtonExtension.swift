@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIButton {
-    func configure(title: String, image: UIImage, padding: CGFloat, corner: CGFloat) {
+    func configure(title: String, image: UIImage, padding: CGFloat, corner: CGFloat, configuration: UIButton.Configuration) {
         self.setTitle(title, for: .normal)
         self.setImage(image, for: .normal)
-        self.configuration = UIButton.Configuration.gray()
+        self.configuration = configuration
         self.layer.cornerRadius = corner
         self.configuration?.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding, bottom: padding, trailing: padding)
     }

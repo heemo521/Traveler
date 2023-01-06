@@ -6,9 +6,10 @@
 //
 
 // [] - Refactor & Final Clean up
+// [] - OPT: build use core location button
 
 // [] - OPT: make a swipe gesture to get back to the main page
-// [] - OPT: build use core location button
+
 
 // [x] - get rid of edit button
 // [x] - update local search complete result type to address (to filter out only for destination)
@@ -22,9 +23,9 @@ class SearchViewController: UIViewController {
     let searchBar = UISearchBar()
     var tableView: UITableView!
     var searchLabel: UILabel!
+    var useCurrentLocationButton: ActionButton!
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
-    var currentLocation: LocationAnnotation!
     var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
     
     override func viewDidLoad() {
@@ -63,10 +64,11 @@ private extension SearchViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func presentResultView(searchQuery: String) {
-        if searchQuery != "" {
+    @objc private func presentResultView(searchQuery: String, useUserLocation: Bool = false) {
+        if searchQuery != "" || useUserLocation {
             let ResultVC = ResultViewController()
             ResultVC.queryString = searchQuery.lowercased()
+            ResultVC.useUserLocation = useUserLocation
             ResultVC.modalTransitionStyle = .coverVertical
             ResultVC.modalPresentationStyle = .fullScreen
             self.present(ResultVC, animated: true)
@@ -91,16 +93,31 @@ private extension SearchViewController {
             searchLabel.translatesAutoresizingMaskIntoConstraints = false
             return searchLabel
         }()
+        
+        useCurrentLocationButton = {
+            let image = UIImage(systemName: "paperplane.fill")
+            let useCurrentLocationButton = ActionButton()
+            useCurrentLocationButton.configure(title: " Use Current Location", image: image!, padding: 5.0, corner: 5.0, configuration: .gray())
+            useCurrentLocationButton.buttonIsClicked {
+                self.presentResultView(searchQuery: "", useUserLocation: true)
+            }
+            useCurrentLocationButton.translatesAutoresizingMaskIntoConstraints = false
+            return useCurrentLocationButton
+        }()
     }
     
     func setupLayout() {
+        view.addSubview(useCurrentLocationButton)
         view.addSubview(searchLabel)
         view.addSubview(tableView)
+        
+        useCurrentLocationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        useCurrentLocationButton.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
 
         searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
         searchLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
     
-        tableView.topAnchor.constraint(equalTo: searchLabel.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: searchLabel.bottomAnchor, constant: 5).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true

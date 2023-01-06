@@ -94,10 +94,11 @@ class HomeViewController: SuperUIViewController {
 // MARK: Navigation
 private extension HomeViewController {
     func initNavigationBar() {
+        
         searchButton = {
             let searchBtn = ActionButton()
             let image = UIImage(systemName: "magnifyingglass")
-            searchBtn.configure(title: "Search destination", image: image!, padding: 10.0, corner: 10.0)
+            searchBtn.configure(title: "Search destination", image: image!, padding: 10.0, corner: 10.0, configuration: .gray())
             searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()

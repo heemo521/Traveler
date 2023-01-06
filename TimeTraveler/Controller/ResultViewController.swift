@@ -14,12 +14,13 @@ import UIKit
 // [] smaller distance between the back button and the table view
 
 class ResultViewController: SuperUIViewController {
-    var queryString: String!
-    var placesAPIList = [Place]()
-  
     var tableView: UITableView!
     var backButton: ActionButton!
-  
+    
+    var useUserLocation: Bool = false
+    var queryString: String!
+    var placesAPIList = [Place]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -85,18 +86,26 @@ private extension ResultViewController {
         tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -50).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -20).isActive = true
     }
 }
 
 private extension ResultViewController {
     func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        let queryItems = ["near" : queryString!.lowercased(),"limit": "15", "categories": "16000", "fields": defaultFields]
+        
+        var queryItems = ["limit": "15", "categories": "16000", "fields": defaultFields]
+        
+        if useUserLocation {
+            let (lat, lng) = UserService.shared.getLastUserLocation()
+            queryItems["ll"] = "\(lat),\(lng)"
+        } else {
+            queryItems["near"] = queryString!.lowercased()
+        }
         
         let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
-       makeRequest(for: "data request type", request: request, onCompletion: { data in
+        makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
