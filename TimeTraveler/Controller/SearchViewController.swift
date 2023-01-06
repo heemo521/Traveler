@@ -6,7 +6,6 @@
 //
 
 // [] - Refactor & Final Clean up
-// [] - OPT: make a swipe gesture to get back to the main page
 
 // [x] - build use core location button
 // [x] - get rid of edit button
@@ -18,13 +17,17 @@ import MapKit
 import CoreLocation
 
 class SearchViewController: UIViewController {
+    // MARK: Views
     let searchBar = UISearchBar()
     var tableView: UITableView!
     var searchLabel: UILabel!
     var useCurrentLocationButton: ActionButton!
     
+    // MARK: Resources
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
+    
+    // MARK: State
     var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
     
     override func viewDidLoad() {
@@ -41,7 +44,6 @@ class SearchViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,7 +150,6 @@ extension SearchViewController: UISearchBarDelegate {
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-            
             presentResultView(searchQuery: searchQuery)
         }
     }

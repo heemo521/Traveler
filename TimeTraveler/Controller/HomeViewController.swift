@@ -33,12 +33,10 @@ class HomeViewController: SuperUIViewController {
     let scrollView = UIScrollView()
     var contentView = UIView()
     let guideView = UIView()
-
     var imageContainerView: UIView!
     var imageView: UIImageView!
     var iconView: UIImageView!
     var likeButton: ActionButton!
-    
     var nameLabel: UILabel!
     var categoryLabel: UILabel!
     var categoryText: UITextView!
@@ -46,7 +44,6 @@ class HomeViewController: SuperUIViewController {
     var addressText: UITextView!
     var distanceLabel: UILabel!
     var distanceText: UITextView!
-    
     let mapView = MKMapView()
     
     // MARK: State
@@ -235,11 +232,13 @@ private extension HomeViewController {
             addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
+        
         distanceLabel = {
             let distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
             distanceLabel.translatesAutoresizingMaskIntoConstraints = false
             return distanceLabel
         }()
+        
         distanceText = {
             let distanceText = UITextView()
             distanceText.isEditable = false
@@ -517,7 +516,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
 }
 
-// MARK: - Map
+// MARK: - Map Delegate
 extension HomeViewController: MKMapViewDelegate {
     func updateMapViewWithCoordinates(lat: Double, lng: Double) {
         let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)

@@ -5,13 +5,14 @@
 //  Created by Heemo on 12/29/22.
 //
 
-// [] - Refactor & Final Clean up
-// [] Render with the initial lower quality image, then fetch the image again for the correct screen size 
-// [] show pagination 
-// [] change the scroll/content view to a slidable modal instead
-// [] implement coordinates to the map
-// [] make the buttons change in color when clicked onto
+// [] Refactor & Final Clean up
 // [] Placd the name label on top of the image
+// [] change the scroll/content view to a slidable modal instead
+// [] Render with the initial lower quality image, then fetch the image again for the correct screen size 
+// [] show pagination
+// [] implement coordinates to the map
+
+// [x] make the buttons change in color when clicked onto
 // [x] swipable images
 
 
@@ -19,16 +20,9 @@ import UIKit
 import MapKit
 
 class DetailViewController: SuperUIViewController {
-    var selectedPlace: Place!
-    let shared = UserService.shared
-    
-    var mainBackgroundColor: UIColor = .systemBackground
-    var contentBackgroundColor: UIColor = .secondarySystemBackground
-    var hightlightColor: UIColor = .systemPurple
-    
+    // MARK: Views
     var collectionView: UICollectionView!
     var mainImageView: UIImageView!
-    
     let scrollView = UIScrollView()
     let contentView = UIView()
     var nameLabel: UILabel!
@@ -38,17 +32,22 @@ class DetailViewController: SuperUIViewController {
     var addressText: UITextView!
     var relatedPlaceLabel: UILabel!
     var relatedPlaceText: UITextView!
-    
     let mapView = MKMapView()
-    
     var likeButton = UIButton()
     var dismissButton: UIButton!
     
+    // MARK: State
+    var selectedPlace: Place!
+    let shared = UserService.shared
     var likedStatus: Bool? {
         didSet {
             likeButton.setNeedsUpdateConfiguration()
         }
     }
+    
+    var mainBackgroundColor: UIColor = .systemBackground
+    var contentBackgroundColor: UIColor = .secondarySystemBackground
+    var hightlightColor: UIColor = .systemPurple
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,19 +60,20 @@ class DetailViewController: SuperUIViewController {
         collectionView.dataSource = self
         scrollView.delegate = self
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         likeButton.setImage(UIImage(systemName: shared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
     }
-}
-
-private extension DetailViewController {
+    
     @objc private func likeButtonClicked() {
         let id = self.selectedPlace.id!
         self.shared.toggleLike(id: id)
         likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
     }
-    
+}
+// MARK: - UI
+private extension DetailViewController {
     func initUI() {
         view.backgroundColor = mainBackgroundColor
         scrollView.backgroundColor = contentBackgroundColor
@@ -118,7 +118,7 @@ private extension DetailViewController {
             categoryText.translatesAutoresizingMaskIntoConstraints = false
             return categoryText
         }()
-        
+
         addressText = {
             let addressText = UITextView()
             addressText.isEditable = false
@@ -134,6 +134,7 @@ private extension DetailViewController {
             addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
+        
         relatedPlaceText = {
             let relatedPlaceText = UITextView()
             relatedPlaceText.isEditable = false
@@ -145,6 +146,7 @@ private extension DetailViewController {
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
         }()
+        
         likeButton = {
             let likeButton = ActionButton()
             likeButton.buttonIsClicked(do: likeButtonClicked)
@@ -164,6 +166,7 @@ private extension DetailViewController {
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
+        
         dismissButton = {
             let dismissButton = ActionButton()
             dismissButton.configure(title: "Dismiss", padding: 10, configuration: .gray())
@@ -259,6 +262,7 @@ private extension DetailViewController {
     }
 }
 
+// MARK: - ScrollDelegate
 extension DetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
@@ -273,17 +277,18 @@ extension DetailViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: TableView Delegate
 extension DetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected a picture")
     }
 }
 
+// MARK: TableView Data Source
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedPlace.imageUrls.count
     }
-
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell

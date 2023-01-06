@@ -17,6 +17,7 @@ import UIKit
 // [x] Heart should be in white and maybe add a circle?
 
 class ResultViewController: SuperUIViewController {
+    // MARK: Views
     var tableView: UITableView!
     var backButton: ActionButton!
     var filterContainer: UIView!
@@ -25,6 +26,7 @@ class ResultViewController: SuperUIViewController {
     var limitFilterButton = UIButton()
     private var placesAPIList = [Place]()
     
+    // MARK: State
     var useUserLocation: Bool = false
     var queryString: String!
     var sortBy: String!
