@@ -5,7 +5,15 @@
 //  Created by Heemo on 12/29/22.
 //
 
-// [] swipable images
+// [x] swipable images
+// [] show pagination 
+// [] change the scroll/content view to a slidable modal instead
+// [] implement coordinates to the map
+// [] make the buttons change in color when clicked onto
+// [] Placd the name label on top of the image
+
+
+
 import UIKit
 import MapKit
 
@@ -221,9 +229,8 @@ private extension DetailViewController {
         likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
         likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
-        
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
     }
 }
 

@@ -9,6 +9,19 @@ import UIKit
 import MapKit
 import CoreLocation
 
+// [] - Searchbar style
+// [] - Liked Page using resultview and detail view
+// [] - Clean up transition animations
+// [] - Draw direction to the place and display distance
+// [] - Refactor
+// [x] - Remove the heart from the first page
+// [x] - User last location saved
+// [x] - Make sure for correct rendering data (image)
+// [x] - Put icon on the left corner
+// [x] - like button on the right corner
+// [x] - animation clean up
+
+
 class HomeViewController: SuperUIViewController {
     // MARK: Navigation
     var searchButton: ActionButton!
@@ -18,14 +31,19 @@ class HomeViewController: SuperUIViewController {
     let contentView = UIView()
     let guideView = UIView()
 
-    let imageContainerView = UIView()
+    var imageContainerView: UIView!
     var imageView: UIImageView!
-    var iconView: UIImageView! // This needs to be placed
+    var iconView: UIImageView!
+    var likeButton: ActionButton!
     
     var titleLabel: UILabel!
+    var titleText: UITextView!
     var categoryLabel: UILabel!
+    var categoryText: UITextView!
     var addressLabel: UILabel!
+    var addressText: UITextView!
     var distanceLabel: UILabel!
+    var distanceText: UITextView!
     
     let mapView = MKMapView()
     
@@ -45,31 +63,28 @@ class HomeViewController: SuperUIViewController {
         initUI()
         setupScrollView()
         setupLayout()
-        configureUI()
-        
         locationManagerInit()
-        getLocationDataHTTP()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if didUpdateImageView {
-            scalingAnimation()
-        }
+        scalingAnimation()
         if let first = fetchedLocationList.first {
-            if shared.checkLikedPlace(id: first.id!) {
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
-            } else {
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
-            }
+            let heartType = shared.checkLikedPlace(id: first.id!) ? "heart.fill" : "heart"
+            likeButton.setImage(UIImage(systemName: heartType), for: .normal)
         }
     }
     
     // MARK: - Device Orientation Update
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         scalingAnimation()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        scalingAnimation()
+    }
 }
 
 // MARK: Navigation
@@ -85,24 +100,22 @@ private extension HomeViewController {
                 SearchVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.modalTransitionStyle = .flipHorizontal
                 self.navigationController?.pushViewController(SearchVC, animated: true)
-                
             }
-            
             return searchBtn
         }()
         
         navigationItem.titleView = searchButton
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapLikeButton))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapLikeButton))
     }
     
     @objc private func didTapLikeButton() {
         if let first = fetchedLocationList.first, let id = first.id {
             if shared.checkLikedPlace(id: id) {
                 shared.unlikeAPlace(id: id)
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             } else {
                 shared.likeAPlace(id: id)
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             }
         }
     }
@@ -121,9 +134,19 @@ private extension HomeViewController {
     func initUI() {
         view.backgroundColor = .white
         
+        imageContainerView = {
+            let imageContainerView = UIView()
+            imageContainerView.backgroundColor = .systemBlue
+            imageContainerView.layer.borderWidth = 3
+            imageContainerView.layer.borderColor = UIColor.gray.cgColor
+            
+            imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+            return imageContainerView
+        }()
+        
         imageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "temp.jpeg")
+            imageView.image = UIImage(systemName: "doc.text.image")
             imageView.contentMode = .scaleToFill
             let gesture = UITapGestureRecognizer(target: self, action: #selector(self.imageViewClicked))
             gesture.numberOfTapsRequired = 1
@@ -135,18 +158,58 @@ private extension HomeViewController {
     
         iconView = {
             let icon = UIImageView()
-            icon.image = UIImage(systemName: "square.and.arrow.up.circle")
             icon.translatesAutoresizingMaskIntoConstraints = false
+            icon.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            icon.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            icon.layer.cornerRadius = 25
+            icon.clipsToBounds = true
+            icon.layer.borderColor = UIColor.white.cgColor
+            icon.layer.borderWidth = 3
+            icon.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             return icon
         }()
         
-        titleLabel = createLabel(with: "Rocky Mountains", size: 32, weight: .bold)
-        categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
-        addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
-        distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
+        likeButton = {
+            let likeButton = ActionButton()
+            let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+            likeButton.setImage(image, for: .normal)
+            likeButton.tintColor = .white
+            likeButton.translatesAutoresizingMaskIntoConstraints = false
+            likeButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            likeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            likeButton.layer.cornerRadius = 25
+            likeButton.clipsToBounds = true
+            likeButton.layer.borderColor = UIColor.white.cgColor
+            likeButton.layer.borderWidth = 3
+            likeButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            likeButton.buttonIsClicked(do: didTapLikeButton)
+            
+            return likeButton
+        }()
+        
+        titleLabel = {
+            let titleLabel = createLabel(with: "Loading...", size: 32, weight: .bold)
+            titleLabel.numberOfLines = 2
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            return titleLabel
+        }()
+        categoryLabel = {
+            let categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
+            categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+            return categoryLabel
+        }()
+        addressLabel = {
+            let addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
+            addressLabel.numberOfLines = 2
+            addressLabel.translatesAutoresizingMaskIntoConstraints = false
+            return addressLabel
+        }()
+        distanceLabel = {
+            let distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
+            distanceLabel.translatesAutoresizingMaskIntoConstraints = false
+            return distanceLabel
+        }()
     }
-    
- 
     
     func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -176,24 +239,28 @@ private extension HomeViewController {
     }
 
     func setupLayout() {
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
         imageView.addSubview(iconView)
+        imageView.addSubview(likeButton)
         
         imageContainerView.centerXAnchor.constraint(equalTo: guideView.centerXAnchor).isActive = true
         imageContainerView.centerYAnchor.constraint(equalTo: guideView.centerYAnchor).isActive = true
-        imageContainerView.widthAnchor.constraint(equalTo: guideView.heightAnchor, multiplier: 0.7).isActive = true
+        imageContainerView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         imageContainerView.heightAnchor.constraint(equalTo: imageContainerView.widthAnchor).isActive = true
+        imageContainerView.layer.cornerRadius = 150
+        imageContainerView.clipsToBounds = true
         
-        imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor).isActive = true
         
+        iconView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 20).isActive = true
         iconView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-        iconView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+        
+        likeButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -20).isActive = true
+        likeButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(categoryLabel)
@@ -226,58 +293,6 @@ private extension HomeViewController {
         contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 30).isActive = true
     }
     
-    func configureUI() {
-        titleLabel.numberOfLines = 2
-        addressLabel.numberOfLines = 2
-        
-        imageView.layer.cornerRadius = 500 / 2
-        imageView.clipsToBounds = true
-        imageView.layer.borderColor = UIColor.lightGray.cgColor
-        imageView.layer.borderWidth = 3
-        imageView.layer.shadowRadius = 10
-        imageView.layer.shadowOffset = .zero
-        imageView.layer.shadowOpacity = 0.5
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
-    }
-    
-    func showSpinner() {
-        // Clean up the data and show loading initially and possibly prepare a loader view on the app so the data fetches before segue to this main view
-//        imageView.isHidden = true
-//        scrollView.isHidden = true
-//        iconView.isHidden = true
-        // *****Create a loading spinnner here!!!!!
-    }
-    
-    func hideSpinner() {
-        UIView.transition(with: scrollView, duration: 1, options: .transitionCrossDissolve, animations: { self.scrollView.isHidden = false
-        })
-    }
-    
-    func scalingAnimation() {
-//        UIView.animate(withDuration: 1, delay: 0, animations: {self.imageView.transform = CGAffineTransform.identity})
-        if UIDevice.current.orientation.isLandscape {
-            
-//            UIView.animate(withDuration: 0.6, delay: 0, animations: {self.imageView.transform = CGAffineTransform.identity})
-            
-//            UIView.animate(withDuration: 0.6, animations: {
-//                self.imageView.transform = CGAffineTransform.identity
-//            }, completion: { _ in
-//                UIView.animate(withDuration: 0.6, animations: {
-//                    self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-//                })
-//            })
-//        } else {
-//            UIView.animate(withDuration: 0.6, animations: {
-//                self.imageView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-//            }, completion: { _ in
-//                UIView.animate(withDuration: 0.6, animations: {
-//                     self.imageView.transform = CGAffineTransform.identity
-//                })
-//            })
-        }
-    }
-    
     func updateContent(with selectedLocation: Place) {
         categoryLabel.text = selectedLocation.categories?.first?.name
         titleLabel.text = selectedLocation.name
@@ -285,31 +300,44 @@ private extension HomeViewController {
     
         if let id = selectedLocation.id {
             if shared.checkLikedPlace(id: id) {
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             } else {
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
-        self.updateMapViewWithCoordinates(at: 0)
-
+        self.updateMapViewWithCoordinates()
+    }
+    
+    func scalingAnimation() {
+        if UIDevice.current.orientation.isLandscape {
+            UIView.animate(withDuration: 0.6, animations: {
+                self.imageContainerView.transform = CGAffineTransform.identity
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.imageContainerView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+                })
+            })
+        } else {
+            UIView.animate(withDuration: 0.6, animations: {
+                self.imageContainerView.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.6, animations: {
+                     self.imageContainerView.transform = CGAffineTransform.identity
+                })
+            })
+        }
     }
 }
 
 // MARK: - HTTP
 private extension HomeViewController {
-    func getLocationDataHTTP(lat: Double = 0.0, lng: Double = 0.0) {
-        showSpinner()
+    func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        var ll: String!
         
-        if lat != 0.0, lng != 0.0 {
-            ll = "\(String(lat)),\(String(lng))"
-        } else {
-            let (lat, lng) = shared.getLastUserLocation()
-            ll = "\(String(lat)),\(String(lng))"
-        }
+        let (lat, lng) = shared.getLastUserLocation()
+        let ll = "\(lat),\(lng)"
         
-        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll!, "categories": "16000", "fields": defaultFields, "sort": "distance"]
+        let queryItems = ["query": "outdoor", "limit": "1", "range": "10000.0", "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
         let request = buildRequest(for: "get", with: queryItems, from: "/search")!
         
@@ -330,7 +358,6 @@ private extension HomeViewController {
                 
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
-                    self.hideSpinner()
                 }
             } catch let error {
                 // Error when there is no response or data returned from API
@@ -380,24 +407,29 @@ extension HomeViewController: CLLocationManagerDelegate {
         }
         
         switch authorizationStatus {
-            case .authorizedWhenInUse:
-                print("all good now!")
+            case .authorizedWhenInUse, .authorizedAlways:
+                titleLabel.text = "Finding the nearest outdoor place!"
                 locationManager.startUpdatingLocation()
             case .restricted, .denied:
-                print("restricted")
+                print("Location use restricted")
+                titleLabel.text = "Location use restricted, accessing last location"
+                self.getLocationDataHTTP()
             default:
                 print("Not authorized yet")
+                titleLabel.text = "Location use not authorized, accessing last location"
+                self.getLocationDataHTTP()
         }
     }
     // First time when user starts the app / user allows the authorization
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        if manager.authorizationStatus == .authorizedWhenInUse {
+        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
             locationManager.startUpdatingLocation()
         }
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
-        self.getLocationDataHTTP(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
+        shared.saveLastUserLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        self.getLocationDataHTTP()
         
         let coord = location.coordinate
         let locationCoord = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
@@ -415,7 +447,7 @@ extension HomeViewController {
         didUpdateMapView = true
     }
 
-    func updateMapViewWithCoordinates(at index: Int) {
+    func updateMapViewWithCoordinates() {
     
 //        guard didUpdateMapView == false else { return }
    

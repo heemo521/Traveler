@@ -41,9 +41,9 @@ class UserService {
         }
     }
     
-    func saveLastUserLocation(latitude: String, longitude: String) {
-        user.lastLocation.latitude = Double(latitude)
-        user.lastLocation.longitude = Double(longitude)
+    func saveLastUserLocation(latitude: Double, longitude: Double) {
+        user.lastLocation.latitude = latitude
+        user.lastLocation.longitude = longitude
         saveUserData()
     }
     func getLastUserLocation()-> (Double, Double) {
@@ -74,13 +74,11 @@ class UserService {
     }
     
     func addRecentSearch(recentSearch: RecentSearch) {
-        print("adding recent search \(recentSearch.title)")
         user.recentSearch.insert(recentSearch)
         saveUserData()
     }
 
     func removeRecentSearch(recentSearch: RecentSearch) {
-        print("removing recent search \(recentSearch.title)")
         user.recentSearch.remove(recentSearch)
         saveUserData()
     }

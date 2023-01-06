@@ -7,6 +7,12 @@
 
 import UIKit
 
+// [] disable clicking a row until the image has been fetched and received (even if there is no data) and use additional boolean property on Place model
+// [] Resize the image to fit in to the cell
+// [] Heart should be in white and maybe add a circle?
+// [] Fix labels and spacing between the address and name
+// [] smaller distance between the back button and the table view
+
 class ResultViewController: SuperUIViewController {
     var queryString: String! = "Red Rock"
     var placesAPIList = [Place]()
@@ -51,7 +57,7 @@ private extension ResultViewController {
         view.backgroundColor = .white
         tableView = {
             let tableView = UITableView()
-            tableView.backgroundColor = .systemBlue
+            tableView.backgroundColor = .lightGray
             tableView.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
@@ -73,7 +79,7 @@ private extension ResultViewController {
         view.addSubview(tableView)
         view.addSubview(backButton)
         
-        backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

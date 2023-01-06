@@ -5,6 +5,10 @@
 //  Created by Heemo on 1/2/23.
 //
 
+// [] - get rid of edit button
+// [] - build use core location button
+// [] - make a swipe gesture to get back to the main page 
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -35,7 +39,7 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData() // update recent search data after coming from result view
+        // update recent search data after coming from result view
         navigationController?.isNavigationBarHidden = false
         searchBar.becomeFirstResponder()
     }
@@ -132,6 +136,7 @@ extension SearchViewController: UISearchBarDelegate {
             searchLabel.text = "Search Result"
             searchLabel.textColor = .black
         }
+        tableView.reloadData()
     }
 }
 // MARK: MK Local Search
@@ -156,8 +161,7 @@ extension SearchViewController: UITableViewDelegate {
         var searchResult = ""
         if searchResults.isEmpty {
             searchResult = recentSearchList[indexPath.row].title
-
-           
+            
         } else {
             let result = searchResults[indexPath.row]
             searchResult = result.title
