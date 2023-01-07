@@ -422,7 +422,6 @@ extension HomeViewController: CLLocationManagerDelegate {
         let location = locations.first!
         
         shared.saveLastUserLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        print(location.coordinate.longitude, location.coordinate.latitude)
         self.getLocationDataHTTP()
         
         let coord = location.coordinate

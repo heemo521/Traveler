@@ -24,6 +24,7 @@ class SearchViewController: UIViewController {
     
     // MARK: State
     var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
+    var ResultVC: ResultViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,21 +61,37 @@ private extension SearchViewController {
     }
     
     @objc private func didTapBackButton() {
+        if ResultVC != nil && ResultVC.resultViewControllerIsVisible {
+            ResultVC.dismiss(animated: true)
+        }
         navigationController?.popViewController(animated: true)
     }
     
     @objc private func presentResultView(searchQuery: String, useUserLocation: Bool = false) {
-        if searchQuery != "" || useUserLocation {
-            let ResultVC = ResultViewController()
+        if ResultVC == nil || !ResultVC.resultViewControllerIsVisible {
+            ResultVC = ResultViewController()
             ResultVC.queryString = searchQuery.lowercased()
             ResultVC.useUserLocation = useUserLocation
-            
             if let sheet = ResultVC.sheetPresentationController {
                 // Customize the sheet here
                 sheet.detents = [.medium(), .large()]
                 sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 30.0
             }
             self.present(ResultVC, animated: true)
+        } else {
+            ResultVC.queryString = searchQuery.lowercased()
+            ResultVC.useUserLocation = useUserLocation
+            ResultVC.getLocationDataHTTP()
+            if let sheet = ResultVC.sheetPresentationController {
+                sheet.animateChanges {
+                    sheet.selectedDetentIdentifier = .large
+                }
+            }
         }
     }
 }

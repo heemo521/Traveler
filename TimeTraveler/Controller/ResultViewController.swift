@@ -19,7 +19,10 @@ class ResultViewController: SuperUIViewController {
     var limitFilterButton = UIButton()
     
     // MARK: State
+    var resultViewControllerIsVisible = false
+    
     private var placesAPIList = [Place]()
+    
     private var fetchingSort: Bool? {
         didSet {
             sortFilterButton.setNeedsUpdateConfiguration()
@@ -49,6 +52,7 @@ class ResultViewController: SuperUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         fetchingSort = false
         fetchingLimit = false
         fetchingOpenNow = false
@@ -61,6 +65,9 @@ class ResultViewController: SuperUIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        resultViewControllerIsVisible = true
+        
         if placesAPIList.count == 0 {
             sortBy = sortFilterButton.menu?.selectedElements.first?.title
             searchLimit = limitFilterButton.menu?.selectedElements.first?.title
@@ -68,6 +75,12 @@ class ResultViewController: SuperUIViewController {
         } else {
             tableView.reloadData()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("setting resultViewControllerISVISBLE to false")
+        resultViewControllerIsVisible = false
     }
 }
 
@@ -77,7 +90,6 @@ private extension ResultViewController {
         guard placesAPIList.count > 0 else { return }
         let DetailVC = DetailViewController()
         DetailVC.selectedPlace = placesAPIList[index]
-        DetailVC.modalTransitionStyle = .flipHorizontal
         DetailVC.modalPresentationStyle = .fullScreen
         self.present(DetailVC, animated: true)
     }
@@ -191,8 +203,8 @@ private extension ResultViewController {
     
     func setupLayout() {
         view.addSubview(tableView)
-//        view.addSubview(backButton)
         view.addSubview(filterContainer)
+        
         filterContainer.addSubview(openNowFilterButton)
         filterContainer.addSubview(limitFilterButton)
         filterContainer.addSubview(sortFilterButton)
@@ -200,7 +212,7 @@ private extension ResultViewController {
         filterContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         filterContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         filterContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        filterContainer.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        filterContainer.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         openNowFilterButton.centerYAnchor.constraint(equalTo: filterContainer.centerYAnchor).isActive = true
         openNowFilterButton.leadingAnchor.constraint(equalTo: filterContainer.leadingAnchor, constant: 10).isActive = true
@@ -221,7 +233,7 @@ private extension ResultViewController {
 }
 
 // MARK: - HTTP
-private extension ResultViewController {
+extension ResultViewController {
     func getLocationDataHTTP() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         
@@ -247,6 +259,10 @@ private extension ResultViewController {
                 }
                     
                 DispatchQueue.main.async {
+                    if self.fetchingLimit == false {
+                        self.scrollToTop()
+                    }
+                    
                     self.fetchingLimit = false
                     self.fetchingSort = false
                     self.fetchingOpenNow = false
@@ -305,6 +321,10 @@ extension ResultViewController: UITableViewDelegate {
         return ResultCell.rowHeight
     }
     
+    func scrollToTop() {
+        let topRow = IndexPath(row: 0, section: 0)
+        tableView.scrollToRow(at: topRow, at: .top, animated: true)
+    }
 }
 
 // MARK: TableView Data Source
