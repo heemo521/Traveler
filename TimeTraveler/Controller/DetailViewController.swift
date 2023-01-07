@@ -6,7 +6,7 @@
 //
 
 // [] Refactor & Final Clean up
-// [] Add a gesture to dismiss the page or place it or the top! Or make the button biggger
+// [] Move the back button to the top right and maybe make it sticky
 
 import UIKit
 import MapKit
@@ -26,7 +26,7 @@ class DetailViewController: SuperUIViewController {
     var relatedPlaceText: UITextView!
     let mapView = MKMapView()
     var likeButton = UIButton()
-    var dismissButton: UIButton!
+    var modalCloseButton: UIButton!
     
     // MARK: State
     var selectedPlace: Place!
@@ -53,7 +53,6 @@ class DetailViewController: SuperUIViewController {
         locateDesinationOnTheMap()
         collectionView.dataSource = self
         collectionView.delegate = self
-        scrollView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +76,8 @@ private extension DetailViewController {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
         let relatedPlaceButton = ActionButton(configuration: config)
+        relatedPlaceButton.isUserInteractionEnabled = false
+        relatedPlaceButton.isHighlighted = true
         return relatedPlaceButton
     }
     
@@ -193,23 +194,23 @@ private extension DetailViewController {
             return likeButton
         }()
         
-        dismissButton = {
-            let dismissButton = ActionButton()
-            dismissButton.configure(title: "Dismiss", padding: 10, configuration: .gray())
-            dismissButton.configuration?.buttonSize = .large
-            dismissButton.configuration?.baseForegroundColor = hightlightColor
-            dismissButton.configurationUpdateHandler = {
+        modalCloseButton = {
+            let modalCloseButton = ActionButton()
+            modalCloseButton.configuration = .plain()
+            modalCloseButton.configuration?.buttonSize = .large
+            modalCloseButton.configuration?.baseForegroundColor = hightlightColor
+            modalCloseButton.configurationUpdateHandler = {
                 button in
                 var config = button.configuration
-                config?.title = button.isHighlighted ? "" : "Back"
-                config?.image = button.isHighlighted ? UIImage(systemName: "xmark.circle") : UIImage()
+                config?.image =  UIImage(systemName: "arrow.backward.circle")
                 button.configuration = config
             }
-            dismissButton.buttonIsClicked {
+            modalCloseButton.buttonIsClicked {
                 self.dismiss(animated: true)
             }
-            dismissButton.translatesAutoresizingMaskIntoConstraints = false
-            return dismissButton
+            modalCloseButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            modalCloseButton.translatesAutoresizingMaskIntoConstraints = false
+            return modalCloseButton
         }()
     }
     
@@ -241,6 +242,11 @@ private extension DetailViewController {
         relatedPlaceContainer.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
+        view.addSubview(modalCloseButton)
+        
+        modalCloseButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        modalCloseButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        
         contentView.addSubview(collectionView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
@@ -252,8 +258,7 @@ private extension DetailViewController {
 
         contentView.addSubview(mapView)
         contentView.addSubview(likeButton)
-        view.addSubview(dismissButton)
-    
+        
         collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo:contentView.trailingAnchor).isActive = true
@@ -325,9 +330,6 @@ private extension DetailViewController {
         
         likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
         likeButton.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
-        
-        dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
     }
 }
 
@@ -363,21 +365,6 @@ private extension DetailViewController {
             catch let error {
                 print("\(String(describing: error.localizedDescription))")
             }
-        })
-    }
-}
-
-// MARK: - ScrollDelegate
-extension DetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
-            self.dismissButton.isHidden = true
-        })
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        UIView.transition(with: self.dismissButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
-            self.dismissButton.isHidden = false
         })
     }
 }

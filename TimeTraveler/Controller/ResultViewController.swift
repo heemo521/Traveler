@@ -12,7 +12,6 @@ import UIKit
 class ResultViewController: SuperUIViewController {
     // MARK: Views
     var tableView: UITableView!
-//    var backButton: ActionButton!
     var filterContainer: UIView!
     var openNowFilterButton = UIButton()
     var sortFilterButton = UIButton()
@@ -91,6 +90,7 @@ private extension ResultViewController {
         let DetailVC = DetailViewController()
         DetailVC.selectedPlace = placesAPIList[index]
         DetailVC.modalPresentationStyle = .fullScreen
+        DetailVC.modalTransitionStyle = .crossDissolve
         self.present(DetailVC, animated: true)
     }
 }
@@ -152,9 +152,10 @@ private extension ResultViewController {
             }
             let limitFilterButton = ActionButton(primaryAction: nil)
             limitFilterButton.menu = UIMenu(children: [
-                UIAction(title:"5", handler: closure),
-                UIAction(title:"10", state: .on, handler: closure),
-                UIAction(title:"25", handler: closure),
+                UIAction(title: "5", handler: closure),
+                UIAction(title: "10", state: .on, handler: closure),
+                UIAction(title: "25", handler: closure),
+                UIAction(title: "35", handler: closure),
                 UIAction(title: "50", handler: closure)
             ])
             limitFilterButton.showsMenuAsPrimaryAction = true

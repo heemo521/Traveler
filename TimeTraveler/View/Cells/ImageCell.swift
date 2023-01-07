@@ -16,7 +16,7 @@ class ImageCell: UICollectionViewCell {
         super.init(frame: frame)
         imageView = {
             let imageView = UIImageView()
-            imageView.contentMode = .scaleToFill
+            imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
         }()
