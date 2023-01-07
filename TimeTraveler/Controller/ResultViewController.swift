@@ -5,28 +5,38 @@
 //  Created by Heemo on 12/28/22.
 //
 
-import UIKit
-
 // [] Refactor & Final Clean up
 
-// [x] Add a filter - create a enum for limit & sort for filter // add it to user configuration
-// [x] Fetch correct image size based on the imageview's frame width & height
-// [x] Fix labels and spacing between the address and name`
-// [x] Resize the image to fit in to the cell
-// [x] smaller distance between the back button and the table view
-// [x] Heart should be in white and maybe add a circle?
+import UIKit
 
 class ResultViewController: SuperUIViewController {
     // MARK: Views
     var tableView: UITableView!
     var backButton: ActionButton!
     var filterContainer: UIView!
-    var openNowFilterButton: UIButton!
+    var openNowFilterButton = UIButton()
     var sortFilterButton = UIButton()
     var limitFilterButton = UIButton()
-    private var placesAPIList = [Place]()
     
     // MARK: State
+    private var placesAPIList = [Place]()
+    private var fetchingSort: Bool? {
+        didSet {
+            sortFilterButton.setNeedsUpdateConfiguration()
+        }
+    }
+    private var fetchingLimit: Bool? {
+        didSet {
+            limitFilterButton.setNeedsUpdateConfiguration()
+        }
+    }
+    
+    private var fetchingOpenNow: Bool? {
+        didSet {
+            openNowFilterButton.setNeedsUpdateConfiguration()
+        }
+    }
+    
     var useUserLocation: Bool = false
     var queryString: String!
     var sortBy: String!
@@ -39,6 +49,10 @@ class ResultViewController: SuperUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchingSort = false
+        fetchingLimit = false
+        fetchingOpenNow = false
+        
         initUI()
         setupLayout()
         tableView.delegate = self
@@ -104,6 +118,7 @@ private extension ResultViewController {
         sortFilterButton = {
             let closure =  { (action: UIAction) in
                 self.sortBy = action.title
+                self.fetchingSort = true
                 self.getLocationDataHTTP()
             }
             let sortFilterButton = ActionButton(primaryAction: nil)
@@ -118,11 +133,13 @@ private extension ResultViewController {
             sortFilterButton.configurationUpdateHandler = {
                 [unowned self] button in
                 var config = UIButton.Configuration.plain()
-                config.title = button.isHighlighted ? "Change" : "Sort"
+                config.title = button.isHighlighted ? "Sort By" : "Sort"
                 config.subtitle = button.menu?.selectedElements.first?.title
                 config.titleAlignment = .center
                 config.baseForegroundColor = hightlightColor
                 config.baseBackgroundColor = hightlightColor
+                config.showsActivityIndicator = self.fetchingSort!
+                config.imagePadding = 5.0
                 button.configuration = config
             }
             sortFilterButton.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +149,7 @@ private extension ResultViewController {
         limitFilterButton = {
             let closure =  { (action: UIAction) in
                 self.searchLimit = action.title
+                self.fetchingLimit = true
                 self.getLocationDataHTTP()
             }
             let limitFilterButton = ActionButton(primaryAction: nil)
@@ -147,11 +165,13 @@ private extension ResultViewController {
             limitFilterButton.configurationUpdateHandler = {
                 [unowned self] button in
                 var config = UIButton.Configuration.plain()
-                config.title = button.isHighlighted ? "Change" : "Limit"
+                config.title = "Limit"
                 config.subtitle = button.menu?.selectedElements.first?.title
                 config.titleAlignment = .center
                 config.baseForegroundColor = hightlightColor
                 config.baseBackgroundColor = hightlightColor
+                config.showsActivityIndicator = self.fetchingLimit!
+                config.imagePadding = 5.0
                 button.configuration = config
             }
             limitFilterButton.translatesAutoresizingMaskIntoConstraints = false
@@ -161,12 +181,22 @@ private extension ResultViewController {
         openNowFilterButton = {
             let openFilterAction = UIAction(title: "Open Now", handler: { _ in
                 self.openNow = !self.openNow
+                self.fetchingOpenNow = true
                 self.getLocationDataHTTP()
             })
             var configuration = UIButton.Configuration.plain()
             configuration.baseForegroundColor = hightlightColor
             configuration.baseBackgroundColor = hightlightColor
             let openNowFilterButton = UIButton(configuration: configuration, primaryAction: openFilterAction)
+            
+            openNowFilterButton.configurationUpdateHandler = {
+                [unowned self] button in
+                var config = button.configuration
+                config?.showsActivityIndicator = self.fetchingOpenNow!
+                config?.imagePadding = 5.0
+                button.configuration = config
+                
+            }
             openNowFilterButton.changesSelectionAsPrimaryAction = true
             openNowFilterButton.translatesAutoresizingMaskIntoConstraints = false
             return openNowFilterButton
@@ -234,6 +264,9 @@ private extension ResultViewController {
                 }
                     
                 DispatchQueue.main.async {
+                    self.fetchingLimit = false
+                    self.fetchingSort = false
+                    self.fetchingOpenNow = false
                     if self.placesAPIList.count == 0 {
                         self.dismiss(animated: true)
                     } else {

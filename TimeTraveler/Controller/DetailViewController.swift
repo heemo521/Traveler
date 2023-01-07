@@ -6,18 +6,6 @@
 //
 
 // [] Refactor & Final Clean up
-// [] Change related place to a button and add multiple and re-render with the selected place when clicked on
-// [] OPT - Full Screen for images with control
-// [] OPT - middle modal view for searchVC
-
-// [x] Related place
-// [x] Render with the initial lower quality image, then fetch the image again for the correct screen size
-// [x] implement coordinates to the map
-// [x] fix the view
-// [x] Placd the name label on top of the image
-// [x] make the buttons change in color when clicked onto
-// [x] swipable images
-
 
 import UIKit
 import MapKit
@@ -215,7 +203,7 @@ private extension DetailViewController {
             dismissButton.configurationUpdateHandler = {
                 button in
                 var config = button.configuration
-                config?.title = button.isHighlighted ? "" : "Dismiss"
+                config?.title = button.isHighlighted ? "" : "Back"
                 config?.image = button.isHighlighted ? UIImage(systemName: "xmark.circle") : UIImage()
                 button.configuration = config
             }

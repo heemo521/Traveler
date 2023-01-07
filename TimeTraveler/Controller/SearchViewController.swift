@@ -7,11 +7,6 @@
 
 // [] - Refactor & Final Clean up
 
-// [x] - build use core location button
-// [x] - get rid of edit button
-// [x] - update local search complete result type to address (to filter out only for destination)
-
-
 import UIKit
 import MapKit
 import CoreLocation

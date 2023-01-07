@@ -5,24 +5,12 @@
 //  Created by Heemo on 12/25/22.
 //
 
+// [] - Refactor & Final Clean up
+// [] - Create a global background color property when refatoring
+
 import UIKit
 import MapKit
 import CoreLocation
-
-
-// [] - Refactor & Final Clean up
-// [] - Create a global background color property when refatoring
-// [x] - Fetch correct image size based on the imageview's frame width & height
-// [x] - Searchbar style
-// [x] - Draw direction to the place and display distance
-// [x] - texts and labels
-// [x] - Clean up transition animations
-// [x] - Remove the heart from the first page
-// [x] - User last location saved
-// [x] - Make sure for correct rendering data (image)
-// [x] - Put icon on the left corner
-// [x] - like button on the right corner
-// [x] - animation clean up
 
 
 class HomeViewController: SuperUIViewController {

@@ -85,8 +85,8 @@ class ResultCell: UITableViewCell {
         mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         mainImage.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
-        likeStatusImage.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -60).isActive = true
-        likeStatusImage.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -60).isActive = true
+        likeStatusImage.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -50).isActive = true
+        likeStatusImage.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -50).isActive = true
         likeStatusImage.widthAnchor.constraint(equalTo: mainImage.widthAnchor, multiplier: 0.2).isActive = true
         likeStatusImage.heightAnchor.constraint(equalTo: likeStatusImage.widthAnchor).isActive = true
         
