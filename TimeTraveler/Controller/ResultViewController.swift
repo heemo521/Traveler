@@ -230,7 +230,6 @@ private extension ResultViewController {
                 self.placesAPIList = dataDecoded.results
     
                 for (index, place) in self.placesAPIList.enumerated() {
-                    print(place.id!)
                     self.getImageDetailsHTTP(with: place.id!, at: index)
                 }
                     

@@ -33,6 +33,7 @@ class DetailViewController: SuperUIViewController {
     var addressLabel: UILabel!
     var addressText: UITextView!
     var relatedPlaceLabel: UILabel!
+    var relatedPlaceContainer = UIView()
     var relatedPlaceText: UITextView!
     let mapView = MKMapView()
     var likeButton = UIButton()
@@ -53,12 +54,14 @@ class DetailViewController: SuperUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
+    
         initUI()
         setupSubviews()
         setupLayout()
+        
         getImageDetailsHTTP(with: selectedPlace.id!)
         locateDesinationOnTheMap()
-//        collectionView.delegate = self
         collectionView.dataSource = self
         scrollView.delegate = self
     }
@@ -77,11 +80,23 @@ class DetailViewController: SuperUIViewController {
 }
 // MARK: - UI
 private extension DetailViewController {
+    func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
+        let action = UIAction(handler: {_ in
+            print(name)
+        })
+        var config = UIButton.Configuration.gray()
+        config.title = name
+        config.buttonSize = .mini
+        config.baseForegroundColor = .label
+        config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
+        let relatedPlaceButton = ActionButton(configuration: config, primaryAction: action)
+        return relatedPlaceButton
+    }
+    
     func initUI() {
         view.backgroundColor = mainBackgroundColor
         contentView.backgroundColor = contentBackgroundColor
         
-        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
         
         collectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -165,7 +180,8 @@ private extension DetailViewController {
             relatedPlaceText.isScrollEnabled = false
             relatedPlaceText.textAlignment = .left
             relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 17)
-            relatedPlaceText.text = selectedPlace.relatedPlaces?.children?.first?.name ?? "None"
+            relatedPlaceText.text = "None"
+//            print(selectedPlace.relatedPlaces?.children?.first?.fsq_id)
             relatedPlaceText.backgroundColor = contentBackgroundColor
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
@@ -236,6 +252,7 @@ private extension DetailViewController {
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
+        relatedPlaceContainer.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(collectionView)
@@ -245,7 +262,8 @@ private extension DetailViewController {
         contentView.addSubview(addressLabel)
         contentView.addSubview(addressText)
         contentView.addSubview(relatedPlaceLabel)
-        contentView.addSubview(relatedPlaceText)
+        contentView.addSubview(relatedPlaceContainer)
+//        contentView.addSubview(relatedPlaceText)
         contentView.addSubview(mapView)
         contentView.addSubview(likeButton)
         view.addSubview(dismissButton)
@@ -279,11 +297,43 @@ private extension DetailViewController {
         relatedPlaceLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         relatedPlaceLabel.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
-        relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
-        relatedPlaceText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
-        relatedPlaceText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        var lastButton: UIButton!
         
-        mapView.topAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 50).isActive = true
+        if let related = selectedPlace.relatedPlaces, let relatedPlaces = related.children {
+            
+            for (index, place) in relatedPlaces.enumerated() {
+                let relatedPlaceButton = createRelatedPlaceButton(id: place.fsq_id, name: place.name, index: index)
+                relatedPlaceButton.translatesAutoresizingMaskIntoConstraints = false
+                relatedPlaceContainer.addSubview(relatedPlaceButton)
+                if index == 0 {
+                    relatedPlaceButton.topAnchor.constraint(equalTo: relatedPlaceContainer.topAnchor).isActive = true
+                    relatedPlaceButton.leadingAnchor.constraint(equalTo: relatedPlaceContainer.leadingAnchor).isActive = true
+                } else {
+                    relatedPlaceButton.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 2).isActive = true
+                    relatedPlaceButton.leadingAnchor.constraint(equalTo: lastButton.leadingAnchor).isActive = true
+                }
+                lastButton = relatedPlaceButton
+            }
+        } else {
+            relatedPlaceContainer.addSubview(relatedPlaceText)
+            relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
+            relatedPlaceText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+            relatedPlaceText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        }
+        
+        relatedPlaceContainer.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
+        relatedPlaceContainer.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        relatedPlaceContainer.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        relatedPlaceContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
+        
+
+        if let lastButton = lastButton {
+            mapView.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 50).isActive = true
+        } else {
+            mapView.topAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 50).isActive = true
+        }
+        
+        mapView.topAnchor.constraint(equalTo: relatedPlaceContainer.bottomAnchor, constant: 50).isActive = true
         mapView.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         mapView.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         mapView.heightAnchor.constraint(equalToConstant: 350).isActive = true
