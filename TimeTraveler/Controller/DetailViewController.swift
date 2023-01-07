@@ -281,7 +281,7 @@ private extension DetailViewController {
         categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
         categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30).isActive = true
         
-        categoryText.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10).isActive = true
+        categoryText.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 6).isActive = true
         categoryText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         categoryText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
@@ -289,11 +289,16 @@ private extension DetailViewController {
         addressLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         addressLabel.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
-        addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
+        addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 6).isActive = true
         addressText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         addressText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
-        relatedPlaceLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 30).isActive = true
+        mapView.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 30).isActive = true
+        mapView.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        mapView.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 350).isActive = true
+        
+        relatedPlaceLabel.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 30).isActive = true
         relatedPlaceLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         relatedPlaceLabel.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
@@ -309,36 +314,28 @@ private extension DetailViewController {
                     relatedPlaceButton.topAnchor.constraint(equalTo: relatedPlaceContainer.topAnchor).isActive = true
                     relatedPlaceButton.leadingAnchor.constraint(equalTo: relatedPlaceContainer.leadingAnchor).isActive = true
                 } else {
-                    relatedPlaceButton.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 2).isActive = true
+                    relatedPlaceButton.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 5).isActive = true
                     relatedPlaceButton.leadingAnchor.constraint(equalTo: lastButton.leadingAnchor).isActive = true
                 }
                 lastButton = relatedPlaceButton
             }
         } else {
             relatedPlaceContainer.addSubview(relatedPlaceText)
-            relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
+            relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 5).isActive = true
             relatedPlaceText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
             relatedPlaceText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         }
         
-        relatedPlaceContainer.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
+        relatedPlaceContainer.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 6).isActive = true
         relatedPlaceContainer.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
         relatedPlaceContainer.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         relatedPlaceContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
         
-
         if let lastButton = lastButton {
-            mapView.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 50).isActive = true
+            contentView.bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 100).isActive = true
         } else {
-            mapView.topAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 50).isActive = true
+            contentView.bottomAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 100).isActive = true
         }
-        
-        mapView.topAnchor.constraint(equalTo: relatedPlaceContainer.bottomAnchor, constant: 50).isActive = true
-        mapView.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
-        mapView.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 350).isActive = true
-        
-        contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 100).isActive = true
         
         likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
         likeButton.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
