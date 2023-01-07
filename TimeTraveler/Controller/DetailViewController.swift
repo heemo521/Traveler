@@ -6,10 +6,11 @@
 //
 
 // [] Refactor & Final Clean up
-// [] show pagination
 // [] Related place
-// [] Render with the initial lower quality image, then fetch the image again for the correct screen size
+// [] OPT - Full Screen for images with control
+// [] OPT - middle modal view for searchVC
 
+// [x] Render with the initial lower quality image, then fetch the image again for the correct screen size
 // [x] implement coordinates to the map
 // [x] fix the view
 // [x] Placd the name label on top of the image
@@ -54,6 +55,7 @@ class DetailViewController: SuperUIViewController {
         initUI()
         setupSubviews()
         setupLayout()
+        getImageDetailsHTTP(with: selectedPlace.id!)
         locateDesinationOnTheMap()
 //        collectionView.delegate = self
         collectionView.dataSource = self
@@ -64,10 +66,7 @@ class DetailViewController: SuperUIViewController {
         super.viewWillAppear(animated)
         likeButton.setImage(UIImage(systemName: shared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
     }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView.reloadData()
-    }
+
     
     @objc private func likeButtonClicked() {
         let id = self.selectedPlace.id!
@@ -89,7 +88,7 @@ private extension DetailViewController {
             layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             let size = UIScreen.main.bounds
-            layout.itemSize = CGSize(width: size.width, height: size.height * 0.6)
+            layout.itemSize = CGSize(width: size.width, height: 500)
             layout.scrollDirection = .horizontal
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.isPagingEnabled = true
@@ -253,7 +252,7 @@ private extension DetailViewController {
         collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo:contentView.trailingAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: 600.0).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 500).isActive = true
 
         nameLabel.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -40).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: -12).isActive = true
@@ -299,8 +298,39 @@ private extension DetailViewController {
 }
 
 private extension DetailViewController {
-    func getImages() {
+    func getImageDetailsHTTP(with locationID: String) {
+        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
+        makeRequest(for: "get image details", request: request, onCompletion: { data in
+            do {
+                let decoder = JSONDecoder()
+                let dataDecoded = try decoder.decode([Image].self, from: data)
+            
+                if dataDecoded.count > 0 {
+                    self.selectedPlace.imageUrls = []
+                    var width: String!
+                    var height: String!
+                    DispatchQueue.main.async {
+                        width = "\(Int(self.collectionView.frame.width) * 2)"
+                        height = "\(Int(self.collectionView.frame.height) * 2)"
+                    }
+                    
+                    for (index, image) in dataDecoded.enumerated() {
+                        let imageUrl = "\(image.prefix!)\(width ?? "600")x\(height ?? "1000")\(image.suffix!)"
+                        self.selectedPlace.imageUrls.append(imageUrl)
+                        
+                        DispatchQueue.main.async {
+                            let indexPath = IndexPath(row: index, section: 0)
+                            self.collectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+                }
+                
+            }
+            catch let error {
+                print("\(String(describing: error.localizedDescription))")
+            }
+        })
     }
 }
 
@@ -346,6 +376,7 @@ extension DetailViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
 
 // MARK: MAP
 private extension DetailViewController {
