@@ -63,6 +63,7 @@ class DetailViewController: SuperUIViewController {
         getImageDetailsHTTP(with: selectedPlace.id!)
         locateDesinationOnTheMap()
         collectionView.dataSource = self
+        collectionView.delegate = self
         scrollView.delegate = self
     }
     
@@ -82,7 +83,7 @@ class DetailViewController: SuperUIViewController {
 private extension DetailViewController {
     func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
         let action = UIAction(handler: {_ in
-            self.reloadPlaceData()
+            self.reloadPlaceData(id: id, name: name)
         })
         var config = UIButton.Configuration.gray()
         config.title = name
@@ -380,8 +381,9 @@ private extension DetailViewController {
         })
     }
     
-    func reloadPlaceData() {
-        
+    func reloadPlaceData(id: String, name: String) {
+        print(id)
+        print(name)
     }
 }
 
@@ -400,7 +402,21 @@ extension DetailViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: TableView Data Source
+// MARK: CollectionView Delegate
+extension DetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row > 0 {
+            self.nameLabel.isHidden = true
+        } else {
+            UIView.transition(with: self.nameLabel, duration: 1, options: .transitionCrossDissolve, animations: {
+                self.nameLabel.isHidden = false
+            })
+        }
+    }
+}
+
+
+// MARK: CollectionView Data Source
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = selectedPlace.imageUrls.count
