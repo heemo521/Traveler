@@ -82,12 +82,12 @@ class DetailViewController: SuperUIViewController {
 private extension DetailViewController {
     func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
         let action = UIAction(handler: {_ in
-            print(name)
+            self.reloadPlaceData()
         })
         var config = UIButton.Configuration.gray()
         config.title = name
         config.buttonSize = .mini
-        config.baseForegroundColor = .label
+        config.baseForegroundColor = .white
         config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
         let relatedPlaceButton = ActionButton(configuration: config, primaryAction: action)
         return relatedPlaceButton
@@ -140,7 +140,7 @@ private extension DetailViewController {
         
         categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
         addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
-        relatedPlaceLabel = createLabel(with: "Related Place", size: 24, weight: .semibold)
+        relatedPlaceLabel = createLabel(with: "Related Places", size: 24, weight: .semibold)
         
         categoryText = {
             let categoryText = UITextView()
@@ -151,7 +151,7 @@ private extension DetailViewController {
             if let category = selectedPlace.categories?.first?.name {
                 categoryText.text = category
             } else {
-                categoryText.text = "Loading"
+                categoryText.text = "None"
             }
             categoryText.backgroundColor = contentBackgroundColor
             categoryText.translatesAutoresizingMaskIntoConstraints = false
@@ -181,7 +181,6 @@ private extension DetailViewController {
             relatedPlaceText.textAlignment = .left
             relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 17)
             relatedPlaceText.text = "None"
-//            print(selectedPlace.relatedPlaces?.children?.first?.fsq_id)
             relatedPlaceText.backgroundColor = contentBackgroundColor
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
@@ -263,7 +262,7 @@ private extension DetailViewController {
         contentView.addSubview(addressText)
         contentView.addSubview(relatedPlaceLabel)
         contentView.addSubview(relatedPlaceContainer)
-//        contentView.addSubview(relatedPlaceText)
+
         contentView.addSubview(mapView)
         contentView.addSubview(likeButton)
         view.addSubview(dismissButton)
@@ -304,7 +303,7 @@ private extension DetailViewController {
         
         var lastButton: UIButton!
         
-        if let related = selectedPlace.relatedPlaces, let relatedPlaces = related.children {
+        if let related = selectedPlace.relatedPlaces, let relatedPlaces = related.children, relatedPlaces.count > 0 {
             
             for (index, place) in relatedPlaces.enumerated() {
                 let relatedPlaceButton = createRelatedPlaceButton(id: place.fsq_id, name: place.name, index: index)
@@ -321,7 +320,7 @@ private extension DetailViewController {
             }
         } else {
             relatedPlaceContainer.addSubview(relatedPlaceText)
-            relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 5).isActive = true
+            relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 6).isActive = true
             relatedPlaceText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
             relatedPlaceText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         }
@@ -380,6 +379,10 @@ private extension DetailViewController {
             }
         })
     }
+    
+    func reloadPlaceData() {
+        
+    }
 }
 
 // MARK: - ScrollDelegate
@@ -397,13 +400,6 @@ extension DetailViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: TableView Delegate
-//extension DetailViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print("Selected a picture")
-//    }
-//}
-
 // MARK: TableView Data Source
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -418,7 +414,7 @@ extension DetailViewController: UICollectionViewDataSource {
             let imageUrl = selectedPlace.imageUrls[indexPath.row]
             cell.imageView.loadFrom(url: imageUrl)
         } else {
-            cell.imageView.image = UIImage(systemName: "doc.text.image")
+            cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple)
         }
         
         return cell

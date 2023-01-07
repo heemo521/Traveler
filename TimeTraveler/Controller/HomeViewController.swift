@@ -35,8 +35,6 @@ class HomeViewController: SuperUIViewController {
     let guideView = UIView()
     var imageContainerView: UIView!
     var imageView: UIImageView!
-    var iconView: UIImageView!
-    var likeButton: ActionButton!
     var nameLabel: UILabel!
     var categoryLabel: UILabel!
     var categoryText: UITextView!
@@ -74,10 +72,6 @@ class HomeViewController: SuperUIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scalingAnimation()
-        if let first = placesAPIList.first {
-            let heartType = shared.checkLikedPlace(id: first.id!) ? "heart.fill" : "heart"
-            likeButton.setImage(UIImage(systemName: heartType), for: .normal)
-        }
     }
     
     // MARK: - Device Orientation Update
@@ -115,17 +109,6 @@ private extension HomeViewController {
         self.navigationController?.pushViewController(SearchVC, animated: true)
     }
     
-    @objc private func didTapLikeButton() {
-        if let first = placesAPIList.first, let id = first.id {
-            shared.toggleLike(id: id)
-            if shared.checkLikedPlace(id: id) {
-                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            } else {
-                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            }
-        }
-    }
-    
     @objc private func imageViewClicked() {
         let DetailVC = DetailViewController()
         DetailVC.selectedPlace = placesAPIList.first
@@ -152,7 +135,7 @@ private extension HomeViewController {
         
         imageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(systemName: "doc.text.image")
+            imageView.image = UIImage()
             imageView.contentMode = .scaleToFill
             let gesture = UITapGestureRecognizer(target: self, action: #selector(self.imageViewClicked))
             gesture.numberOfTapsRequired = 1
@@ -162,37 +145,6 @@ private extension HomeViewController {
            return imageView
         }()
     
-        iconView = {
-            let icon = UIImageView()
-            icon.translatesAutoresizingMaskIntoConstraints = false
-            icon.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            icon.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            icon.layer.cornerRadius = 25
-            icon.clipsToBounds = true
-            icon.layer.borderColor = UIColor.white.cgColor
-            icon.layer.borderWidth = 3
-            icon.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            return icon
-        }()
-        
-        likeButton = {
-            let likeButton = ActionButton()
-            let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-            likeButton.setImage(image, for: .normal)
-            likeButton.tintColor = hightlightColor
-            likeButton.translatesAutoresizingMaskIntoConstraints = false
-            likeButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            likeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            likeButton.layer.cornerRadius = 25
-            likeButton.clipsToBounds = true
-            likeButton.layer.borderColor = UIColor.white.cgColor
-            likeButton.layer.borderWidth = 3
-            likeButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            likeButton.buttonIsClicked(do: didTapLikeButton)
-            
-            return likeButton
-        }()
-        
         nameLabel = {
             let nameLabel = createLabel(with: "Loading...", size: 32, weight: .bold)
             nameLabel.numberOfLines = 2
@@ -282,8 +234,6 @@ private extension HomeViewController {
     func setupLayout() {
         contentView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
-        imageView.addSubview(iconView)
-        imageView.addSubview(likeButton)
         
         imageContainerView.centerXAnchor.constraint(equalTo: guideView.centerXAnchor).isActive = true
         imageContainerView.centerYAnchor.constraint(equalTo: guideView.centerYAnchor).isActive = true
@@ -296,12 +246,6 @@ private extension HomeViewController {
         imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor).isActive = true
-        
-        iconView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 20).isActive = true
-        iconView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-        
-        likeButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -20).isActive = true
-        likeButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         
         contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
@@ -353,15 +297,7 @@ private extension HomeViewController {
         nameLabel.text = selectedLocation.name
         categoryText.text = selectedLocation.categories?.first?.name
         addressText.text = selectedLocation.address!.formatted_address!
-        
-        if let id = selectedLocation.id {
-            if shared.checkLikedPlace(id: id) {
-                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            } else {
-                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-        }
-        
+    
         if let geocodes = selectedLocation.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
             let userLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
             let desinationLocation = CLLocation(latitude: lat, longitude: lng)
@@ -414,12 +350,7 @@ private extension HomeViewController {
                 if let id = dataDecoded.results.first!.id {
                     self.getImageDetailsHTTP(with: id)
                 }
-                
-                if let iconURLs = dataDecoded.results.first?.categories?.first?.icon, let prefix = iconURLs.prefix, let suffix = iconURLs.suffix {
-                    let url = prefix + "64" + suffix
-                    self.iconView.loadFrom(url: url)
-                }
-                
+            
                 DispatchQueue.main.async {
                     self.updateContent(with: dataDecoded.results.first!)
                 }

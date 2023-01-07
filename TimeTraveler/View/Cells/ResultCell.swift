@@ -32,7 +32,8 @@ class ResultCell: UITableViewCell {
     
     let mainImage: UIImageView = {
         let mainImage = UIImageView()
-        mainImage.image = UIImage(systemName: "doc.text.image")
+        mainImage.tintColor = .systemPurple
+        mainImage.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         mainImage.layer.cornerRadius = 10.0
         mainImage.layer.masksToBounds = true
         mainImage.translatesAutoresizingMaskIntoConstraints = false
@@ -50,8 +51,9 @@ class ResultCell: UITableViewCell {
         if let imageUrl = location.imageUrls.first {
             mainImage.loadFrom(url: imageUrl)
         } else {
-            mainImage.image = UIImage(systemName: "doc.text.image")
+            mainImage.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         }
+//        mainImage.tintColor = .systemPurple
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
         
@@ -59,6 +61,7 @@ class ResultCell: UITableViewCell {
         let imageName = UserService.shared.checkLikedPlace(id: id) ? "heart.fill" : "heart"
         let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
         likeStatusImage.image = image
+        likeStatusImage.tintColor = UIColor.systemPurple
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

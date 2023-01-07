@@ -35,14 +35,14 @@ class SearchCell: UITableViewCell {
     }()
     
     func update(location: RecentSearch) {
-        cellImageView.image = UIImage(systemName: "magnifyingglass")
-        cellImageView.tintColor = UIColor.systemBlue
+        cellImageView.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        cellImageView.tintColor = UIColor.systemPurple
         nameLabel.text = location.title
         addressLabel.text = location.subTitle
     }
     func update(searchResult: MKLocalSearchCompletion) {
-        cellImageView.image = UIImage(systemName: "mappin.and.ellipse")
-        cellImageView.tintColor = UIColor.tintColor
+        cellImageView.image = UIImage(systemName: "mappin.and.ellipse")?.withRenderingMode(.alwaysTemplate)
+        cellImageView.tintColor = UIColor.systemPurple
         nameLabel.text = searchResult.title
         addressLabel.text = searchResult.subtitle
     }

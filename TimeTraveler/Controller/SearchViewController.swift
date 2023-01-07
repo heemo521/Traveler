@@ -56,9 +56,12 @@ class SearchViewController: UIViewController {
 // MARK: Navigation
 private extension SearchViewController {
     func initNavigationBar() {
+        
         searchBar.placeholder = "Search Destination"
         navigationItem.titleView = searchBar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple),
+                                                           style: .plain, target: self, action: #selector(didTapBackButton))
+        navigationItem.leftBarButtonItem?.tintColor = .systemPurple
     }
     
     @objc private func didTapBackButton() {
@@ -92,6 +95,7 @@ private extension SearchViewController {
         searchLabel = {
             let searchLabel = UILabel()
             searchLabel.text = "Recent Search"
+            searchLabel.textColor = .systemPurple
             searchLabel.translatesAutoresizingMaskIntoConstraints = false
             return searchLabel
         }()
@@ -137,11 +141,11 @@ extension SearchViewController: UISearchBarDelegate {
         if searchQuery.count <= 3  {
             searchResults = []
             searchLabel.text = "Recent Search"
-            searchLabel.textColor = .systemBlue
+            searchLabel.textColor = .systemPurple
         } else {
             searchCompleter.queryFragment = searchQuery
             searchLabel.text = "Search Result"
-            searchLabel.textColor = .black
+            searchLabel.textColor = .label
         }
         tableView.reloadData()
     }
