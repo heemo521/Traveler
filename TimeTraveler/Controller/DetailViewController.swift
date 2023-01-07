@@ -6,6 +6,7 @@
 //
 
 // [] Refactor & Final Clean up
+// [] Add a gesture to dismiss the page or place it or the top! Or make the button biggger
 
 import UIKit
 import MapKit
@@ -70,15 +71,12 @@ class DetailViewController: SuperUIViewController {
 // MARK: - UI
 private extension DetailViewController {
     func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
-        let action = UIAction(handler: {_ in
-            self.reloadPlaceData(id: id, name: name)
-        })
         var config = UIButton.Configuration.gray()
         config.title = name
         config.buttonSize = .mini
         config.baseForegroundColor = .white
         config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
-        let relatedPlaceButton = ActionButton(configuration: config, primaryAction: action)
+        let relatedPlaceButton = ActionButton(configuration: config)
         return relatedPlaceButton
     }
     
@@ -361,17 +359,11 @@ private extension DetailViewController {
                         }
                     }
                 }
-                
             }
             catch let error {
                 print("\(String(describing: error.localizedDescription))")
             }
         })
-    }
-    
-    func reloadPlaceData(id: String, name: String) {
-        print(id)
-        print(name)
     }
 }
 

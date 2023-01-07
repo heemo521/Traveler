@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 //Renmae the class to Place instead of location
 class Place: NSObject, Decodable {
     var id: String?

@@ -92,15 +92,13 @@ private extension HomeViewController {
     
     @objc private func searchButtonClicked() {
         let SearchVC = SearchViewController()
-        SearchVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.modalTransitionStyle = .flipHorizontal
         self.navigationController?.pushViewController(SearchVC, animated: true)
     }
     
     @objc private func imageViewClicked() {
         let DetailVC = DetailViewController()
         DetailVC.selectedPlace = placesAPIList.first
-        DetailVC.modalTransitionStyle = .flipHorizontal
+//        DetailVC.modalTransitionStyle = .flipHorizontal
         DetailVC.modalPresentationStyle = .fullScreen
         self.present(DetailVC, animated: true)
     }

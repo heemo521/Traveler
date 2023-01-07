@@ -54,7 +54,7 @@ private extension SearchViewController {
         
         searchBar.placeholder = "Search Destination"
         navigationItem.titleView = searchBar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple),
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate),
                                                            style: .plain, target: self, action: #selector(didTapBackButton))
         navigationItem.leftBarButtonItem?.tintColor = .systemPurple
     }
@@ -68,8 +68,12 @@ private extension SearchViewController {
             let ResultVC = ResultViewController()
             ResultVC.queryString = searchQuery.lowercased()
             ResultVC.useUserLocation = useUserLocation
-            ResultVC.modalTransitionStyle = .coverVertical
-            ResultVC.modalPresentationStyle = .fullScreen
+            
+            if let sheet = ResultVC.sheetPresentationController {
+                // Customize the sheet here
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            }
             self.present(ResultVC, animated: true)
         }
     }

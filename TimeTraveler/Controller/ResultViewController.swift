@@ -12,7 +12,7 @@ import UIKit
 class ResultViewController: SuperUIViewController {
     // MARK: Views
     var tableView: UITableView!
-    var backButton: ActionButton!
+//    var backButton: ActionButton!
     var filterContainer: UIView!
     var openNowFilterButton = UIButton()
     var sortFilterButton = UIButton()
@@ -94,21 +94,7 @@ private extension ResultViewController {
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
-        
-        backButton = {
-            let backButton = ActionButton()
-            backButton.configure(title: "Back", padding: 10, configuration: .gray())
-            var configuration = backButton.configuration
-            configuration?.buttonSize = .large
-            configuration?.baseForegroundColor = hightlightColor
-            backButton.configuration = configuration
-            backButton.buttonIsClicked {
-                self.dismiss(animated: true)
-            }
-            backButton.translatesAutoresizingMaskIntoConstraints = false
-            return backButton
-        }()
-        
+    
         filterContainer = {
             let filterContainer = UIView()
             filterContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -205,7 +191,7 @@ private extension ResultViewController {
     
     func setupLayout() {
         view.addSubview(tableView)
-        view.addSubview(backButton)
+//        view.addSubview(backButton)
         view.addSubview(filterContainer)
         filterContainer.addSubview(openNowFilterButton)
         filterContainer.addSubview(limitFilterButton)
@@ -230,10 +216,7 @@ private extension ResultViewController {
         tableView.topAnchor.constraint(equalTo: filterContainer.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -10).isActive = true
-        
-        backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
-        backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 }
 
