@@ -49,6 +49,8 @@ class ResultCell: UITableViewCell {
     func update(location: Place, index: Int) {
         if let imageUrl = location.imageUrls.first {
             mainImage.loadFrom(url: imageUrl)
+        } else {
+            mainImage.image = UIImage(systemName: "doc.text.image")
         }
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address

@@ -99,8 +99,10 @@ private extension SearchViewController {
         useCurrentLocationButton = {
             let image = UIImage(systemName: "paperplane.fill")
             let useCurrentLocationButton = ActionButton()
-            useCurrentLocationButton.configure(title: "Use Current Location", image: image!, padding: 5.0, configuration: .gray())
-            useCurrentLocationButton.configuration?.baseForegroundColor = .purple
+            useCurrentLocationButton.configure(title: "Use Current Location", image: image!, padding: 5.0, configuration: .bordered())
+            useCurrentLocationButton.configuration?.baseForegroundColor = .systemPurple
+//            useCurrentLocationButton.configuration?.baseBackgroundColor = .systemPurple
+            
             useCurrentLocationButton.buttonIsClicked {
                 self.presentResultView(searchQuery: "", useUserLocation: true)
             }

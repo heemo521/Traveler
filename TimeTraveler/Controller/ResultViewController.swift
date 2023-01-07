@@ -104,7 +104,6 @@ private extension ResultViewController {
         sortFilterButton = {
             let closure =  { (action: UIAction) in
                 self.sortBy = action.title
-                self.placesAPIList = []
                 self.getLocationDataHTTP()
             }
             let sortFilterButton = ActionButton(primaryAction: nil)
@@ -133,7 +132,6 @@ private extension ResultViewController {
         limitFilterButton = {
             let closure =  { (action: UIAction) in
                 self.searchLimit = action.title
-                self.placesAPIList = []
                 self.getLocationDataHTTP()
             }
             let limitFilterButton = ActionButton(primaryAction: nil)
@@ -163,7 +161,6 @@ private extension ResultViewController {
         openNowFilterButton = {
             let openFilterAction = UIAction(title: "Open Now", handler: { _ in
                 self.openNow = !self.openNow
-                self.placesAPIList = []
                 self.getLocationDataHTTP()
             })
             var configuration = UIButton.Configuration.plain()

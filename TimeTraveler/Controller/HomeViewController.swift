@@ -200,7 +200,7 @@ private extension HomeViewController {
             return nameLabel
         }()
         categoryLabel = {
-            let categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
+            let categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
             categoryLabel.translatesAutoresizingMaskIntoConstraints = false
             return categoryLabel
         }()
@@ -210,14 +210,14 @@ private extension HomeViewController {
             categoryText.isEditable = false
             categoryText.isScrollEnabled = false
             categoryText.textAlignment = .left
-            categoryText.font = UIFont.boldSystemFont(ofSize: 12)
+            categoryText.font = UIFont.boldSystemFont(ofSize: 17)
             categoryText.text = "..."
             categoryText.translatesAutoresizingMaskIntoConstraints = false
             return categoryText
         }()
         
         addressLabel = {
-            let addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
+            let addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
             addressLabel.translatesAutoresizingMaskIntoConstraints = false
             return addressLabel
         }()
@@ -226,7 +226,7 @@ private extension HomeViewController {
             addressText.isEditable = false
             addressText.isScrollEnabled = false
             addressText.textAlignment = .left
-            addressText.font = UIFont.boldSystemFont(ofSize: 12)
+            addressText.font = UIFont.boldSystemFont(ofSize: 17)
             addressText.text = "..."
             addressText.backgroundColor = contentBackgroundColor
             addressText.translatesAutoresizingMaskIntoConstraints = false
@@ -234,7 +234,7 @@ private extension HomeViewController {
         }()
         
         distanceLabel = {
-            let distanceLabel = createLabel(with: "Distance", size: 16, weight: .semibold)
+            let distanceLabel = createLabel(with: "Distance", size: 24, weight: .semibold)
             distanceLabel.translatesAutoresizingMaskIntoConstraints = false
             return distanceLabel
         }()
@@ -244,7 +244,7 @@ private extension HomeViewController {
             distanceText.isEditable = false
             distanceText.isScrollEnabled = false
             distanceText.textAlignment = .left
-            distanceText.font = UIFont.boldSystemFont(ofSize: 12)
+            distanceText.font = UIFont.boldSystemFont(ofSize: 17)
             distanceText.text = "..."
             distanceText.backgroundColor = contentBackgroundColor
             distanceText.translatesAutoresizingMaskIntoConstraints = false
@@ -492,8 +492,7 @@ extension HomeViewController: CLLocationManagerDelegate {
                 self.getLocationDataHTTP()
             default:
                 print("Not authorized yet")
-                nameLabel.text = "Location use not authorized, accessing last location"
-                self.getLocationDataHTTP()
+                nameLabel.text = "Location use not authorized yet"
         }
     }
     // First time when user starts the app / user allows the authorization

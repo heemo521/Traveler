@@ -306,6 +306,7 @@
                                                             </imageView>
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.5" green="0.5" blue="0.5" alpha="0.09602649006622517" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" red="0.94302141669999995" green="0.87965404989999996" blue="0.97759944200000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <gestureRecognizers/>
                                                         <constraints>
                                                             <constraint firstItem="5Fv-bc-Uo7" firstAttribute="centerY" secondItem="jJ1-zm-4xC" secondAttribute="centerY" id="E08-ja-lSG"/>
@@ -674,7 +675,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="emA-J6-OsC"/>
-        <segue reference="1Ao-XS-QgE"/>
+        <segue reference="bGI-lF-IGG"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="doc.text.image" catalog="system" width="115" height="128"/>

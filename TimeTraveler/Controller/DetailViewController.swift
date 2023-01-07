@@ -6,12 +6,13 @@
 //
 
 // [] Refactor & Final Clean up
-// [] Placd the name label on top of the image
-// [] change the scroll/content view to a slidable modal instead
-// [] Render with the initial lower quality image, then fetch the image again for the correct screen size 
 // [] show pagination
-// [] implement coordinates to the map
+// [] Related place
+// [] Render with the initial lower quality image, then fetch the image again for the correct screen size
 
+// [x] implement coordinates to the map
+// [x] fix the view
+// [x] Placd the name label on top of the image
 // [x] make the buttons change in color when clicked onto
 // [x] swipable images
 
@@ -22,10 +23,9 @@ import MapKit
 class DetailViewController: SuperUIViewController {
     // MARK: Views
     var collectionView: UICollectionView!
-    var mainImageView: UIImageView!
     let scrollView = UIScrollView()
     let contentView = UIView()
-    var nameLabel: UILabel!
+    var nameLabel: UIButton!
     var categoryLabel: UILabel!
     var categoryText: UITextView!
     var addressLabel: UILabel!
@@ -46,17 +46,16 @@ class DetailViewController: SuperUIViewController {
     }
     
     var mainBackgroundColor: UIColor = .systemBackground
-    var contentBackgroundColor: UIColor = .secondarySystemBackground
+    var contentBackgroundColor: UIColor = .tertiarySystemBackground
     var hightlightColor: UIColor = .systemPurple
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
-        
         initUI()
         setupSubviews()
         setupLayout()
-        collectionView.delegate = self
+        locateDesinationOnTheMap()
+//        collectionView.delegate = self
         collectionView.dataSource = self
         scrollView.delegate = self
     }
@@ -64,6 +63,10 @@ class DetailViewController: SuperUIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         likeButton.setImage(UIImage(systemName: shared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.reloadData()
     }
     
     @objc private func likeButtonClicked() {
@@ -76,7 +79,7 @@ class DetailViewController: SuperUIViewController {
 private extension DetailViewController {
     func initUI() {
         view.backgroundColor = mainBackgroundColor
-        scrollView.backgroundColor = contentBackgroundColor
+        contentView.backgroundColor = contentBackgroundColor
         
         likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
         
@@ -93,22 +96,43 @@ private extension DetailViewController {
             collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
             collectionView.alwaysBounceVertical = false
             collectionView.translatesAutoresizingMaskIntoConstraints = false
+            collectionView.backgroundColor = .secondarySystemBackground
             return collectionView
         }()
         
-        nameLabel = createLabel(with: selectedPlace.name!, size: 30, weight: .bold)
-        nameLabel.layer.cornerRadius = 10.0
+        nameLabel = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.title =  selectedPlace.name
+
+            let transformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.boldSystemFont(ofSize: 24)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = transformer
+            configuration.titleAlignment = .trailing
+            configuration.baseForegroundColor = .white
+            configuration.baseBackgroundColor = .systemPurple
+            
+            configuration.buttonSize = .large
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            let nameLabel = UIButton(configuration: configuration)
+            nameLabel.isUserInteractionEnabled = false
+            nameLabel.isHighlighted = true
+            return nameLabel
+        }()
+
         
-        categoryLabel = createLabel(with: "Category", size: 16, weight: .semibold)
-        addressLabel = createLabel(with: "Address", size: 16, weight: .semibold)
-        relatedPlaceLabel = createLabel(with: "Related Place", size: 16, weight: .semibold)
+        categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
+        addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
+        relatedPlaceLabel = createLabel(with: "Related Place", size: 24, weight: .semibold)
         
         categoryText = {
             let categoryText = UITextView()
             categoryText.isEditable = false
             categoryText.isScrollEnabled = false
             categoryText.textAlignment = .left
-            categoryText.font = UIFont.boldSystemFont(ofSize: 12)
+            categoryText.font = UIFont.boldSystemFont(ofSize: 17)
             if let category = selectedPlace.categories?.first?.name {
                 categoryText.text = category
             } else {
@@ -124,7 +148,7 @@ private extension DetailViewController {
             addressText.isEditable = false
             addressText.isScrollEnabled = false
             addressText.textAlignment = .left
-            addressText.font = UIFont.boldSystemFont(ofSize: 12)
+            addressText.font = UIFont.boldSystemFont(ofSize: 17)
             if let address = selectedPlace.address?.formatted_address {
                 addressText.text = address
             } else {
@@ -140,7 +164,7 @@ private extension DetailViewController {
             relatedPlaceText.isEditable = false
             relatedPlaceText.isScrollEnabled = false
             relatedPlaceText.textAlignment = .left
-            relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 12)
+            relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 17)
             relatedPlaceText.text = "None"
             relatedPlaceText.backgroundColor = contentBackgroundColor
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
@@ -191,37 +215,31 @@ private extension DetailViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(collectionView)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: CGFloat(0.6)).isActive = true
-        
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+       
         scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        contentView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor, constant: 40).isActive = true
-        contentView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor, constant: -40).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 35).isActive = true
+        contentView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor).isActive = true
+        contentView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -80).isActive = true
-
+        contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        
     }
     
     func setupLayout() {
-//        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
-//        contentView.addSubview(nameLabel)
+        contentView.addSubview(collectionView)
+        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
         contentView.addSubview(categoryText)
         contentView.addSubview(addressLabel)
@@ -231,34 +249,58 @@ private extension DetailViewController {
         contentView.addSubview(mapView)
         contentView.addSubview(likeButton)
         view.addSubview(dismissButton)
+    
+        collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo:contentView.trailingAnchor).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 600.0).isActive = true
+
+        nameLabel.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -40).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: -12).isActive = true
+        nameLabel.widthAnchor.constraint(lessThanOrEqualTo: collectionView.widthAnchor, multiplier: 0.7).isActive = true
         
-        categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoryLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30).isActive = true
+        categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
+        categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30).isActive = true
+        
         categoryText.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10).isActive = true
         categoryText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        categoryText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        
         addressLabel.topAnchor.constraint(equalTo: categoryText.bottomAnchor, constant: 30).isActive = true
-        addressLabel.leadingAnchor.constraint(equalTo: categoryText.leadingAnchor).isActive = true
+        addressLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        addressLabel.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        
         addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
-        addressText.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor).isActive = true
-        addressText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        addressText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        addressText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
         relatedPlaceLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 30).isActive = true
-        relatedPlaceLabel.leadingAnchor.constraint(equalTo: addressText.leadingAnchor).isActive = true
+        relatedPlaceLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        relatedPlaceLabel.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        
         relatedPlaceText.topAnchor.constraint(equalTo: relatedPlaceLabel.bottomAnchor, constant: 10).isActive = true
-        relatedPlaceText.leadingAnchor.constraint(equalTo: relatedPlaceLabel.leadingAnchor).isActive = true
+        relatedPlaceText.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        relatedPlaceText.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
         mapView.topAnchor.constraint(equalTo: relatedPlaceText.bottomAnchor, constant: 50).isActive = true
-        mapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        mapView.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor).isActive = true
+        mapView.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 350).isActive = true
         
-        contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 50).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 100).isActive = true
         
         likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
-        likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        likeButton.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
         
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         dismissButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+    }
+}
+
+private extension DetailViewController {
+    func getImages() {
+        
     }
 }
 
@@ -278,24 +320,42 @@ extension DetailViewController: UIScrollViewDelegate {
 }
 
 // MARK: TableView Delegate
-extension DetailViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected a picture")
-    }
-}
+//extension DetailViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print("Selected a picture")
+//    }
+//}
 
 // MARK: TableView Data Source
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedPlace.imageUrls.count
+        let count = selectedPlace.imageUrls.count
+        return count != 0 ? count : 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        let imageUrl = selectedPlace.imageUrls[indexPath.row]
-        cell.imageView.loadFrom(url: imageUrl)
+        cell.backgroundColor = contentBackgroundColor
+        if selectedPlace.imageUrls.count > 0 {
+            let imageUrl = selectedPlace.imageUrls[indexPath.row]
+            cell.imageView.loadFrom(url: imageUrl)
+        } else {
+            cell.imageView.image = UIImage(systemName: "doc.text.image")
+        }
         
         return cell
     }
 }
 
+// MARK: MAP
+private extension DetailViewController {
+    func locateDesinationOnTheMap() {
+        let coords = selectedPlace.geocodes?.main
+        if let lat = coords?.latitude, let lng = coords?.longitude {
+            let annotation = LocationAnnotation(title: selectedPlace.name ?? "", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+            let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
+            mapView.addAnnotation(annotation)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+}
