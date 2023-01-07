@@ -18,10 +18,7 @@ class Place: NSObject, Decodable {
     var geocodes: Geocode?
     var address: Address?
     var imageUrls: [String] = []
-    //  var relatedPlaces: [String]? // an object containing parent and child
-    // Example:
-    //    parent = Los Angeles International Airport
-    //    children = Terminal 1, Terminal 2, Terminal 3...
+    var relatedPlaces: RelatedPlaces?
 
     enum CodingKeys: String, CodingKey {
         case id = "fsq_id"
@@ -30,6 +27,7 @@ class Place: NSObject, Decodable {
         case categories = "categories"
         case geocodes = "geocodes"
         case address = "location"
+        case relatedPlaces = "related_places"
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -41,6 +39,7 @@ class Place: NSObject, Decodable {
         categories = try container.decodeIfPresent([Category].self, forKey: .categories)
         geocodes = try container.decodeIfPresent(Geocode.self, forKey: .geocodes)
         address = try container.decodeIfPresent(Address.self, forKey: .address)
+        relatedPlaces = try container.decodeIfPresent(RelatedPlaces.self, forKey: .relatedPlaces)
     }
 }
 
@@ -69,4 +68,13 @@ class Category: Decodable {
 class Icon: Decodable {
     var prefix: String?
     var suffix: String?
+}
+
+class RelatedPlaces: Decodable {
+    var children: [RelatedPlace]?
+}
+
+class RelatedPlace: Decodable {
+    var fsq_id: String
+    var name: String
 }

@@ -6,10 +6,11 @@
 //
 
 // [] Refactor & Final Clean up
-// [] Related place
+// [] Change related place to a button and add multiple and re-render with the selected place when clicked on
 // [] OPT - Full Screen for images with control
 // [] OPT - middle modal view for searchVC
 
+// [x] Related place
 // [x] Render with the initial lower quality image, then fetch the image again for the correct screen size
 // [x] implement coordinates to the map
 // [x] fix the view
@@ -164,7 +165,7 @@ private extension DetailViewController {
             relatedPlaceText.isScrollEnabled = false
             relatedPlaceText.textAlignment = .left
             relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 17)
-            relatedPlaceText.text = "None"
+            relatedPlaceText.text = selectedPlace.relatedPlaces?.children?.first?.name ?? "None"
             relatedPlaceText.backgroundColor = contentBackgroundColor
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
