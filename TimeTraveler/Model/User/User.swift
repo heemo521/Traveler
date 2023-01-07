@@ -7,8 +7,8 @@
 
 import Foundation
 
-class User: Decodable, Encodable {
-    var likedLocations = Set<String>()
+class User: Codable {
+    var likedLocations = Set<LikedLocation>()
     var recentSearch = Set<RecentSearch>()
-    var lastLocation = Coordinates()
+    var lastLocation = Coordinate()
 }

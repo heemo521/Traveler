@@ -11,8 +11,6 @@ class SuperUIViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
  
     func createLabel(with labelText: String, size: Int, weight: UIFont.Weight) -> UILabel {
@@ -54,9 +52,9 @@ class SuperUIViewController: UIViewController {
                 return
             }
             
-//            if let res = response as? HTTPURLResponse {
-//                print("response for \(requestType) statuscode: \(res.statusCode)")
-//            }
+            if let res = response as? HTTPURLResponse {
+                print("response for \(requestType) statuscode: \(res.statusCode)")
+            }
             
             guard let data = data else {
                 print("Failed to receive data for \(requestType)")

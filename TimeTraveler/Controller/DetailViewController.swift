@@ -6,7 +6,6 @@
 //
 
 // [] Refactor & Final Clean up
-// [] Move the back button to the top right and maybe make it sticky
 
 import UIKit
 import MapKit
@@ -395,7 +394,7 @@ extension DetailViewController: UICollectionViewDataSource {
         cell.backgroundColor = contentBackgroundColor
         if selectedPlace.imageUrls.count > 0 {
             let imageUrl = selectedPlace.imageUrls[indexPath.row]
-            cell.imageView.loadFrom(url: imageUrl)
+            cell.imageView.loadFrom(url: imageUrl, animation: true)
         } else {
             cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple)
         }

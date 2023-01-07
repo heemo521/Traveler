@@ -12,7 +12,6 @@ import UIKit
 import MapKit
 import CoreLocation
 
-
 class HomeViewController: SuperUIViewController {
     // MARK: Navigation
     var searchButton: ActionButton!
@@ -34,7 +33,7 @@ class HomeViewController: SuperUIViewController {
     
     // MARK: State
     var didUpdateMapView = false
-    var locationRadiusInMeters = 5000.0
+    var locationRadiusInMeters = 10000.0
     var placesAPIList = [Place]()
     var locationManager: CLLocationManager!
     var currentLocation: LocationAnnotation!
@@ -46,8 +45,7 @@ class HomeViewController: SuperUIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Home"
-        
+ 
         initNavigationBar()
         initUI()
         setupScrollView()
@@ -61,8 +59,7 @@ class HomeViewController: SuperUIViewController {
         super.viewWillAppear(animated)
         scalingAnimation()
     }
-    
-    // MARK: - Device Orientation Update
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         scalingAnimation()
@@ -77,7 +74,6 @@ class HomeViewController: SuperUIViewController {
 // MARK: Navigation
 private extension HomeViewController {
     func initNavigationBar() {
-        
         searchButton = {
             let searchBtn = ActionButton()
             let image = UIImage(systemName: "magnifyingglass")
@@ -86,7 +82,6 @@ private extension HomeViewController {
             searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()
-        
         navigationItem.titleView = searchButton
     }
     
@@ -98,7 +93,7 @@ private extension HomeViewController {
     @objc private func imageViewClicked() {
         let DetailVC = DetailViewController()
         DetailVC.selectedPlace = placesAPIList.first
-//        DetailVC.modalTransitionStyle = .flipHorizontal
+        DetailVC.modalTransitionStyle = .crossDissolve
         DetailVC.modalPresentationStyle = .fullScreen
         self.present(DetailVC, animated: true)
     }
@@ -279,21 +274,6 @@ private extension HomeViewController {
         contentView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 30).isActive = true
     }
     
-    func updateContent(with selectedLocation: Place) {
-        nameLabel.text = selectedLocation.name
-        categoryText.text = selectedLocation.categories?.first?.name
-        addressText.text = selectedLocation.address!.formatted_address!
-    
-        if let geocodes = selectedLocation.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
-            let userLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-            let desinationLocation = CLLocation(latitude: lat, longitude: lng)
-            let distance = userLocation.distance(from: desinationLocation)  * 0.000621371
-            distanceText.text = "\(String(format: "%.2f", distance)) mi"
-            
-            updateMapViewWithCoordinates(lat: lat, lng: lng)
-        }
-    }
-    
     func scalingAnimation() {
         if UIDevice.current.orientation.isLandscape {
             UIView.animate(withDuration: 0.6, animations: {
@@ -311,6 +291,21 @@ private extension HomeViewController {
                      self.imageContainerView.transform = CGAffineTransform.identity
                 })
             })
+        }
+    }
+    
+    func updateContent(with selectedLocation: Place) {
+        nameLabel.text = selectedLocation.name
+        categoryText.text = selectedLocation.categories?.first?.name ?? ""
+        addressText.text = selectedLocation.address!.formatted_address!
+    
+        if let geocodes = selectedLocation.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
+            let userLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+            let desinationLocation = CLLocation(latitude: lat, longitude: lng)
+            let distance = userLocation.distance(from: desinationLocation)  * 0.000621371
+            distanceText.text = "\(String(format: "%.2f", distance)) mi"
+            
+            updateMapViewWithCoordinates(lat: lat, lng: lng)
         }
     }
 }
@@ -333,13 +328,13 @@ private extension HomeViewController {
                 let dataDecoded = try decoder.decode(Response.self, from: data)
                 self.placesAPIList = dataDecoded.results
                 
-                if let id = dataDecoded.results.first!.id {
+                if let place = dataDecoded.results.first, let id = place.id {
                     self.getImageDetailsHTTP(with: id)
+                    DispatchQueue.main.async {
+                        self.updateContent(with: place)
+                    }
                 }
-            
-                DispatchQueue.main.async {
-                    self.updateContent(with: dataDecoded.results.first!)
-                }
+                
             } catch let error {
                 // Error when there is no response or data returned from API
                 print("\(String(describing: error.localizedDescription))")
@@ -368,10 +363,9 @@ private extension HomeViewController {
                         let imageUrl = "\(image.prefix!)\(imageHeight ?? "600")x\(imageWidth ?? "600")\(image.suffix!)"
                         self.placesAPIList[0].imageUrls.append(imageUrl)
                         if index == 0 {
-                            self.imageView.loadFrom(url: imageUrl)
+                            self.imageView.loadFrom(url: imageUrl, animation: true)
                         }
                     }
-                    
                 }
             } catch let error {
                 print("\(String(describing: error.localizedDescription))")
@@ -406,7 +400,6 @@ extension HomeViewController: CLLocationManagerDelegate {
             case .restricted, .denied:
                 print("Location use restricted")
                 nameLabel.text = "Location use restricted, accessing last location"
-                self.getLocationDataHTTP()
             default:
                 print("Not authorized yet")
                 nameLabel.text = "Location use not authorized yet"
@@ -435,7 +428,6 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: MKMapViewDelegate {
     func updateMapViewWithCoordinates(lat: Double, lng: Double) {
         let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        
         mapView.addAnnotation(currentLocation)
         mapView.addAnnotation(LocationAnnotation(title: (placesAPIList.first?.name)!, coordinate: destinationCoord))
         displayRoute(destination: destinationCoord)

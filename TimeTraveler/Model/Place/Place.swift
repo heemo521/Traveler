@@ -7,7 +7,6 @@
 
 import Foundation
 
-//Renmae the class to Place instead of location
 class Place: NSObject, Decodable {
     var id: String?
     var name: String?
@@ -15,8 +14,8 @@ class Place: NSObject, Decodable {
     var categories: [Category]?
     var geocodes: Geocode?
     var address: Address?
-    var imageUrls: [String] = []
     var relatedPlaces: RelatedPlaces?
+    var imageUrls: [String] = []
 
     enum CodingKeys: String, CodingKey {
         case id = "fsq_id"
@@ -48,13 +47,8 @@ class Address: Decodable {
 }
 
 class Geocode: Decodable {
-    var main: Coordinates?
-    var roof: Coordinates?
-}
-
-class Coordinates: Decodable, Encodable {
-    var latitude: Double?
-    var longitude: Double?
+    var main: Coordinate?
+    var roof: Coordinate?
 }
 
 class Category: Decodable {

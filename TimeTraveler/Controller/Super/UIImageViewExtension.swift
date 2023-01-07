@@ -8,9 +8,9 @@
 import UIKit
 
 extension UIImageView {
-    func loadFrom(url: String) {
+    func loadFrom(url: String, animation: Bool) {
         guard let url = URL(string: url) else { return }
-        // UPDATE THIS METHOD USIN URL SESSION TO avoid
+
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
         
         let session = URLSession(configuration: .default)
@@ -23,9 +23,13 @@ extension UIImageView {
                 DispatchQueue.main.async { [weak self] in
                     self?.image = loadedImage
                     
-                    UIView.transition(with: self!, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    if animation {
+                        UIView.transition(with: self!, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                            self?.isHidden = false
+                        })
+                    } else {
                         self?.isHidden = false
-                    })
+                    }
                 }
             }
         }.resume()

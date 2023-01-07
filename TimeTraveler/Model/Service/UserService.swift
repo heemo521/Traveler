@@ -46,9 +46,10 @@ class UserService {
         user.lastLocation.longitude = longitude
         saveUserData()
     }
+    
     func getLastUserLocation()-> (Double, Double) {
         let last = user.lastLocation
-        return (last.latitude ?? 41.8781, last.longitude ?? -87.6298)
+        return (last.latitude, last.longitude)
     }
     
     func toggleLike(id: String) {

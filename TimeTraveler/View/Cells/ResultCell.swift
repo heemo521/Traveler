@@ -49,7 +49,7 @@ class ResultCell: UITableViewCell {
     
     func update(location: Place, index: Int) {
         if let imageUrl = location.imageUrls.first {
-            mainImage.loadFrom(url: imageUrl)
+            mainImage.loadFrom(url: imageUrl, animation: true)
         } else {
             mainImage.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         }
