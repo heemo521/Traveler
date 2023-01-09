@@ -151,7 +151,8 @@ For Better Quality video, checkout the links below.
 - [Light Mode](https://youtube.com/shorts/Na2P9n92aJY?feature=share)
 
 <div>
-    <img src="/Resources/darkmode" width="200px">
+    <img src="TimeTraveler/Resources/darkmode.gif" width="200px">
+    <img src="TimeTraveler/Resources/lightmode.gif" width="200px">
     <img src="/art/sample.gif?raw=true" width="200px">
 </div>
 
