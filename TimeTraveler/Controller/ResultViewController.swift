@@ -117,7 +117,7 @@ private extension ResultViewController {
                 self.fetchingSort = true
                 self.getLocationDataHTTP()
             }
-            let sortFilterButton = ActionButton(primaryAction: nil)
+            let sortFilterButton = UIButton(primaryAction: nil)
             sortFilterButton.menu = UIMenu(children: [
                 UIAction(title:"Relevance", state: .on, handler: closure),
                 UIAction(title:"Rating", handler: closure),
@@ -148,7 +148,7 @@ private extension ResultViewController {
                 self.fetchingLimit = true
                 self.getLocationDataHTTP()
             }
-            let limitFilterButton = ActionButton(primaryAction: nil)
+            let limitFilterButton = UIButton(primaryAction: nil)
             limitFilterButton.menu = UIMenu(children: [
                 UIAction(title: "5", handler: closure),
                 UIAction(title: "10", state: .on, handler: closure),

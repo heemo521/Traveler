@@ -89,7 +89,7 @@ private extension DetailViewController {
         config.buttonSize = .mini
         config.baseForegroundColor = .white
         config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
-        let relatedPlaceButton = ActionButton(configuration: config)
+        let relatedPlaceButton = UIButton(configuration: config)
         relatedPlaceButton.isUserInteractionEnabled = false
         relatedPlaceButton.isHighlighted = true
         return relatedPlaceButton
@@ -186,7 +186,10 @@ private extension DetailViewController {
         }()
         
         likeButton = {
-            let likeButton = ActionButton()
+            let UIAction = UIAction { _ in
+                self.likeButtonClicked()
+            }
+            let likeButton = UIButton(primaryAction: UIAction)
             likeButton.configureButton(configuration: .filled(), title: "Like", image: UIImage(systemName: "heart"), buttonSize: .medium)
             likeButton.configuration?.background.backgroundColor = UIColor.MyColor.hightlightColor
             likeButton.configurationUpdateHandler = {
@@ -195,17 +198,18 @@ private extension DetailViewController {
                 config?.image = self.likedStatus! ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill")
                 button.configuration = config
             }
-            likeButton.buttonIsClicked(do: likeButtonClicked)
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
         
         modalCloseButton = {
-            let modalCloseButton = ActionButton()
+            let UIAction = UIAction { _ in
+                self.modalCloseButtonClicked()
+            }
+            let modalCloseButton = UIButton(primaryAction: UIAction)
             modalCloseButton.configureButton(configuration: .plain(), title: "", image: UIImage(systemName: "arrow.backward.circle.fill")!, buttonSize: .large)
             modalCloseButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             modalCloseButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            modalCloseButton.buttonIsClicked(do: modalCloseButtonClicked)
             modalCloseButton.translatesAutoresizingMaskIntoConstraints = false
             return modalCloseButton
         }()

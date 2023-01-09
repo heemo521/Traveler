@@ -63,11 +63,13 @@ class HomeViewController: UIViewController {
 private extension HomeViewController {
     func initNavigationBar() {
         searchButton = {
-            let searchBtn = ActionButton()
+            let UIAction = UIAction { _ in
+                self.searchButtonClicked()
+            }
+            let searchBtn = UIButton(primaryAction: UIAction)
             let image = UIImage(systemName: "magnifyingglass")
             searchBtn.configureButton(configuration: .gray(), title: "Search destination", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
             searchBtn.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
-            searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()
         navigationItem.titleView = searchButton
