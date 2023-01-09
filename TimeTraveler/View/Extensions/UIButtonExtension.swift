@@ -8,14 +8,28 @@
 import UIKit
 
 extension UIButton {
-    func configure(title: String, image: UIImage! = nil, padding: CGFloat, configuration: UIButton.Configuration) {
+//    func configure(title: String, image: UIImage! = nil, padding: CGFloat, configuration: UIButton.Configuration) {
+//        var config = configuration
+//        if let image = image {
+//            config.image = image
+//            config.imagePadding = 10
+//        }
+//        config.title = title
+//        config.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding + 8.0, bottom: padding, trailing: padding + 8.0)
+//        self.configuration = config
+//    }
+//
+    func configureButton(configuration: UIButton.Configuration, title: String, image: UIImage! = nil, buttonSize: UIButton.Configuration.Size, topBottomPadding: CGFloat = 0, sidePadding: CGFloat = 0) {
         var config = configuration
+        config.title = title
+        config.buttonSize = buttonSize
+        if topBottomPadding != 0, sidePadding != 0 {
+            config.contentInsets = NSDirectionalEdgeInsets(top: topBottomPadding, leading: sidePadding, bottom: topBottomPadding, trailing: sidePadding)
+        }
         if let image = image {
             config.image = image
             config.imagePadding = 10
         }
-        config.title = title
-        config.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding + 8.0, bottom: padding, trailing: padding + 8.0)
         self.configuration = config
     }
 }

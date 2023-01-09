@@ -65,7 +65,7 @@ private extension HomeViewController {
         searchButton = {
             let searchBtn = ActionButton()
             let image = UIImage(systemName: "magnifyingglass")
-            searchBtn.configure(title: "Search destination", image: image!, padding: 5.0, configuration: .gray())
+            searchBtn.configureButton(configuration: .gray(), title: "Search destination", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
             searchBtn.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
@@ -79,11 +79,13 @@ private extension HomeViewController {
     }
     
     @objc private func imageViewClicked() {
-        let DetailVC = DetailViewController()
-        DetailVC.selectedPlace = selectedPlace
-        DetailVC.modalTransitionStyle = .crossDissolve
-        DetailVC.modalPresentationStyle = .fullScreen
-        self.present(DetailVC, animated: true)
+        if let selectedPlace = selectedPlace {
+            let DetailVC = DetailViewController()
+            DetailVC.selectedPlace = selectedPlace
+            DetailVC.modalTransitionStyle = .crossDissolve
+            DetailVC.modalPresentationStyle = .fullScreen
+            self.present(DetailVC, animated: true)
+        }
     }
 }
 
@@ -286,7 +288,6 @@ private extension HomeViewController {
         nameLabel.text = name
         categoryText.text = category
         addressText.text = address
-        
     }
     
     func updateDistance(distance: String) {

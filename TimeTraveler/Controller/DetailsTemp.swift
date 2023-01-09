@@ -8,8 +8,9 @@
 import UIKit
 import MapKit
 
-class DetailViewController: UIViewController {
-    // MARK: Views
+class DetailViewControllerfdsfs: UIViewController {
+    
+    // MARK: View
     let scrollView = UIScrollView()
     let contentView = UIView()
     var collectionView: UICollectionView!
@@ -24,7 +25,7 @@ class DetailViewController: UIViewController {
     let mapView = MKMapView()
     var relatedPlaceContainer = UIView()
     var relatedPlaceText: UITextView!
-    
+
     // MARK: State & Resources
     var selectedPlace: Place!
     var likedStatus: Bool? {
@@ -39,26 +40,15 @@ class DetailViewController: UIViewController {
         let id = selectedPlace.id!
         likedStatus = UserServiceShared.checkLikedPlace(id: id)
         initView()
-        httpGetImageData(with: id)
         updateSelectedPlaceAndView()
+//        httpGetImageData(with: id)
         collectionView.dataSource = self
         collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        likeButton.setImage(UIImage(systemName: UserServiceShared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
-    }
-
-    
-    @objc private func likeButtonClicked() {
-        let id = self.selectedPlace.id!
-        self.UserServiceShared.toggleLike(id: id)
-        likedStatus = UserServiceShared.checkLikedPlace(id: selectedPlace.id!)
-    }
-    
-    @objc private func modalCloseButtonClicked() {
-        self.dismiss(animated: true)
+        
     }
     
     func updateSelectedPlaceAndView() {
@@ -75,14 +65,26 @@ class DetailViewController: UIViewController {
             locateDesinationOnTheMap(name: name, coordinate: coordinate)
         }
     }
+
+    @objc private func likeButtonClicked() {
+        let id = self.selectedPlace.id!
+        self.UserServiceShared.toggleLike(id: id)
+        likedStatus = UserServiceShared.checkLikedPlace(id: selectedPlace.id!)
+    }
+    
+    @objc private func modalCloseButtonClicked() {
+        self.dismiss(animated: true)
+    }
+
 }
 // MARK: - UI
-private extension DetailViewController {
+private extension DetailViewControllerfdsfs {
     func initView() {
         initUI()
         setupSubviews()
         setupLayout()
     }
+    
     func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
         var config = UIButton.Configuration.gray()
         config.title = name
@@ -97,10 +99,14 @@ private extension DetailViewController {
     
     func initUI() {
         view.backgroundColor = UIColor.MyColor.primaryBackground
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.backgroundColor = UIColor.MyColor.secondaryBackground
-    
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         relatedPlaceContainer.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView = {
@@ -139,10 +145,9 @@ private extension DetailViewController {
             nameLabel.configuration = config
             nameLabel.isUserInteractionEnabled = false
             nameLabel.isHighlighted = true
-            nameLabel.translatesAutoresizingMaskIntoConstraints = false
             return nameLabel
         }()
-
+ 
         categoryLabel = {
             let categoryLabel = UILabel()
             categoryLabel.configureLabel(with: "Category", fontSize: 24, weight: .semibold)
@@ -158,10 +163,10 @@ private extension DetailViewController {
         }()
         
         relatedPlaceLabel = {
-            let relatedPlaceLabel = UILabel()
-            relatedPlaceLabel.configureLabel(with: "Related Place", fontSize: 24, weight: .semibold)
-            relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
-            return relatedPlaceLabel
+            let addressLabel = UILabel()
+            addressLabel.configureLabel(with: "Address", fontSize: 24, weight: .semibold)
+            addressLabel.translatesAutoresizingMaskIntoConstraints = false
+            return addressLabel
         }()
         
         categoryText = {
@@ -199,22 +204,36 @@ private extension DetailViewController {
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
-        
         modalCloseButton = {
             let modalCloseButton = ActionButton()
-            modalCloseButton.configureButton(configuration: .plain(), title: "", image: UIImage(systemName: "arrow.backward.circle.fill")!, buttonSize: .large)
+            modalCloseButton.configuration = .plain()
+            modalCloseButton.configuration?.buttonSize = .large
             modalCloseButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
+            modalCloseButton.configurationUpdateHandler = {
+                button in
+                var config = button.configuration
+                config?.image =  UIImage(systemName: "arrow.backward.circle.fill")
+                button.configuration = config
+            }
+            modalCloseButton.buttonIsClicked {
+                self.dismiss(animated: true)
+            }
             modalCloseButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            modalCloseButton.buttonIsClicked(do: modalCloseButtonClicked)
             modalCloseButton.translatesAutoresizingMaskIntoConstraints = false
             return modalCloseButton
         }()
+//        modalCloseButton = {
+//            let modalCloseButton = ActionButton()
+//            likeButton.configureButton(configuration: .plain(), title: "", image: UIImage(systemName: "arrow.backward.circle"), buttonSize: .large)
+//            likeButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
+//            modalCloseButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+//            modalCloseButton.buttonIsClicked(do: modalCloseButtonClicked)
+//            modalCloseButton.translatesAutoresizingMaskIntoConstraints = false
+//            return modalCloseButton
+//        }()
     }
     
     func setupSubviews() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
        
@@ -233,7 +252,7 @@ private extension DetailViewController {
     func setupLayout() {
         view.addSubview(modalCloseButton)
         
-        modalCloseButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        modalCloseButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         modalCloseButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         
         contentView.addSubview(collectionView)
@@ -285,7 +304,6 @@ private extension DetailViewController {
         var lastButton: UIButton!
         
         if let related = selectedPlace.relatedPlaces, let relatedPlaces = related.children, relatedPlaces.count > 0 {
-            
             for (index, place) in relatedPlaces.enumerated() {
                 let relatedPlaceButton = createRelatedPlaceButton(id: place.fsq_id, name: place.name, index: index)
                 relatedPlaceButton.translatesAutoresizingMaskIntoConstraints = false
@@ -329,7 +347,7 @@ private extension DetailViewController {
     }
 }
 
-private extension DetailViewController {
+private extension DetailViewControllerfdsfs {
     func httpGetImageData(with locationID: String) {
         let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
@@ -337,8 +355,8 @@ private extension DetailViewController {
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
-            
-                if dataDecoded.count > 0 {
+                let images = dataDecoded
+                if images.count > 0 {
                     self.selectedPlace.imageUrls = []
                     var imageWidth: String!
                     var imageHeight: String!
@@ -346,11 +364,9 @@ private extension DetailViewController {
                         imageWidth = "\(Int(self.collectionView.frame.width) * 2)"
                         imageHeight = "\(Int(self.collectionView.frame.height) * 2)"
                     }
-                    
                     for (index, image) in dataDecoded.enumerated() {
                         let imageUrl = "\(image.prefix!)\(imageWidth ?? "600")x\(imageHeight ?? "1000")\(image.suffix!)"
                         self.selectedPlace.imageUrls.append(imageUrl)
-                        
                         DispatchQueue.main.async {
                             let indexPath = IndexPath(row: index, section: 0)
                             self.collectionView.reloadItems(at: [indexPath])
@@ -366,21 +382,20 @@ private extension DetailViewController {
 }
 
 // MARK: CollectionView Delegate
-extension DetailViewController: UICollectionViewDelegate {
+extension DetailViewControllerfdsfs: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row > 0 {
-            self.nameLabel.isHidden = true
-        } else {
+        if indexPath.row == 0 {
             UIView.transition(with: self.nameLabel, duration: 1, options: .transitionCrossDissolve, animations: {
                 self.nameLabel.isHidden = false
             })
+        } else {
+            self.nameLabel.isHidden = true
         }
     }
 }
 
-
 // MARK: CollectionView Data Source
-extension DetailViewController: UICollectionViewDataSource {
+extension DetailViewControllerfdsfs: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = selectedPlace.imageUrls.count
         return count != 0 ? count : 1
@@ -388,20 +403,19 @@ extension DetailViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        cell.backgroundColor = UIColor.MyColor.secondaryBackground
+        cell.backgroundColor = UIColor.MyColor.hightlightColor
         if selectedPlace.imageUrls.count > 0 {
             let imageUrl = selectedPlace.imageUrls[indexPath.row]
             cell.imageView.loadFrom(url: imageUrl, animation: true)
         } else {
-            cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple)
+            cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         }
         return cell
     }
 }
 
-
 // MARK: MAP
-private extension DetailViewController {
+private extension DetailViewControllerfdsfs {
     func locateDesinationOnTheMap(name: String, coordinate: CLLocationCoordinate2D) {
         let annotation = LocationAnnotation(title: name, coordinate: coordinate)
         let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)

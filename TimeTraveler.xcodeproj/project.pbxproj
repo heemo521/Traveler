@@ -14,6 +14,7 @@
 		71114909296BDBEC00642AC1 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71114908296BDBEC00642AC1 /* UILabelExtension.swift */; };
 		7111490E296BE06000642AC1 /* ColorPallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7111490D296BE06000642AC1 /* ColorPallete.swift */; };
 		71114910296BE6DF00642AC1 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7111490F296BE6DF00642AC1 /* UITextViewExtension.swift */; };
+		71114912296C162900642AC1 /* DetailsTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71114911296C162900642AC1 /* DetailsTemp.swift */; };
 		7128B0922967DBE000CDBE12 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */; };
 		7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEA2956C8050067B2DC /* AppDelegate.swift */; };
 		7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEC2956C8050067B2DC /* SceneDelegate.swift */; };
@@ -45,6 +46,7 @@
 		71114908296BDBEC00642AC1 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		7111490D296BE06000642AC1 /* ColorPallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPallete.swift; sourceTree = "<group>"; };
 		7111490F296BE6DF00642AC1 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
+		71114911296C162900642AC1 /* DetailsTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTemp.swift; sourceTree = "<group>"; };
 		7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		7142BEE72956C8050067B2DC /* TimeTraveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTraveler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7142BEEA2956C8050067B2DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				71A8AD182963FD1000429A1F /* SearchViewController.swift */,
 				7182A71C295CF129006D674D /* ResultViewController.swift */,
 				71E6B168295EAA9D006B49AB /* DetailViewController.swift */,
+				71114911296C162900642AC1 /* DetailsTemp.swift */,
 				71B1B32A29639EFC00FAEE98 /* Resource */,
 			);
 			path = Controller;
@@ -314,6 +317,7 @@
 				7182A723295D369D006D674D /* RecentSearch.swift in Sources */,
 				7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */,
 				716510D329577DC3002F56D8 /* Place.swift in Sources */,
+				71114912296C162900642AC1 /* DetailsTemp.swift in Sources */,
 				71A3023F295A69F300019E05 /* User.swift in Sources */,
 				71A3024B295AA5EE00019E05 /* Image.swift in Sources */,
 				7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */,
