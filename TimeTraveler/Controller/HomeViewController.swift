@@ -63,11 +63,13 @@ class HomeViewController: UIViewController {
 private extension HomeViewController {
     func initNavigationBar() {
         searchButton = {
-            let searchBtn = ActionButton()
+            let UIAction = UIAction { _ in
+                self.searchButtonClicked()
+            }
+            let searchBtn = UIButton(primaryAction: UIAction)
             let image = UIImage(systemName: "magnifyingglass")
             searchBtn.configureButton(configuration: .gray(), title: "Search destination", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
             searchBtn.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
-            searchBtn.buttonIsClicked(do: searchButtonClicked)
             return searchBtn
         }()
         navigationItem.titleView = searchButton
@@ -311,9 +313,9 @@ private extension HomeViewController {
         let ll = "\(userLat),\(userLng)"
         let queryItems = ["query": "outdoor", "limit": "1", "range": String(Int(locationRadiusInMeters)), "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -352,9 +354,9 @@ private extension HomeViewController {
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
     func httpGetImageData(with locationID: String) {
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

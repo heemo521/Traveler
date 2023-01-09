@@ -117,7 +117,7 @@ private extension ResultViewController {
                 self.fetchingSort = true
                 self.getLocationDataHTTP()
             }
-            let sortFilterButton = ActionButton(primaryAction: nil)
+            let sortFilterButton = UIButton(primaryAction: nil)
             sortFilterButton.menu = UIMenu(children: [
                 UIAction(title:"Relevance", state: .on, handler: closure),
                 UIAction(title:"Rating", handler: closure),
@@ -148,7 +148,7 @@ private extension ResultViewController {
                 self.fetchingLimit = true
                 self.getLocationDataHTTP()
             }
-            let limitFilterButton = ActionButton(primaryAction: nil)
+            let limitFilterButton = UIButton(primaryAction: nil)
             limitFilterButton.menu = UIMenu(children: [
                 UIAction(title: "5", handler: closure),
                 UIAction(title: "10", state: .on, handler: closure),
@@ -245,9 +245,9 @@ extension ResultViewController {
             queryItems["near"] = queryString!.lowercased()
         }
         
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -282,9 +282,9 @@ extension ResultViewController {
     }
     
     func getImageDetailsHTTP(with locationID: String, at index: Int) {
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

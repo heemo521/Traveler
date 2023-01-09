@@ -8,11 +8,11 @@
 import UIKit
 
 class HTTPRequest {
-    static let shared = HTTPRequest()
-    
-    private init() {}
-    
-    func buildRequest(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
+//    static let shared = HTTPRequest()
+//
+//    private init() {}
+//
+    static func buildRequest(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
         //Build URL
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "https"
@@ -35,7 +35,7 @@ class HTTPRequest {
         return request
     }
     
-    func makeRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
+    static func makeRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
         let session = URLSession(configuration: .default)
         session.dataTask(with: request) { (data, response, error) in
             if let error = error {

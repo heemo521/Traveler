@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     let searchBar = UISearchBar()
     var tableView: UITableView!
     var searchLabel: UILabel!
-    var useCurrentLocationButton: ActionButton!
+    var useCurrentLocationButton: UIButton!
     
     // MARK: Resources
     let searchCompleter = MKLocalSearchCompleter()
@@ -114,14 +114,13 @@ private extension SearchViewController {
         }()
         
         useCurrentLocationButton = {
-            let image = UIImage(systemName: "paperplane.fill")
-            let useCurrentLocationButton = ActionButton()
-            useCurrentLocationButton.configureButton(configuration: .bordered(), title: "Use Current Location", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
-            useCurrentLocationButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
-            
-            useCurrentLocationButton.buttonIsClicked {
+            let UIAction = UIAction { _ in
                 self.presentResultView(searchQuery: "", useUserLocation: true)
             }
+            let image = UIImage(systemName: "paperplane.fill")
+            let useCurrentLocationButton = UIButton(primaryAction: UIAction)
+            useCurrentLocationButton.configureButton(configuration: .bordered(), title: "Use Current Location", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
+            useCurrentLocationButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             useCurrentLocationButton.translatesAutoresizingMaskIntoConstraints = false
             return useCurrentLocationButton
         }()
