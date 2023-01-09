@@ -39,15 +39,14 @@ variables to your `Info.plist` file.
 - Swipeable oversized images are displayed along with category, address, map view, and list of related places
 
 ## Design & User Flow
-
     1. **Landing Screen** 
-    - ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
-    - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
-    - `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
-    - **`Image View Tap Gesture`** to present Detail Screen directly from the Home Screen and animation while the tap is being applied to convey that this is a button
-    - `Search Button` placed in the top navigation to clearly communicate segue to Search Screen 
-    - `Distance` **label** displayed in miles to the nearby recommended place  
-    - `Map Route` using **MapKit** to show direction to the nearby recommended place
+        - ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+        - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
+        - `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
+        - **`Image View Tap Gesture`** to present Detail Screen directly from the Home Screen and animation while the tap is being applied to convey that this is a button
+        - `Search Button` placed in the top navigation to clearly communicate segue to Search Screen 
+        - `Distance` **label** displayed in miles to the nearby recommended place  
+        - `Map Route` using **MapKit** to show direction to the nearby recommended place
     
     2. **Search Screen**
     - ![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
