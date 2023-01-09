@@ -8,6 +8,7 @@ application helps you quicky find landmarks and outdoor places that you can visi
 in the world!** With just couple clicks, the **_Traveler_** will help you find up to top 50 places
 that you can visit and help you plan your trip! 
 
+Quick Note: Please view this repository in [light mode](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-personal-account-settings/managing-your-theme-settings) for better readability.
 
 ## Overview
 
