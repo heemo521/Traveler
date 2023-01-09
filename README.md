@@ -42,9 +42,7 @@ variables to your `Info.plist` file.
 ## Design & User Flow
 - Overall user flow and design decision descriptions
     1. **Landing Screen** 
-Main             |  Scroll down          |  LandScape
-:-----------------------:|:-------------------------:|:-------------------------:|
-![Main](https://i.imgur.com/48dazrwm.png)  |  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  |  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+    ![Main](https://i.imgur.com/48dazrwm.png)  |  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  |  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
 
     - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
     - `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
@@ -54,8 +52,6 @@ Main             |  Scroll down          |  LandScape
     - `Map Route` using **MapKit** to show direction to the nearby recommended place
     
     2. **Search Screen**
-    Main             |  Edit Recent Search          |  Auto Completer
-    :-------------------------:|:-------------------------:|:-------------------------:|
     ![Main](https://i.imgur.com/sgiYaNSm.png)  |  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  |  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
     
     - **`Search Bar`** is auto focused as the first responder so the user can start making search right away after the screen view appears
@@ -65,8 +61,6 @@ Main             |  Scroll down          |  LandScape
     - `Search Result` **label** is displayed instead of Result Search when displaying tableview list of results from MKLocalSearchCompleter 
     - User can press enter on the device keyboard after typing in destination or tab on the row of table view to make the search
     3. **Result Screen**
-    Main             |  Filter/Full View        
-    :-------------------------:|:-------------------------:
     ![Main](https://i.imgur.com/HIFJtC8m.png)  |  ![Filter](https://i.imgur.com/XZ46rxom.png)
     - As soon as the search is made, the Result Screen is displayed. 
         - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
