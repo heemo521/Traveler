@@ -57,7 +57,7 @@ variables to your `Info.plist` file.
     - `Search Result` **label** is displayed instead of Result Search when displaying tableview list of results from MKLocalSearchCompleter 
     - User can press enter on the device keyboard after typing in destination or tab on the row of table view to make the search
 3. **Result Screen**
-    - ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![Landscape](https://imgur.com/QhUlbwY.png)
+    - ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
     - As soon as the search is made, the Result Screen is displayed. 
         - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
     - `Filter` section is placed on top of the modal and contains `Open Now`, `Search Limit`, and `Sort` to quickly apply filter
@@ -68,7 +68,7 @@ variables to your `Info.plist` file.
     - _Liked_ location will have a filled heart over the image
     - User can tab on any of the result row to see the place in Detail Screen 
 4. **Detail Screen**
-    - ![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![Landscape](https://imgur.com/40e3diX.png)
+    - ![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
     - The images are displayed using **collection view** to allow users to easily swipe between different images
     - The `Name` is placed over the first image and the _transition animation_ is used to show and hide the name label
     - The Image View is initially rendered with lower quality image displayed in the Result View and replaced with correct image quality fetched using the devices screen. 
