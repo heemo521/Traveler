@@ -145,21 +145,6 @@ variables to your `Info.plist` file.
 - **Super**
 
 
-
-## Features
-- Overall features on each screen 
-### Landing Screen (Home)
-- By allowing the access to the device location, the user will see be able to find a closest place(destination) on the landing screen without making any search
-- Users can see the category, address, and distance in miles along with routes to the displayed place 
-### Search Screen
-- User can make search by typing into the search bar or by clicking on current location button. The user can also click on the recent search to quickly make the same search.
-- User will be assisted with auto completer when typing into the search bar
-### Result Screen
-- User can view the result over the search screen and quickly update search query or apply filters for better searching experience
-- The result will be able to view small image, name, and address
-### Detail Screen
-- Swipeable oversized images are displayed along with category, address, map view, and list of related places
-
 ## Demo
 For Better Quality video, checkout the links below.
 - [Dark Mode](https://youtu.be/5XqxA5RANRY) 
