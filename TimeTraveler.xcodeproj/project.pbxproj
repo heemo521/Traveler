@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		711148F9296BC34500642AC1 /* LikedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711148F8296BC34400642AC1 /* LikedLocation.swift */; };
 		711148FB296BC38600642AC1 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711148FA296BC38600642AC1 /* Coordinate.swift */; };
-		71114901296BD6D400642AC1 /* darkmode.gif in Resources */ = {isa = PBXBuildFile; fileRef = 71114900296BD6D400642AC1 /* darkmode.gif */; };
+		71114904296BD89C00642AC1 /* lightmode.gif in Resources */ = {isa = PBXBuildFile; fileRef = 71114902296BD89B00642AC1 /* lightmode.gif */; };
+		71114905296BD89C00642AC1 /* darkmode.gif in Resources */ = {isa = PBXBuildFile; fileRef = 71114903296BD89C00642AC1 /* darkmode.gif */; };
 		7128B0922967DBE000CDBE12 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */; };
 		7142BEEB2956C8050067B2DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEA2956C8050067B2DC /* AppDelegate.swift */; };
 		7142BEED2956C8050067B2DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142BEEC2956C8050067B2DC /* SceneDelegate.swift */; };
@@ -36,7 +37,8 @@
 /* Begin PBXFileReference section */
 		711148F8296BC34400642AC1 /* LikedLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedLocation.swift; sourceTree = "<group>"; };
 		711148FA296BC38600642AC1 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
-		71114900296BD6D400642AC1 /* darkmode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = darkmode.gif; sourceTree = "<group>"; };
+		71114902296BD89B00642AC1 /* lightmode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = lightmode.gif; sourceTree = "<group>"; };
+		71114903296BD89C00642AC1 /* darkmode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = darkmode.gif; path = ../../../../../../Downloads/darkmode.gif; sourceTree = "<group>"; };
 		7128B0912967DBE000CDBE12 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		7142BEE72956C8050067B2DC /* TimeTraveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTraveler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7142BEEA2956C8050067B2DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,9 +116,10 @@
 		7142BEFE2956C80D0067B2DC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				71114903296BD89C00642AC1 /* darkmode.gif */,
+				71114902296BD89B00642AC1 /* lightmode.gif */,
 				7142BEEA2956C8050067B2DC /* AppDelegate.swift */,
 				7142BEEC2956C8050067B2DC /* SceneDelegate.swift */,
-				71114900296BD6D400642AC1 /* darkmode.gif */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -259,8 +262,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71114901296BD6D400642AC1 /* darkmode.gif in Resources */,
 				7142BEF42956C8070067B2DC /* Assets.xcassets in Resources */,
+				71114904296BD89C00642AC1 /* lightmode.gif in Resources */,
+				71114905296BD89C00642AC1 /* darkmode.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
