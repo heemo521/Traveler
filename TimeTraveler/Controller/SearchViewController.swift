@@ -2,98 +2,201 @@
 //  SearchViewController.swift
 //  TimeTraveler
 //
-//  Created by Heemo on 12/26/22.
+//  Created by Heemo on 1/2/23.
 //
+
+// [] - Refactor & Final Clean up
 
 import UIKit
 import MapKit
 import CoreLocation
-// [x] unselect row
-// [] use current location button
-// [x] save recent search on the system
 
-class SearchViewController: UIViewController, UISearchBarDelegate {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var recentSearchTitle: UILabel!
-    @IBOutlet var searchBarView: UISearchBar!
+class SearchViewController: UIViewController {
+    // MARK: Views
+    let searchBar = UISearchBar()
+    var tableView: UITableView!
+    var searchLabel: UILabel!
+    var useCurrentLocationButton: ActionButton!
+    
+    // MARK: Resources
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
-    var currentLocation: LocationAnnotation!
-    var recentSearchList: [RecentSearch]!
-    @IBOutlet weak var editButton: UIButton!
     
-    @IBAction func useCurrentLocationClicked(_ sender: UIButton) {
-        performSegue(withIdentifier: "useCurrentLocationSegue", sender: currentLocation)
-    }
-    
-    @IBAction func editButtonClicked(_ sender: Any) {
-        tableView.isEditing.toggle()
-        navigationController?.isNavigationBarHidden = tableView.isEditing
-        editButton.setTitle( tableView.isEditing ? "Done" : "Edit", for: .normal)
-    }
+    // MARK: State
+    var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
+    var ResultVC: ResultViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.titleView = searchBarView
-        navigationItem.leftBarButtonItem?.title = ""
+        title = "Search"
+        
+        initNavigationBar()
+        initUI()
+        setupLayout()
+        
+        searchBar.delegate = self
         searchCompleter.delegate = self
-        recentSearchTitle.text = "Recent Search"
-        recentSearchTitle.textColor = .systemBlue
-        recentSearchList = UserService.shared.getAllRecentSearch()
-        editButton.isHidden = recentSearchList.isEmpty
+        searchCompleter.resultTypes = .address
+
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
-        searchBarView.becomeFirstResponder()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchQuery = searchBarView.text!
-
-        if searchQuery.count <= 3  {
-            editButton.isHidden = recentSearchList.isEmpty
-            searchResults = []
-            recentSearchTitle.text = "Recent Search"
-            recentSearchTitle.textColor = .systemBlue
-            tableView.reloadData()
-        } else {
-            editButton.isHidden = true
-            searchCompleter.queryFragment = searchQuery
-            recentSearchTitle.text = "Search Result"
-            recentSearchTitle.textColor = .black
-        }
-    }
-    
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        tableView.reloadData()
+        searchBar.becomeFirstResponder()
     }
 }
 
-extension SearchViewController: MKLocalSearchCompleterDelegate, UITableViewDelegate {
+// MARK: Navigation
+private extension SearchViewController {
+    func initNavigationBar() {
+        
+        searchBar.placeholder = "Search Destination"
+        navigationItem.titleView = searchBar
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate),
+                                                           style: .plain, target: self, action: #selector(didTapBackButton))
+        navigationItem.leftBarButtonItem?.tintColor = .systemPurple
+    }
+    
+    @objc private func didTapBackButton() {
+        if ResultVC != nil && ResultVC.resultViewControllerIsVisible {
+            ResultVC.dismiss(animated: true)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func presentResultView(searchQuery: String, useUserLocation: Bool = false) {
+        if ResultVC == nil || !ResultVC.resultViewControllerIsVisible {
+            ResultVC = ResultViewController()
+            ResultVC.queryString = searchQuery.lowercased()
+            ResultVC.useUserLocation = useUserLocation
+            if let sheet = ResultVC.sheetPresentationController {
+                // Customize the sheet here
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 30.0
+            }
+            self.present(ResultVC, animated: true)
+        } else {
+            ResultVC.queryString = searchQuery.lowercased()
+            ResultVC.useUserLocation = useUserLocation
+            ResultVC.getLocationDataHTTP()
+            if let sheet = ResultVC.sheetPresentationController {
+                sheet.animateChanges {
+                    sheet.selectedDetentIdentifier = .large
+                }
+            }
+        }
+    }
+}
+
+// MARK: UI
+private extension SearchViewController {
+    func initUI() {
+        view.backgroundColor = .systemBackground
+        tableView = {
+            let tableView = UITableView()
+            tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
+            tableView.backgroundColor = .tertiarySystemBackground
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            return tableView
+        }()
+        
+        searchLabel = {
+            let searchLabel = UILabel()
+            searchLabel.text = "Recent Search"
+            searchLabel.textColor = .systemPurple
+            searchLabel.translatesAutoresizingMaskIntoConstraints = false
+            return searchLabel
+        }()
+        
+        useCurrentLocationButton = {
+            let image = UIImage(systemName: "paperplane.fill")
+            let useCurrentLocationButton = ActionButton()
+            useCurrentLocationButton.configure(title: "Use Current Location", image: image!, padding: 5.0, configuration: .bordered())
+            useCurrentLocationButton.configuration?.baseForegroundColor = .systemPurple
+//            useCurrentLocationButton.configuration?.baseBackgroundColor = .systemPurple
+            
+            useCurrentLocationButton.buttonIsClicked {
+                self.presentResultView(searchQuery: "", useUserLocation: true)
+            }
+            useCurrentLocationButton.translatesAutoresizingMaskIntoConstraints = false
+            return useCurrentLocationButton
+        }()
+    }
+    
+    func setupLayout() {
+        view.addSubview(useCurrentLocationButton)
+        view.addSubview(searchLabel)
+        view.addSubview(tableView)
+        
+        useCurrentLocationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
+        useCurrentLocationButton.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
+
+        searchLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 75).isActive = true
+        searchLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
+    
+        tableView.topAnchor.constraint(equalTo: searchLabel.bottomAnchor, constant: 5).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+}
+
+// MARK: SearchBar
+extension SearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let searchQuery = searchBar.text!
+
+        if searchQuery.count <= 3  {
+            searchResults = []
+            searchLabel.text = "Recent Search"
+            searchLabel.textColor = .systemPurple
+        } else {
+            searchCompleter.queryFragment = searchQuery
+            searchLabel.text = "Search Result"
+            searchLabel.textColor = .label
+        }
+        tableView.reloadData()
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchQuery = searchBarView.text!
+        let searchQuery = searchBar.text!
         if searchQuery != "" {
             UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-            performSegue(withIdentifier: "searchSegue", sender: searchQuery)
+            presentResultView(searchQuery: searchQuery)
         }
     }
-    
+}
+// MARK: MK Local Search
+extension SearchViewController: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+    }
+}
+// MARK: TableView Delegate
+extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var searchResult = ""
         if searchResults.isEmpty {
-            let searchResult = recentSearchList[indexPath.row]
-            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
+            searchResult = recentSearchList[indexPath.row].title
+            
         } else {
-            let searchResult = searchResults[indexPath.row]
-            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchResult.title, subTitle: searchResult.subtitle))
+            let result = searchResults[indexPath.row]
+            searchResult = result.title
+            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: result.title, subTitle: result.subtitle))
             recentSearchList = UserService.shared.getAllRecentSearch()
             self.tableView.reloadData()
-            performSegue(withIdentifier: "searchSegue", sender: searchResult.title)
         }
+        presentResultView(searchQuery: searchResult)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -111,28 +214,23 @@ extension SearchViewController: MKLocalSearchCompleterDelegate, UITableViewDeleg
             UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
             recentSearchList = UserService.shared.getAllRecentSearch()
             tableView.deleteRows(at: [indexPath], with: .fade)
-            editButton.isHidden = recentSearchList.isEmpty
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let SearchResultVC = segue.destination as? ResultViewController, let searchQuery = sender as? String {
-            SearchResultVC.queryString = searchQuery.lowercased()
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return SearchCell.rowHeight
     }
 }
 
+// MARK: TableView Data Source
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchResults.isEmpty {
-            return UserService.shared.numberOfRecentSearch()
-        }
-        return searchResults.count
+        return searchResults.isEmpty ? UserService.shared.numberOfRecentSearch() : searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell") as! SearchCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier) as! SearchCell
+        cell.backgroundColor = SearchCell.backgroundColor
         if searchResults.isEmpty {
             let recentSearch = recentSearchList[indexPath.row]
             cell.update(location: recentSearch)

@@ -1,14 +1,27 @@
 //
-//  requestHTTP.swift
+//  SuperUIViewController.swift
 //  TimeTraveler
 //
-//  Created by Heemo on 12/24/22.
+//  Created by Heemo on 1/2/23.
 //
 
-import Foundation
+import UIKit
 
-struct buildURLRequest {    
-    static func build(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
+class SuperUIViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+ 
+    func createLabel(with labelText: String, size: Int, weight: UIFont.Weight) -> UILabel {
+        let label = UILabel()
+        label.text = labelText
+        label.font = UIFont.systemFont(ofSize: CGFloat(size), weight: weight)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+    
+    func buildRequest(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
         //Build URL
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "https"
@@ -31,7 +44,7 @@ struct buildURLRequest {
         return request
     }
     
-    static func httpRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
+    func makeRequest(for requestType: String,  request: URLRequest, onCompletion callback: @escaping (Data) -> ()) {
         let session = URLSession(configuration: .default)
         session.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -39,9 +52,9 @@ struct buildURLRequest {
                 return
             }
             
-//            if let res = response as? HTTPURLResponse {
-//                print("response for \(requestType) statuscode: \(res.statusCode)")
-//            }
+            if let res = response as? HTTPURLResponse {
+                print("response for \(requestType) statuscode: \(res.statusCode)")
+            }
             
             guard let data = data else {
                 print("Failed to receive data for \(requestType)")
@@ -52,6 +65,8 @@ struct buildURLRequest {
             
         }.resume()
     }
-    
+}
+
+extension UIImageView {
     
 }

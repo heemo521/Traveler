@@ -41,14 +41,23 @@ class UserService {
         }
     }
     
-    func saveLastUserLocation(latitude: String, longitude: String) {
-        user.lastLocation.latitude = Double(latitude)
-        user.lastLocation.longitude = Double(longitude)
+    func saveLastUserLocation(latitude: Double, longitude: Double) {
+        user.lastLocation.latitude = latitude
+        user.lastLocation.longitude = longitude
         saveUserData()
     }
+    
     func getLastUserLocation()-> (Double, Double) {
         let last = user.lastLocation
-        return (last.latitude ?? 41.8781, last.longitude ?? -87.6298)
+        return (last.latitude, last.longitude)
+    }
+    
+    func toggleLike(id: String) {
+        if checkLikedPlace(id: id) {
+            unlikeAPlace(id: id)
+        } else {
+            likeAPlace(id: id)
+        }
     }
     
     func likeAPlace(id: String) {
@@ -74,13 +83,11 @@ class UserService {
     }
     
     func addRecentSearch(recentSearch: RecentSearch) {
-        print("adding recent search \(recentSearch.title)")
         user.recentSearch.insert(recentSearch)
         saveUserData()
     }
 
     func removeRecentSearch(recentSearch: RecentSearch) {
-        print("removing recent search \(recentSearch.title)")
         user.recentSearch.remove(recentSearch)
         saveUserData()
     }

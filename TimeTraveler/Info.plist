@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app makes recommendation based on your core location!</string>
 	<key>API_KEY</key>
 	<string>fsq30lhd1XWjYhM7rmdWPeKnSmNDnkUk0pIkbwvQL3pSbw8=</string>
 	<key>UIApplicationSceneManifest</key>
@@ -19,8 +17,6 @@
 					<string>Default Configuration</string>
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
 				</dict>
 			</array>
 		</dict>
