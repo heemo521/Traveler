@@ -153,7 +153,6 @@ For Better Quality video, checkout the links below.
 <div>
     <img src="TimeTraveler/Resources/darkmode.gif" width="200px">
     <img src="TimeTraveler/Resources/lightmode.gif" width="200px">
-    <img src="/art/sample.gif?raw=true" width="200px">
 </div>
 
 
