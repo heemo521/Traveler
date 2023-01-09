@@ -167,8 +167,8 @@ For Better Quality video, checkout the links below.
 - [Light Mode](https://youtube.com/shorts/Na2P9n92aJY?feature=share)
 
 <div>
-    <img src="https://imgur.com/6pfp3ZG.gif" width="100" height="100">
-    <img src="https://imgur.com/scI8tn9.gif" width="100" height="100">
+    ![Imgur](https://imgur.com/scI8tn9.gif)
+    ![Imgur](https://imgur.com/6pfp3ZG.gif)
 </div>
 
 
