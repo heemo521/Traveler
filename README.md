@@ -26,7 +26,6 @@ variables to your `Info.plist` file.
 - `API_KEY` Add Foursquare's Place's API Authentication API Key in your environment. Create your developer's account at [Foursquare](https://location.foursquare.com/developer/) to receive your API Key.
 
 ## Features
-- Overall features on each screen 
 ### Landing Screen (Home)
 - By allowing the access to the device location, the user will see be able to find a closest place(destination) on the landing screen without making any search
 - Users can see the category, address, and distance in miles along with routes to the displayed place 
@@ -40,7 +39,7 @@ variables to your `Info.plist` file.
 - Swipeable oversized images are displayed along with category, address, map view, and list of related places
 
 ## Design & User Flow
-- Overall user flow and design decision descriptions
+
     1. **Landing Screen** 
     - ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
     - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
