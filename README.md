@@ -42,7 +42,7 @@ variables to your `Info.plist` file.
 ## Design & User Flow
 - Overall user flow and design decision descriptions
     1. **Landing Screen** 
-    ![Main](https://i.imgur.com/48dazrwm.png)  |  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  |  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
 
     - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
     - `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
