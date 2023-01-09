@@ -5,16 +5,13 @@
 //  Created by Heemo on 12/25/22.
 //
 
-// [] - Refactor & Final Clean up
-// [] - Create a global background color property when refatoring
-
 import UIKit
 import MapKit
 import CoreLocation
 
-class HomeViewController: SuperUIViewController {
+class HomeViewController: UIViewController {
     // MARK: Navigation
-    var searchButton: ActionButton!
+    var searchButton: UIButton!
     
     // MARK: Views
     let scrollView = UIScrollView()
@@ -24,34 +21,25 @@ class HomeViewController: SuperUIViewController {
     var imageView: UIImageView!
     var nameLabel: UILabel!
     var categoryLabel: UILabel!
-    var categoryText: UITextView!
     var addressLabel: UILabel!
-    var addressText: UITextView!
     var distanceLabel: UILabel!
+    var categoryText: UITextView!
+    var addressText: UITextView!
     var distanceText: UITextView!
     let mapView = MKMapView()
     
-    // MARK: State
-    var didUpdateMapView = false
+    // MARK: State & Resources
+    var selectedPlace: Place!
     var locationRadiusInMeters = 10000.0
-    var placesAPIList = [Place]()
-    var locationManager: CLLocationManager!
-    var currentLocation: LocationAnnotation!
-    let shared = UserService.shared
     
-    var mainBackgroundColor: UIColor = .systemBackground
-    var contentBackgroundColor: UIColor = .secondarySystemBackground
-    var hightlightColor: UIColor = .systemPurple
+    var locationManager: CLLocationManager!
+    let shared = UserService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         initNavigationBar()
-        initUI()
-        setupScrollView()
-        setupLayout()
-        locationManagerInit()
-        
+        initView()
+        initLocationManager()
         mapView.delegate = self
     }
 
@@ -75,11 +63,13 @@ class HomeViewController: SuperUIViewController {
 private extension HomeViewController {
     func initNavigationBar() {
         searchButton = {
-            let searchBtn = ActionButton()
+            let UIAction = UIAction { _ in
+                self.searchButtonClicked()
+            }
+            let searchBtn = UIButton(primaryAction: UIAction)
             let image = UIImage(systemName: "magnifyingglass")
-            searchBtn.configure(title: "Search destination", image: image!, padding: 5.0, configuration: .gray())
-            searchBtn.configuration?.baseForegroundColor = hightlightColor
-            searchBtn.buttonIsClicked(do: searchButtonClicked)
+            searchBtn.configureButton(configuration: .gray(), title: "Search destination", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
+            searchBtn.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             return searchBtn
         }()
         navigationItem.titleView = searchButton
@@ -91,25 +81,41 @@ private extension HomeViewController {
     }
     
     @objc private func imageViewClicked() {
-        let DetailVC = DetailViewController()
-        DetailVC.selectedPlace = placesAPIList.first
-        DetailVC.modalTransitionStyle = .crossDissolve
-        DetailVC.modalPresentationStyle = .fullScreen
-        self.present(DetailVC, animated: true)
+        if let selectedPlace = selectedPlace {
+            let DetailVC = DetailViewController()
+            DetailVC.selectedPlace = selectedPlace
+            DetailVC.modalTransitionStyle = .crossDissolve
+            DetailVC.modalPresentationStyle = .fullScreen
+            self.present(DetailVC, animated: true)
+        }
     }
 }
 
-// MARK: - UI
+// MARK: - UI / View
 private extension HomeViewController {
+    func initView() {
+        initUI()
+        setupScrollView()
+        setupLayout()
+    }
+    
     func initUI() {
-        view.backgroundColor = .systemBackground
-        scrollView.backgroundColor = contentBackgroundColor
+        view.backgroundColor = UIColor.MyColor.primaryBackground
+        
+        scrollView.backgroundColor = UIColor.MyColor.secondaryBackground
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        guideView.translatesAutoresizingMaskIntoConstraints = false
         
         imageContainerView = {
             let imageContainerView = UIView()
-            imageContainerView.backgroundColor = .tertiarySystemBackground
+            imageContainerView.backgroundColor = UIColor.MyColor.tertiaryBackground
             imageContainerView.layer.borderWidth = 10
-            imageContainerView.layer.borderColor = hightlightColor.cgColor
+            imageContainerView.layer.borderColor = UIColor.MyColor.hightlightColor.cgColor
+            imageContainerView.layer.cornerRadius = 150
+            imageContainerView.clipsToBounds = true
             imageContainerView.translatesAutoresizingMaskIntoConstraints = false
             return imageContainerView
         }()
@@ -127,69 +133,57 @@ private extension HomeViewController {
         }()
     
         nameLabel = {
-            let nameLabel = createLabel(with: "Loading...", size: 32, weight: .bold)
+            let nameLabel = UILabel()
+            nameLabel.configureLabel(with: "Loading...", fontSize: 32, weight: .bold)
             nameLabel.numberOfLines = 2
             nameLabel.translatesAutoresizingMaskIntoConstraints = false
             return nameLabel
         }()
+        
         categoryLabel = {
-            let categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
+            let categoryLabel = UILabel()
+            categoryLabel.configureLabel(with: "Category", fontSize: 24, weight: .semibold)
             categoryLabel.translatesAutoresizingMaskIntoConstraints = false
             return categoryLabel
         }()
-        categoryText = {
-            let categoryText = UITextView()
-            categoryText.backgroundColor = contentBackgroundColor
-            categoryText.isEditable = false
-            categoryText.isScrollEnabled = false
-            categoryText.textAlignment = .left
-            categoryText.font = UIFont.boldSystemFont(ofSize: 17)
-            categoryText.text = "..."
-            categoryText.translatesAutoresizingMaskIntoConstraints = false
-            return categoryText
-        }()
         
         addressLabel = {
-            let addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
+            let addressLabel = UILabel()
+            addressLabel.configureLabel(with: "Address", fontSize: 24, weight: .semibold)
             addressLabel.translatesAutoresizingMaskIntoConstraints = false
             return addressLabel
         }()
-        addressText = {
-            let addressText = UITextView()
-            addressText.isEditable = false
-            addressText.isScrollEnabled = false
-            addressText.textAlignment = .left
-            addressText.font = UIFont.boldSystemFont(ofSize: 17)
-            addressText.text = "..."
-            addressText.backgroundColor = contentBackgroundColor
-            addressText.translatesAutoresizingMaskIntoConstraints = false
-            return addressText
-        }()
         
         distanceLabel = {
-            let distanceLabel = createLabel(with: "Distance", size: 24, weight: .semibold)
+            let distanceLabel = UILabel()
+            distanceLabel.configureLabel(with: "Distance", fontSize: 24, weight: .semibold)
             distanceLabel.translatesAutoresizingMaskIntoConstraints = false
             return distanceLabel
         }()
         
+        categoryText = {
+            let categoryText = UITextView()
+            categoryText.configureNonEditableTextView(text: "...", fontSize: 17, weight: .semibold)
+            categoryText.translatesAutoresizingMaskIntoConstraints = false
+            return categoryText
+        }()
+        
+        addressText = {
+            let addressText = UITextView()
+            addressText.configureNonEditableTextView(text: "...", fontSize: 17, weight: .semibold)
+            addressText.translatesAutoresizingMaskIntoConstraints = false
+            return addressText
+        }()
+        
         distanceText = {
             let distanceText = UITextView()
-            distanceText.isEditable = false
-            distanceText.isScrollEnabled = false
-            distanceText.textAlignment = .left
-            distanceText.font = UIFont.boldSystemFont(ofSize: 17)
-            distanceText.text = "..."
-            distanceText.backgroundColor = contentBackgroundColor
+            distanceText.configureNonEditableTextView(text: "...", fontSize: 17, weight: .semibold)
             distanceText.translatesAutoresizingMaskIntoConstraints = false
             return distanceText
         }()
     }
     
     func setupScrollView() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        guideView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(scrollView)
         scrollView.addSubview(guideView)
         scrollView.addSubview(contentView)
@@ -220,8 +214,6 @@ private extension HomeViewController {
         imageContainerView.centerYAnchor.constraint(equalTo: guideView.centerYAnchor).isActive = true
         imageContainerView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         imageContainerView.heightAnchor.constraint(equalTo: imageContainerView.widthAnchor).isActive = true
-        imageContainerView.layer.cornerRadius = 150
-        imageContainerView.clipsToBounds = true
         
         imageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor).isActive = true
         imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor).isActive = true
@@ -294,76 +286,93 @@ private extension HomeViewController {
         }
     }
     
-    func updateContent(with selectedLocation: Place) {
-        nameLabel.text = selectedLocation.name
-        categoryText.text = selectedLocation.categories?.first?.name ?? ""
-        addressText.text = selectedLocation.address!.formatted_address!
+    func updateContent(name: String, category: String = "None", address: String = "", distance: String = "") {
+        nameLabel.text = name
+        categoryText.text = category
+        addressText.text = address
+    }
     
-        if let geocodes = selectedLocation.geocodes, let lat = geocodes.main?.latitude, let lng = geocodes.main?.longitude {
-            let userLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-            let desinationLocation = CLLocation(latitude: lat, longitude: lng)
-            let distance = userLocation.distance(from: desinationLocation)  * 0.000621371
-            distanceText.text = "\(String(format: "%.2f", distance)) mi"
-            
-            updateMapViewWithCoordinates(lat: lat, lng: lng)
+    func updateDistance(distance: String) {
+        distanceText.text = distance
+    }
+    
+    func updateImage(url: String = "") {
+        if url == "" {
+            imageView.image = UIImage(systemName: "x.circle")
+        } else {
+            imageView.loadFrom(url: url, animation: true)
         }
     }
 }
 
 // MARK: - HTTP
 private extension HomeViewController {
-    func getLocationDataHTTP() {
+    func httpGetPlacesData() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
-        
-        let (lat, lng) = shared.getLastUserLocation()
-        let ll = "\(lat),\(lng)"
-        
+        let (userLat, userLng) = shared.getLastUserLocation()
+        let ll = "\(userLat),\(userLng)"
         let queryItems = ["query": "outdoor", "limit": "1", "range": String(Int(locationRadiusInMeters)), "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
-        let request = buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
-                self.placesAPIList = dataDecoded.results
                 
                 if let place = dataDecoded.results.first, let id = place.id {
-                    self.getImageDetailsHTTP(with: id)
+                    self.selectedPlace = place
+                    self.httpGetImageData(with: id)
+                    
+                    let name = place.name ?? "Name is not available"
+                    let category = place.categories?.first?.name ?? ""
+                    let address = place.address?.formatted_address ?? ""
+                    var distance: String
+                    
+                    if let geocodes = self.selectedPlace.geocodes, let placeLat = geocodes.main?.latitude, let placeLng = geocodes.main?.longitude {
+                        let userLocation = CLLocation(latitude: userLat, longitude: userLng)
+                        let desinationLocation = CLLocation(latitude: placeLat, longitude: placeLng)
+                        let distanceInMile = userLocation.distance(from: desinationLocation) * 0.000621371
+                        distance = "\(String(format: "%.2f", distanceInMile)) mi"
+                        
+                        DispatchQueue.main.async {
+                            self.updateMapViewWithCoordinates(name: name, lat: placeLat, lng: placeLng)
+                            self.updateDistance(distance: distance)
+                        }
+                    }
+                    
                     DispatchQueue.main.async {
-                        self.updateContent(with: place)
+                        self.updateContent(name: name, category: category, address: address)
                     }
                 }
-                
             } catch let error {
-                // Error when there is no response or data returned from API
+                self.updateContent(name: "Error while retrieving data from network!")
                 print("\(String(describing: error.localizedDescription))")
             }
         })
     }
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
-    func getImageDetailsHTTP(with locationID: String) {
-        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+    func httpGetImageData(with locationID: String) {
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
-                if dataDecoded.count > 0 {
+                let images = dataDecoded
+                if images.count > 0 {
                     var imageHeight: String!
                     var imageWidth: String!
-                    
                     DispatchQueue.main.async {
                         imageHeight = "\(Int(self.imageView.frame.height * 2))"
                         imageWidth = "\(Int(self.imageView.frame.width * 2))"
                     }
-                    
                     for (index, image) in dataDecoded.enumerated() {
                         let imageUrl = "\(image.prefix!)\(imageHeight ?? "600")x\(imageWidth ?? "600")\(image.suffix!)"
-                        self.placesAPIList[0].imageUrls.append(imageUrl)
+                        self.selectedPlace.imageUrls.append(imageUrl)
                         if index == 0 {
-                            self.imageView.loadFrom(url: imageUrl, animation: true)
+                            self.updateImage(url: imageUrl)
                         }
                     }
                 }
@@ -376,8 +385,7 @@ private extension HomeViewController {
 
 // MARK: - Core Location
 extension HomeViewController: CLLocationManagerDelegate {
-    
-    func locationManagerInit() {
+    func initLocationManager() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
@@ -395,54 +403,54 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         switch authorizationStatus {
             case .authorizedWhenInUse, .authorizedAlways:
-                nameLabel.text = "Finding the nearest outdoor place!"
+                httpGetPlacesData()
+                updateContent(name: "Finding the nearest outdoor place!")
                 locationManager.startUpdatingLocation()
             case .restricted, .denied:
                 print("Location use restricted")
-                nameLabel.text = "Location use restricted, accessing last location"
+                updateContent(name: "Location use restricted, accessing last location")
             default:
                 print("Not authorized yet")
-                nameLabel.text = "Location use not authorized yet"
+                updateContent(name: "Location use not authorized yet")
         }
     }
-    // First time when user starts the app / user allows the authorization
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
             locationManager.startUpdatingLocation()
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
-        
-        shared.saveLastUserLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        self.getLocationDataHTTP()
-        
         let coord = location.coordinate
-        let locationCoord = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-        currentLocation = LocationAnnotation(title: "Current Location", coordinate: locationCoord)
+        shared.saveLastUserLocation(latitude: coord.latitude, longitude: coord.longitude)
+        httpGetPlacesData()
         locationManager.stopUpdatingLocation()
     }
 }
 
 // MARK: - Map Delegate
 extension HomeViewController: MKMapViewDelegate {
-    func updateMapViewWithCoordinates(lat: Double, lng: Double) {
-        let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        mapView.addAnnotation(currentLocation)
-        mapView.addAnnotation(LocationAnnotation(title: (placesAPIList.first?.name)!, coordinate: destinationCoord))
-        displayRoute(destination: destinationCoord)
-    
+    func updateMapViewWithCoordinates(name: String, lat destinationLat: Double, lng destinationLng: Double) {
+        let (userLat, userLng) = shared.getLastUserLocation()
+        let userLocation = CLLocationCoordinate2D(latitude: userLat, longitude: userLng)
+        let userLocationAnnotation = LocationAnnotation(title: "Current Location", coordinate: userLocation)
+        let destinationCoord = CLLocationCoordinate2D(latitude: destinationLat, longitude: destinationLng)
+        let destinationAnnotation = LocationAnnotation(title: name, coordinate: destinationCoord)
+        mapView.addAnnotations([userLocationAnnotation, destinationAnnotation])
+        displayRoute(userLocation: userLocation, destination: destinationCoord)
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = hightlightColor
+        renderer.strokeColor = UIColor.MyColor.hightlightColor
         renderer.lineWidth = 3.0
         return renderer
     }
     
-    func displayRoute(destination: CLLocationCoordinate2D) {
-        let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocation.coordinate)
+    func displayRoute(userLocation: CLLocationCoordinate2D, destination: CLLocationCoordinate2D) {
+        let sourcePlaceMark = MKPlacemark(coordinate: userLocation)
         let destinationPlaceMark = MKPlacemark(coordinate: destination)
         
         let directionRequest = MKDirections.Request()

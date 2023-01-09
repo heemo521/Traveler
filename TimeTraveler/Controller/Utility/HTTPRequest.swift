@@ -7,19 +7,10 @@
 
 import UIKit
 
-class SuperUIViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
- 
-    func createLabel(with labelText: String, size: Int, weight: UIFont.Weight) -> UILabel {
-        let label = UILabel()
-        label.text = labelText
-        label.font = UIFont.systemFont(ofSize: CGFloat(size), weight: weight)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }
+class HTTPRequest {
+    static let shared = HTTPRequest()
+    
+    private init() {}
     
     func buildRequest(for method: String, with parameters: [String: String], from path: String) -> URLRequest? {
         //Build URL
@@ -65,8 +56,4 @@ class SuperUIViewController: UIViewController {
             
         }.resume()
     }
-}
-
-extension UIImageView {
-    
 }

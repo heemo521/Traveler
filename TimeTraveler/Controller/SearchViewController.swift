@@ -5,8 +5,6 @@
 //  Created by Heemo on 1/2/23.
 //
 
-// [] - Refactor & Final Clean up
-
 import UIKit
 import MapKit
 import CoreLocation
@@ -16,7 +14,7 @@ class SearchViewController: UIViewController {
     let searchBar = UISearchBar()
     var tableView: UITableView!
     var searchLabel: UILabel!
-    var useCurrentLocationButton: ActionButton!
+    var useCurrentLocationButton: UIButton!
     
     // MARK: Resources
     let searchCompleter = MKLocalSearchCompleter()
@@ -25,19 +23,15 @@ class SearchViewController: UIViewController {
     // MARK: State
     var recentSearchList: [RecentSearch] = UserService.shared.getAllRecentSearch()
     var ResultVC: ResultViewController!
+    var UserServiceShared = UserService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Search"
-        
         initNavigationBar()
-        initUI()
-        setupLayout()
-        
+        initView()
         searchBar.delegate = self
         searchCompleter.delegate = self
         searchCompleter.resultTypes = .address
-
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -52,12 +46,11 @@ class SearchViewController: UIViewController {
 // MARK: Navigation
 private extension SearchViewController {
     func initNavigationBar() {
-        
         searchBar.placeholder = "Search Destination"
         navigationItem.titleView = searchBar
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate),
                                                            style: .plain, target: self, action: #selector(didTapBackButton))
-        navigationItem.leftBarButtonItem?.tintColor = .systemPurple
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.MyColor.hightlightColor
     }
     
     @objc private func didTapBackButton() {
@@ -73,7 +66,6 @@ private extension SearchViewController {
             ResultVC.queryString = searchQuery.lowercased()
             ResultVC.useUserLocation = useUserLocation
             if let sheet = ResultVC.sheetPresentationController {
-                // Customize the sheet here
                 sheet.detents = [.medium(), .large()]
                 sheet.prefersScrollingExpandsWhenScrolledToEdge = false
                 sheet.largestUndimmedDetentIdentifier = .medium
@@ -98,12 +90,17 @@ private extension SearchViewController {
 
 // MARK: UI
 private extension SearchViewController {
+    func initView() {
+        initUI()
+        setupLayout()
+    }
+    
     func initUI() {
         view.backgroundColor = .systemBackground
         tableView = {
             let tableView = UITableView()
             tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
-            tableView.backgroundColor = .tertiarySystemBackground
+            tableView.backgroundColor = UIColor.MyColor.tertiaryBackground
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
@@ -111,21 +108,19 @@ private extension SearchViewController {
         searchLabel = {
             let searchLabel = UILabel()
             searchLabel.text = "Recent Search"
-            searchLabel.textColor = .systemPurple
+            searchLabel.textColor = UIColor.MyColor.hightlightColor
             searchLabel.translatesAutoresizingMaskIntoConstraints = false
             return searchLabel
         }()
         
         useCurrentLocationButton = {
-            let image = UIImage(systemName: "paperplane.fill")
-            let useCurrentLocationButton = ActionButton()
-            useCurrentLocationButton.configure(title: "Use Current Location", image: image!, padding: 5.0, configuration: .bordered())
-            useCurrentLocationButton.configuration?.baseForegroundColor = .systemPurple
-//            useCurrentLocationButton.configuration?.baseBackgroundColor = .systemPurple
-            
-            useCurrentLocationButton.buttonIsClicked {
+            let UIAction = UIAction { _ in
                 self.presentResultView(searchQuery: "", useUserLocation: true)
             }
+            let image = UIImage(systemName: "paperplane.fill")
+            let useCurrentLocationButton = UIButton(primaryAction: UIAction)
+            useCurrentLocationButton.configureButton(configuration: .bordered(), title: "Use Current Location", image: image!, buttonSize: .medium, topBottomPadding: 5.0, sidePadding: 13.0)
+            useCurrentLocationButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             useCurrentLocationButton.translatesAutoresizingMaskIntoConstraints = false
             return useCurrentLocationButton
         }()
@@ -157,7 +152,7 @@ extension SearchViewController: UISearchBarDelegate {
         if searchQuery.count <= 3  {
             searchResults = []
             searchLabel.text = "Recent Search"
-            searchLabel.textColor = .systemPurple
+            searchLabel.textColor = UIColor.MyColor.hightlightColor
         } else {
             searchCompleter.queryFragment = searchQuery
             searchLabel.text = "Search Result"
@@ -169,8 +164,8 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchQuery = searchBar.text!
         if searchQuery != "" {
-            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
-            recentSearchList = UserService.shared.getAllRecentSearch()
+            UserServiceShared.addRecentSearch(recentSearch: RecentSearch(title: searchQuery, subTitle: ""))
+            recentSearchList = UserServiceShared.getAllRecentSearch()
             self.tableView.reloadData()
             presentResultView(searchQuery: searchQuery)
         }
@@ -192,8 +187,8 @@ extension SearchViewController: UITableViewDelegate {
         } else {
             let result = searchResults[indexPath.row]
             searchResult = result.title
-            UserService.shared.addRecentSearch(recentSearch: RecentSearch(title: result.title, subTitle: result.subtitle))
-            recentSearchList = UserService.shared.getAllRecentSearch()
+            UserServiceShared.addRecentSearch(recentSearch: RecentSearch(title: result.title, subTitle: result.subtitle))
+            recentSearchList = UserServiceShared.getAllRecentSearch()
             self.tableView.reloadData()
         }
         presentResultView(searchQuery: searchResult)
@@ -211,8 +206,8 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let deleteSearchTitle = recentSearchList[indexPath.row].title
-            UserService.shared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
-            recentSearchList = UserService.shared.getAllRecentSearch()
+            UserServiceShared.removeRecentSearch(recentSearch: RecentSearch(title: deleteSearchTitle, subTitle: ""))
+            recentSearchList = UserServiceShared.getAllRecentSearch()
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -225,7 +220,7 @@ extension SearchViewController: UITableViewDelegate {
 // MARK: TableView Data Source
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.isEmpty ? UserService.shared.numberOfRecentSearch() : searchResults.count
+        return searchResults.isEmpty ? UserServiceShared.numberOfRecentSearch() : searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

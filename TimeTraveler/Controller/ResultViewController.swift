@@ -5,11 +5,9 @@
 //  Created by Heemo on 12/28/22.
 //
 
-// [] Refactor & Final Clean up
-
 import UIKit
 
-class ResultViewController: SuperUIViewController {
+class ResultViewController: UIViewController {
     // MARK: Views
     var tableView: UITableView!
     var filterContainer: UIView!
@@ -119,7 +117,7 @@ private extension ResultViewController {
                 self.fetchingSort = true
                 self.getLocationDataHTTP()
             }
-            let sortFilterButton = ActionButton(primaryAction: nil)
+            let sortFilterButton = UIButton(primaryAction: nil)
             sortFilterButton.menu = UIMenu(children: [
                 UIAction(title:"Relevance", state: .on, handler: closure),
                 UIAction(title:"Rating", handler: closure),
@@ -150,7 +148,7 @@ private extension ResultViewController {
                 self.fetchingLimit = true
                 self.getLocationDataHTTP()
             }
-            let limitFilterButton = ActionButton(primaryAction: nil)
+            let limitFilterButton = UIButton(primaryAction: nil)
             limitFilterButton.menu = UIMenu(children: [
                 UIAction(title: "5", handler: closure),
                 UIAction(title: "10", state: .on, handler: closure),
@@ -247,9 +245,9 @@ extension ResultViewController {
             queryItems["near"] = queryString!.lowercased()
         }
         
-        let request = buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -284,9 +282,9 @@ extension ResultViewController {
     }
     
     func getImageDetailsHTTP(with locationID: String, at index: Int) {
-        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

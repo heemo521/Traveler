@@ -5,85 +5,103 @@
 //  Created by Heemo on 12/29/22.
 //
 
-// [] Refactor & Final Clean up
-
 import UIKit
 import MapKit
 
-class DetailViewController: SuperUIViewController {
+class DetailViewController: UIViewController {
     // MARK: Views
-    var collectionView: UICollectionView!
     let scrollView = UIScrollView()
     let contentView = UIView()
-    var nameLabel: UIButton!
+    var collectionView: UICollectionView!
+    var nameLabel: UIButton! // used as label
     var categoryLabel: UILabel!
-    var categoryText: UITextView!
-    var addressLabel: UILabel!
-    var addressText: UITextView!
     var relatedPlaceLabel: UILabel!
-    var relatedPlaceContainer = UIView()
-    var relatedPlaceText: UITextView!
-    let mapView = MKMapView()
+    var addressLabel: UILabel!
+    var categoryText: UITextView!
+    var addressText: UITextView!
     var likeButton = UIButton()
     var modalCloseButton: UIButton!
+    let mapView = MKMapView()
+    var relatedPlaceContainer = UIView()
+    var relatedPlaceText: UITextView!
     
-    // MARK: State
+    // MARK: State & Resources
     var selectedPlace: Place!
-    let shared = UserService.shared
     var likedStatus: Bool? {
         didSet {
             likeButton.setNeedsUpdateConfiguration()
         }
     }
-    
-    var mainBackgroundColor: UIColor = .systemBackground
-    var contentBackgroundColor: UIColor = .tertiarySystemBackground
-    var hightlightColor: UIColor = .systemPurple
+    let UserServiceShared = UserService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
-    
-        initUI()
-        setupSubviews()
-        setupLayout()
-        
-        getImageDetailsHTTP(with: selectedPlace.id!)
-        locateDesinationOnTheMap()
+        let id = selectedPlace.id!
+        likedStatus = UserServiceShared.checkLikedPlace(id: id)
+        initView()
+        httpGetImageData(with: id)
+        updateSelectedPlaceAndView()
         collectionView.dataSource = self
         collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        likeButton.setImage(UIImage(systemName: shared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
+        likeButton.setImage(UIImage(systemName: UserServiceShared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
     }
 
     
     @objc private func likeButtonClicked() {
         let id = self.selectedPlace.id!
-        self.shared.toggleLike(id: id)
-        likedStatus = shared.checkLikedPlace(id: selectedPlace.id!)
+        self.UserServiceShared.toggleLike(id: id)
+        likedStatus = UserServiceShared.checkLikedPlace(id: selectedPlace.id!)
+    }
+    
+    @objc private func modalCloseButtonClicked() {
+        self.dismiss(animated: true)
+    }
+    
+    func updateSelectedPlaceAndView() {
+        let place = selectedPlace!
+        let name = place.name ?? "Name is not available"
+        let category = place.categories?.first?.name ?? ""
+        let address = place.address?.formatted_address ?? ""
+        let isLiked = UserServiceShared.checkLikedPlace(id: selectedPlace.id!)
+        
+        updateContent(name: name, address: category, category: address, isLiked: isLiked)
+
+        if let coords = place.geocodes?.main {
+            let coordinate = CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude)
+            locateDesinationOnTheMap(name: name, coordinate: coordinate)
+        }
     }
 }
 // MARK: - UI
 private extension DetailViewController {
+    func initView() {
+        initUI()
+        setupSubviews()
+        setupLayout()
+    }
     func createRelatedPlaceButton(id: String, name: String, index: Int) -> UIButton {
         var config = UIButton.Configuration.gray()
         config.title = name
         config.buttonSize = .mini
         config.baseForegroundColor = .white
         config.baseBackgroundColor = index % 2 == 0 ? .systemPurple : .systemTeal
-        let relatedPlaceButton = ActionButton(configuration: config)
+        let relatedPlaceButton = UIButton(configuration: config)
         relatedPlaceButton.isUserInteractionEnabled = false
         relatedPlaceButton.isHighlighted = true
         return relatedPlaceButton
     }
     
     func initUI() {
-        view.backgroundColor = mainBackgroundColor
-        contentView.backgroundColor = contentBackgroundColor
-        
+        view.backgroundColor = UIColor.MyColor.primaryBackground
+        contentView.backgroundColor = UIColor.MyColor.secondaryBackground
+    
+        relatedPlaceContainer.translatesAutoresizingMaskIntoConstraints = false
+       
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -97,116 +115,100 @@ private extension DetailViewController {
             collectionView.isPagingEnabled = true
             collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
             collectionView.alwaysBounceVertical = false
+            collectionView.backgroundColor = UIColor.MyColor.secondaryBackground
             collectionView.translatesAutoresizingMaskIntoConstraints = false
-            collectionView.backgroundColor = .secondarySystemBackground
             return collectionView
         }()
         
         nameLabel = {
-            var configuration = UIButton.Configuration.filled()
-            configuration.title =  selectedPlace.name
-
+            let nameLabel = UIButton()
+            nameLabel.configureButton(configuration: .filled(), title: "", buttonSize: .large)
+            
             let transformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
                 outgoing.font = UIFont.boldSystemFont(ofSize: 24)
                 return outgoing
             }
-            configuration.titleTextAttributesTransformer = transformer
-            configuration.titleAlignment = .trailing
-            configuration.baseForegroundColor = .white
-            configuration.baseBackgroundColor = .systemPurple
-            
-            configuration.buttonSize = .large
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            let nameLabel = UIButton(configuration: configuration)
+            var config = nameLabel.configuration
+            config?.titleTextAttributesTransformer = transformer
+            config?.titleAlignment = .trailing
+            config?.baseForegroundColor = .white
+            config?.baseBackgroundColor = .systemPurple
+            config?.buttonSize = .large
+            config?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            nameLabel.configuration = config
             nameLabel.isUserInteractionEnabled = false
             nameLabel.isHighlighted = true
+            nameLabel.translatesAutoresizingMaskIntoConstraints = false
             return nameLabel
         }()
 
+        categoryLabel = {
+            let categoryLabel = UILabel()
+            categoryLabel.configureLabel(with: "Category", fontSize: 24, weight: .semibold)
+            categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+            return categoryLabel
+        }()
         
-        categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
-        addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
-        relatedPlaceLabel = createLabel(with: "Related Places", size: 24, weight: .semibold)
+        addressLabel = {
+            let addressLabel = UILabel()
+            addressLabel.configureLabel(with: "Address", fontSize: 24, weight: .semibold)
+            addressLabel.translatesAutoresizingMaskIntoConstraints = false
+            return addressLabel
+        }()
+        
+        relatedPlaceLabel = {
+            let relatedPlaceLabel = UILabel()
+            relatedPlaceLabel.configureLabel(with: "Related Place", fontSize: 24, weight: .semibold)
+            relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
+            return relatedPlaceLabel
+        }()
         
         categoryText = {
             let categoryText = UITextView()
-            categoryText.isEditable = false
-            categoryText.isScrollEnabled = false
-            categoryText.textAlignment = .left
-            categoryText.font = UIFont.boldSystemFont(ofSize: 17)
-            if let category = selectedPlace.categories?.first?.name {
-                categoryText.text = category
-            } else {
-                categoryText.text = "None"
-            }
-            categoryText.backgroundColor = contentBackgroundColor
+            categoryText.configureNonEditableTextView(text: "None", fontSize: 17, weight: .semibold)
             categoryText.translatesAutoresizingMaskIntoConstraints = false
             return categoryText
         }()
 
         addressText = {
             let addressText = UITextView()
-            addressText.isEditable = false
-            addressText.isScrollEnabled = false
-            addressText.textAlignment = .left
-            addressText.font = UIFont.boldSystemFont(ofSize: 17)
-            if let address = selectedPlace.address?.formatted_address {
-                addressText.text = address
-            } else {
-                addressText.text = "Not available"
-            }
-            addressText.backgroundColor = contentBackgroundColor
+            addressText.configureNonEditableTextView(text: "Not available", fontSize: 17, weight: .semibold)
             addressText.translatesAutoresizingMaskIntoConstraints = false
             return addressText
         }()
         
         relatedPlaceText = {
             let relatedPlaceText = UITextView()
-            relatedPlaceText.isEditable = false
-            relatedPlaceText.isScrollEnabled = false
-            relatedPlaceText.textAlignment = .left
-            relatedPlaceText.font = UIFont.boldSystemFont(ofSize: 17)
-            relatedPlaceText.text = "None"
-            relatedPlaceText.backgroundColor = contentBackgroundColor
+            relatedPlaceText.configureNonEditableTextView(text: "None", fontSize: 17, weight: .semibold)
             relatedPlaceText.translatesAutoresizingMaskIntoConstraints = false
             return relatedPlaceText
         }()
         
         likeButton = {
-            let likeButton = ActionButton()
-            likeButton.buttonIsClicked(do: likeButtonClicked)
-            var configuration = UIButton.Configuration.filled()
-            configuration.buttonSize = .medium
-            configuration.title = "Like"
-            configuration.image = UIImage(systemName: "heart")
-            configuration.background.backgroundColor = hightlightColor
-            likeButton.configuration = configuration
+            let UIAction = UIAction { _ in
+                self.likeButtonClicked()
+            }
+            let likeButton = UIButton(primaryAction: UIAction)
+            likeButton.configureButton(configuration: .filled(), title: "Like", image: UIImage(systemName: "heart"), buttonSize: .medium)
+            likeButton.configuration?.background.backgroundColor = UIColor.MyColor.hightlightColor
             likeButton.configurationUpdateHandler = {
                 [unowned self] button in
                 var config = button.configuration
                 config?.image = self.likedStatus! ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill")
                 button.configuration = config
             }
-            
             likeButton.translatesAutoresizingMaskIntoConstraints = false
             return likeButton
         }()
         
         modalCloseButton = {
-            let modalCloseButton = ActionButton()
-            modalCloseButton.configuration = .plain()
-            modalCloseButton.configuration?.buttonSize = .large
-            modalCloseButton.configuration?.baseForegroundColor = hightlightColor
-            modalCloseButton.configurationUpdateHandler = {
-                button in
-                var config = button.configuration
-                config?.image =  UIImage(systemName: "arrow.backward.circle")
-                button.configuration = config
+            let UIAction = UIAction { _ in
+                self.modalCloseButtonClicked()
             }
-            modalCloseButton.buttonIsClicked {
-                self.dismiss(animated: true)
-            }
+            let modalCloseButton = UIButton(primaryAction: UIAction)
+            modalCloseButton.configureButton(configuration: .plain(), title: "", image: UIImage(systemName: "arrow.backward.circle.fill")!, buttonSize: .large)
+            modalCloseButton.configuration?.baseForegroundColor = UIColor.MyColor.hightlightColor
             modalCloseButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             modalCloseButton.translatesAutoresizingMaskIntoConstraints = false
             return modalCloseButton
@@ -230,17 +232,9 @@ private extension DetailViewController {
         contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
-        
     }
     
     func setupLayout() {
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        relatedPlaceLabel.translatesAutoresizingMaskIntoConstraints = false
-        relatedPlaceContainer.translatesAutoresizingMaskIntoConstraints = false
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(modalCloseButton)
         
         modalCloseButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -330,28 +324,35 @@ private extension DetailViewController {
         likeButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
         likeButton.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
     }
+    
+    func updateContent(name: String, address: String, category: String, isLiked: Bool) {
+        nameLabel.configuration?.title = name
+        categoryText.text = category
+        addressText.text = address
+        likeButton.setImage(UIImage(systemName: isLiked ? "heart.fill" : "heart"), for: .normal)
+    }
 }
 
 private extension DetailViewController {
-    func getImageDetailsHTTP(with locationID: String) {
-        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+    func httpGetImageData(with locationID: String) {
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)
             
                 if dataDecoded.count > 0 {
                     self.selectedPlace.imageUrls = []
-                    var width: String!
-                    var height: String!
+                    var imageWidth: String!
+                    var imageHeight: String!
                     DispatchQueue.main.async {
-                        width = "\(Int(self.collectionView.frame.width) * 2)"
-                        height = "\(Int(self.collectionView.frame.height) * 2)"
+                        imageWidth = "\(Int(self.collectionView.frame.width) * 2)"
+                        imageHeight = "\(Int(self.collectionView.frame.height) * 2)"
                     }
                     
                     for (index, image) in dataDecoded.enumerated() {
-                        let imageUrl = "\(image.prefix!)\(width ?? "600")x\(height ?? "1000")\(image.suffix!)"
+                        let imageUrl = "\(image.prefix!)\(imageWidth ?? "600")x\(imageHeight ?? "1000")\(image.suffix!)"
                         self.selectedPlace.imageUrls.append(imageUrl)
                         
                         DispatchQueue.main.async {
@@ -391,14 +392,13 @@ extension DetailViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        cell.backgroundColor = contentBackgroundColor
+        cell.backgroundColor = UIColor.MyColor.secondaryBackground
         if selectedPlace.imageUrls.count > 0 {
             let imageUrl = selectedPlace.imageUrls[indexPath.row]
             cell.imageView.loadFrom(url: imageUrl, animation: true)
         } else {
             cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple)
         }
-        
         return cell
     }
 }
@@ -406,13 +406,10 @@ extension DetailViewController: UICollectionViewDataSource {
 
 // MARK: MAP
 private extension DetailViewController {
-    func locateDesinationOnTheMap() {
-        let coords = selectedPlace.geocodes?.main
-        if let lat = coords?.latitude, let lng = coords?.longitude {
-            let annotation = LocationAnnotation(title: selectedPlace.name ?? "", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng))
-            let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
-            mapView.addAnnotation(annotation)
-            mapView.setRegion(region, animated: true)
-        }
+    func locateDesinationOnTheMap(name: String, coordinate: CLLocationCoordinate2D) {
+        let annotation = LocationAnnotation(title: name, coordinate: coordinate)
+        let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
+        mapView.addAnnotation(annotation)
+        mapView.setRegion(region, animated: true)
     }
 }
