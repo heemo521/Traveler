@@ -7,6 +7,7 @@
 
 import UIKit
 
+// Easily attach an action by creating an Action Button
 class ActionButton: UIButton {
     var action: (() -> Void)?
     

@@ -5,12 +5,10 @@
 //  Created by Heemo on 12/29/22.
 //
 
-// [] Refactor & Final Clean up
-
 import UIKit
 import MapKit
 
-class DetailViewController: SuperUIViewController {
+class DetailViewController: UIViewController {
     // MARK: Views
     var collectionView: UICollectionView!
     let scrollView = UIScrollView()
@@ -124,10 +122,10 @@ private extension DetailViewController {
             return nameLabel
         }()
 
-        
-        categoryLabel = createLabel(with: "Category", size: 24, weight: .semibold)
-        addressLabel = createLabel(with: "Address", size: 24, weight: .semibold)
-        relatedPlaceLabel = createLabel(with: "Related Places", size: 24, weight: .semibold)
+//
+//        categoryLabel = configureLabel(with: "Category", size: 24, weight: .semibold)
+//        addressLabel = configureLabel(with: "Address", size: 24, weight: .semibold)
+//        relatedPlaceLabel = configureLabel(with: "Related Places", size: 24, weight: .semibold)
         
         categoryText = {
             let categoryText = UITextView()
@@ -334,9 +332,9 @@ private extension DetailViewController {
 
 private extension DetailViewController {
     func getImageDetailsHTTP(with locationID: String) {
-        let request = buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

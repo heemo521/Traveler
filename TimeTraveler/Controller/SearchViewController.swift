@@ -5,8 +5,6 @@
 //  Created by Heemo on 1/2/23.
 //
 
-// [] - Refactor & Final Clean up
-
 import UIKit
 import MapKit
 import CoreLocation
