@@ -165,9 +165,10 @@ For Better Quality video, checkout the links below.
 - [Dark Mode](https://youtu.be/5XqxA5RANRY) 
 - [Light Mode](https://youtube.com/shorts/Na2P9n92aJY?feature=share)
 
-![Imgur](https://imgur.com/scI8tn9.gif)
-![Imgur](https://imgur.com/6pfp3ZG.gif)
-
+<div>
+    <img src="/Resources/darkmode" width="200px">
+    <img src="/art/sample.gif?raw=true" width="200px">
+</div>
 
 
 ## Beyond MVP: Future Development Goals
