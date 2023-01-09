@@ -16,8 +16,8 @@ The ***Traveler*** application is powered by [Foursquare's
 Places API](https://location.foursquare.com/places/docs/home) to
 make search exclusively for the [Landmarks and Outdoors](https://location.foursquare.com/places/docs/categories) category.
 Using iOS frameworks [Core Location](https://developer.apple.com/documentation/corelocation) and 
-[Map Kit](https://developer.apple.com/documentation/mapkit/), the application allows the users to 
-quickly find nearby destinations as well as see them on the map. This application is built using `Swift` and `UIKit`.
+[Map Kit](https://developer.apple.com/documentation/mapkit/), this application allows the users to 
+quickly find nearby destinations as well as see the location on the map. This application is built using `Swift` and `UIKit`.
 ## Environment Variables
 
 To run this project, you will need to add the following environment 
@@ -134,15 +134,7 @@ variables to your `Info.plist` file.
         - Defines UI for Details Screen's collectionview row  
         - _Update_ method is used by DetailViewController's to update data
 ### Controller
-- **`HomeViewController`**
-    - UI and 
-- **`SearchViewController`**
-    - UI and 
-- **`ResultViewController`**
-    - UI and 
-- **`DetailViewController`**
-    - UI and 
-- **Super**
+...
 
 
 ## Demo
