@@ -84,7 +84,7 @@ variables to your `Info.plist` file.
 ## Architecture
 ### Please reference this section for structure 
 - **Folder**
-- **`SwiftFile`** or `SwiftFile`
+- **`SwiftFile`** 
 - _Properties_ and _Methods_
 - ***Important***
 
@@ -133,8 +133,37 @@ variables to your `Info.plist` file.
     - **`ImageCell`**
         - Defines UI for Details Screen's collectionview row  
         - _Update_ method is used by DetailViewController's to update data
+- **Extensions**
+    - **`UIImageViewExtension`** 
+        - Extends `UIImageView` with _loadFrom_ method that accepts url as an argument and loads the image.  
+    - **`UIButtonExtension`** 
+        - Extends `UIButton` with _configureButton_ method that helps with configuring the button easily with one method
+    - **`UILabelExtension`** 
+        - Extends `UILabel` with _configureLabel_ method for easy configuration
+    - **`UITextViewExtension`** 
+        - Extends `UITextView` with _configureNonEditableTextView_ method for easy configuration
+- **`ColorPalette`**
+    - Extends `UIColor` with _MyColor_ struct with color properties used in the application
+
 ### Controller
-...
+- **`HomeViewController`**
+    - Subclass of `UIViewController` 
+    - Conforms to `MKMapViewDelegate` protocol and acts as a ***delegate*** for a `MKMapView` object to display route to the destination from user's location
+    - Conforms to `CLLocationManagerDelegate` protocol and acts as a ***delegate*** for `CLLocationManager` object to receive updates about the location of the device
+    - Each ViewController is organized as extensions to maintain code readability.
+- **`SearchViewController`**
+    - Subclass of `UIViewController`
+    - Conforms to `UISearchBarDelegate` protocol and acts a ***delegate*** for a `UISearchBar` object to display receive the search query entered into the search bar 
+    - Conforms to `MKLocalSearchCompleterDelegate` protocol and acts as a ***delegate*** for a `MKLocalSearchCompleter` object that receives the completions based on a search query  
+    - Conforms to `UITableViewDelegate` and `UITableViewDataSource` protocols and acts as a ***delegate*** and ***datasource*** for the `tableview` to define the data to be displayed and receives events when user clicks on the row
+- **`ResultViewController`**
+    - Subclass of `UIViewController` and conforms to `UITableViewDelegate` and `UITableViewDataSource`protocols 
+- **`DetailViewController`**
+    - Subclass of `UIViewController` and conforms to `UICollectionViewDelegate` and `UICollectionViewDataSource`protocols 
+- **Utility**
+    - **`HTTPRequest`** 
+        - A class that contains static methods _buildRequest_ and _makeRequest_ that are used in the ViewControllers to build the http request and actually make the request 
+        - Main use for this class is to avoid repetitive code 
 
 
 ## Demo
