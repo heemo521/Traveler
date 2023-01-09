@@ -28,7 +28,7 @@ variables to your `Info.plist` file.
 ## Features
 ### Landing Screen (Home)
 - By allowing access to the device's location, the user will see be able to find a closest place(destination) on the landing screen without making any search
-- Users can see the category, address, and distance in miles along with routes to the displayed place 
+- Users can see the category, address, and distance in miles along with routes to the destination 
 ### Search Screen
 - User can make search by typing into the search bar or by clicking on current location button. The user can also click on the recent search to quickly make the same search.
 - User will be assisted with auto completer when typing into the search bar
