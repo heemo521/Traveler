@@ -161,9 +161,13 @@ For Better Quality video, checkout the links below.
 
 
 ## Beyond MVP: Future Development Goals
-
-- [ ] Add user's settings page to personalize the landing screen recommendation and application
-- [ ] Develop a recommendation algorithm that will be able to make more specific search using user's data
+- [ ] Add support for multiple languages to increase the global appeal of the app.
+- [ ] Add a feature for users to plan and book activities and experiences, such as tours, hikes, and adventure sports
+- [ ] Integrate with other travel-related APIs, such as flight and hotel booking
+- [ ] Allow users to create and save custom travel itineraries
+- [ ] Add integration with social media platforms, such as Facebook and Instagram, for users to share their travels with friends and followers
+- [ ] Implement a feature for users to receive personalized recommendations based on their past search and visit history
+- [ ] Add integration with weather apps, so users can plan their trips around the weather
 - [ ] Enable related places button to refresh the Detail screen with the selected location
 - [ ] Add a view for review section
 - [ ] Add a screen for liked locations and automatically organize them by city 
