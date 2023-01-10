@@ -128,23 +128,25 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Controller
 - **`HomeViewController`**
-    - Subclass of `UIViewController` 
-    - Conforms to `MKMapViewDelegate` protocol and acts as a ***delegate*** for a `MKMapView` object to display route to the destination from user's location
-    - Conforms to `CLLocationManagerDelegate` protocol and acts as a ***delegate*** for `CLLocationManager` object to receive updates about the location of the device
-    - Each ViewController is organized as extensions to maintain code readability.
+    - Subclass of `UIViewController`
+    - Conforms to `MKMapViewDelegate` protocol and acts as a ***delegate*** for a `MKMapView` object to display a route to the destination from user's location.
+    - Conforms to `CLLocationManagerDelegate` protocol and acts as a ***delegate*** for `CLLocationManager` object to receive updates about the location of the device.
+    - Each view controller is organized as extensions for _maintainability, readability, and scalability_.
 - **`SearchViewController`**
     - Subclass of `UIViewController`
-    - Conforms to `UISearchBarDelegate` protocol and acts a ***delegate*** for a `UISearchBar` object to display receive the search query entered into the search bar 
-    - Conforms to `MKLocalSearchCompleterDelegate` protocol and acts as a ***delegate*** for a `MKLocalSearchCompleter` object that receives the completions based on a search query  
-    - Conforms to `UITableViewDelegate` and `UITableViewDataSource` protocols and acts as a ***delegate*** and ***datasource*** for the `tableview` to define the data to be displayed and receives events when user clicks on the row
+    - Conforms to `UISearchBarDelegate` protocol and acts a ***delegate*** for a `UISearchBar` object to receive the search query entered into the search bar.
+    - Conforms to `MKLocalSearchCompleterDelegate` protocol and acts as a ***delegate*** for a `MKLocalSearchCompleter` object that receives  completions based on a search query.  
+    - Conforms to `UITableViewDelegate` and `UITableViewDataSource` protocols and acts as a ***delegate*** and ***datasource*** for the `tableView` to define the data to be displayed and receives events when user clicks on the row.
 - **`ResultViewController`**
-    - Subclass of `UIViewController` and conforms to `UITableViewDelegate` and `UITableViewDataSource`protocols 
+    - Subclass of `UIViewController` 
+    - Conforms to `UITableViewDelegate` and `UITableViewDataSource`protocols. 
 - **`DetailViewController`**
-    - Subclass of `UIViewController` and conforms to `UICollectionViewDelegate` and `UICollectionViewDataSource`protocols 
+    - Subclass of `UIViewController` 
+    - Conforms to `UICollectionViewDelegate` and `UICollectionViewDataSource`protocols. 
 - **Utility**
     - **`HTTPRequest`** 
-        - A class that contains static methods _buildRequest_ and _makeRequest_ that are used in the ViewControllers to build the http request and actually make the request 
-        - Main use for this class is to avoid repetitive code 
+        - A class that contains static methods `buildRequest` and `makeRequest` that are used in the view controllers to build the HTTP request and  make the request. 
+        - The main use for this class is to avoid repetitive code. (D.R.Y.)
 
 
 ## Demo
