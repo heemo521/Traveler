@@ -68,27 +68,22 @@ The detail screen includes swipeable oversized images, as well as the category, 
  - Please see the ***Demo*** section below
 
 ## Architecture
-### Please reference this section for structure 
-- **Folder**
-- **`SwiftFile`** 
-- _Properties_ and _Methods_
-- ***Important***
 
 ### Model
 - **Service**
     - **`UserService`**
-        - Service / Manager for User data Model containing CRUD methods to manage `User`'s properties
-        - Uses ***Singleton*** pattern with *shared* property and private init 
-            - There will ever be only be one instance of `User` needed per application 
+        - Service/manager for user data model containing CRUD methods to manage `User`'s properties.
+        - Uses ***Singleton*** pattern with a *shared* property and a private initializer.
+            - There will only ever be one instance of `User` class needed per application.
 - **User**
     - **`User`**
-        - User data model with Set of `RecentSearch`, Set of `LikedLocation`, and `Coordinate`
+        - User data model with a set of `RecentSearch`, a set of `LikedLocation`, and a `Coordinate`
     - **`RecentSearch`**
-        - One to many relationship with `User`
-        - Includes title and subtitle property and conforms to Codable, Equatable, Hashable protocols to be used as a Set by `User`
+        - One-to-many relationship with `User`
+        - Includes `title` and `subtitle` property and conforms to Codable, Equatable, Hashable protocols to be used as a set by `User`
     - **`LikedLocation`**
-        - One to many relationship with `User`
-        - Typealias String to be used as a Set by `User`
+        - One-to-many relationship with `User`
+        - Typealias `String` to be used as a set by `User`
 - **Place**
     - **`Response`**
         - Decodable data model for response from Places API 
