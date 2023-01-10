@@ -1,54 +1,40 @@
 
 # Traveler - Onramp x Realtor.com iOS Engineer (Interview: Take Home Project)
 
-Hello, fellow _Travelers_! Are you working remotely at home and often forget to step outside 
-and enjoy the nature around you? Or are you frequently surfing on random destination websites 
-to find the top 10 places to visit while your planning your quick getaway? **The _Traveler_
-application helps you quicky find landmarks and outdoor places that you can visit anywhere 
-in the world!** With just couple clicks, the **_Traveler_** will help you find up to top 50 places
-that you can visit and help you plan your trip! 
+Are you working remotely and forgetting to step outside and enjoy the nature around you? Or are you frequently searching online for the best places to visit while planning your next getaway? **The _Traveler_ application can help! With just a few clicks, Traveler will assist you in finding up to 50 top landmarks and outdoor destinations anywhere in the world.**
 
-Quick Note: Please view this repository in [light mode](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-personal-account-settings/managing-your-theme-settings) for better readability.
+**Quick Note**: It is recommended to view this repository in [light mode](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-personal-account-settings/managing-your-theme-settings) for better readability.
 
 ## Overview
 
-The ***Traveler*** application is powered by [Foursquare's
-Places API](https://location.foursquare.com/places/docs/home) to
-make search exclusively for the [Landmarks and Outdoors](https://location.foursquare.com/places/docs/categories) category.
-Using iOS frameworks [Core Location](https://developer.apple.com/documentation/corelocation) and 
-[Map Kit](https://developer.apple.com/documentation/mapkit/), this application allows the users to 
-quickly find nearby destinations as well as see the location on the map. This application is built using `Swift` and `UIKit`.
+***Traveler*** is powered by [Foursquare's Places API](https://location.foursquare.com/places/docs/home) to search exclusively for landmarks and outdoor destinations. Using iOS frameworks [Core Location](https://developer.apple.com/documentation/corelocation) and [Map Kit](https://developer.apple.com/documentation/mapkit/), this application allows users to quickly find nearby destinations and view their location on a map. This application is built using `Swift` and `UIKit`.
+
 ## Environment Variables
 
-To run this project, you will need to add the following environment 
-variables to your `Info.plist` file.
-
-- `API_KEY` Add Foursquare's Place's API Authentication API Key in your environment. Create your developer's account at [Foursquare](https://location.foursquare.com/developer/) to receive your API Key.
+To run this project, you will need to add the following environment variables to your `Info.plist` file:
+- `API_KEY`: Add Foursquare's Place's API Authentication API Key to your environment. Create a developer account with [Foursquare](https://location.foursquare.com/developer/) to receive your API Key.
 
 ## Features
 ### Landing Screen (Home)
-- By allowing access to the device's location, the user will see be able to find a closest place(destination) on the landing screen without making any search
-- Users can see the category, address, and distance in miles along with routes to the destination 
+By allowing access to the device's location, the user will be able to find the closest destination on the landing screen without making any searches. The user can also see the category, address, and distance in miles, as well as directions to the destination. 
 ### Search Screen
-- User can make search by typing into the search bar or by clicking on current location button. The user can also click on the recent search to quickly make the same search.
-- User will be assisted with auto completer when typing into the search bar
+Users can search by typing into the search bar or by clicking on the "Use current location" button. The user can also click on recent searches to quickly repeat a search. The search bar also includes an auto completer to assist the user.
 ### Result Screen
-- User can view the result over the search screen and quickly update search query or apply filters for better searching experience
-- The result will be able to view small image, name, and address
+Users can view the results of their search on the result screen and update their search query or apply filters for a better searching experience. The results include a small image, name, and address.
 ### Detail Screen
-- Swipeable oversized images are displayed along with category, address, map view, and list of related places
+The detail screen includes swipeable oversized images, as well as the category, address, a map view, and a list of related places.
 
 ## Design & User Flow
-1. **Landing Screen** 
-    - ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
-    - **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
-    - `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
-    - **`Image View Tap Gesture`** to present Detail Screen directly from the Home Screen and animation while the tap is being applied to convey that this is a button
-    - `Search Button` placed in the top navigation to clearly communicate segue to Search Screen 
-    - `Distance` **label** displayed in miles to the nearby recommended place  
-    - `Map Route` using **MapKit** to show direction to the nearby recommended place
+### Landing Screen
+- ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+- **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
+- `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
+- **`Image View Tap Gesture`** to present Detail Screen directly from the Home Screen and animation while the tap is being applied to convey that this is a button
+- `Search Button` placed in the top navigation to clearly communicate segue to Search Screen 
+- `Distance` **label** displayed in miles to the nearby recommended place  
+- `Map Route` using **MapKit** to show direction to the nearby recommended place
     
-2. **Search Screen**
+### Search Screen
     - ![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
     - **`Search Bar`** is auto focused as the first responder so the user can start making search right away after the screen view appears
     - `MKLocalSearchCompleter` configured to show only address result type to better assist the users for the best searching results
@@ -56,26 +42,26 @@ variables to your `Info.plist` file.
     - `Recent Search` **table view** to see the list of search history and functionality to delete recent search with swipe gesture
     - `Search Result` **label** is displayed instead of Result Search when displaying tableview list of results from MKLocalSearchCompleter 
     - User can press enter on the device keyboard after typing in destination or tab on the row of table view to make the search
-3. **Result Screen**
-    - ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
-    - As soon as the search is made, the Result Screen is displayed. 
-        - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
-    - `Filter` section is placed on top of the modal and contains `Open Now`, `Search Limit`, and `Sort` to quickly apply filter
-        - `Open Now` is a button configured to be a **toggle / selection button** to easily apply and remove the Open Now filter 
-        - `Limit` and `Sort` buttons are **drop down menu button** with preset choices for users to easily select
-        - When `Open Now` or `Sort` button is applied, the tableview will automatically scroll back to the top but when the limit button is applied, the view will stay the same as it is likely that the user is trying to display more results
-        - When any of the filters are applied, the _spinning indicator_ is displayed to let the user know that the system is working 
-    - _Liked_ location will have a filled heart over the image
-    - User can tab on any of the result row to see the place in Detail Screen 
-4. **Detail Screen**
-    - ![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
-    - The images are displayed using **collection view** to allow users to easily swipe between different images
-    - The `Name` is placed over the first image and the _transition animation_ is used to show and hide the name label
-    - The Image View is initially rendered with lower quality image displayed in the Result View and replaced with correct image quality fetched using the devices screen. 
-        - All images shown in the application are fetched using the dimension of the image view (double height and width)
-    - The `Name` and `Related Places` are buttons (with disabled interactivity) rather than label for easy styling purpose 
-    - Like button to mark the place as liked which will be saved on the device 
-    - User can go back to Search / Result Screen by clicking on the back icon button on the top left corner (same as the back button on the navigation)
+### Result Screen
+- ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
+- As soon as the search is made, the Result Screen is displayed. 
+    - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
+- `Filter` section is placed on top of the modal and contains `Open Now`, `Search Limit`, and `Sort` to quickly apply filter
+    - `Open Now` is a button configured to be a **toggle / selection button** to easily apply and remove the Open Now filter 
+    - `Limit` and `Sort` buttons are **drop down menu button** with preset choices for users to easily select
+    - When `Open Now` or `Sort` button is applied, the tableview will automatically scroll back to the top but when the limit button is applied, the view will stay the same as it is likely that the user is trying to display more results
+    - When any of the filters are applied, the _spinning indicator_ is displayed to let the user know that the system is working 
+- _Liked_ location will have a filled heart over the image
+- User can tab on any of the result row to see the place in Detail Screen 
+### Detail Screen
+- ![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
+- The images are displayed using **collection view** to allow users to easily swipe between different images
+- The `Name` is placed over the first image and the _transition animation_ is used to show and hide the name label
+- The Image View is initially rendered with lower quality image displayed in the Result View and replaced with correct image quality fetched using the devices screen. 
+    - All images shown in the application are fetched using the dimension of the image view (double height and width)
+- The `Name` and `Related Places` are buttons (with disabled interactivity) rather than label for easy styling purpose 
+- Like button to mark the place as liked which will be saved on the device 
+- User can go back to Search / Result Screen by clicking on the back icon button on the top left corner (same as the back button on the navigation)
     
 ### Light / Dark Mode
  - The colors for the application are set using the system coloring to allow user's to view the application that is consistent with the phone's setting. Global variable is used to easily change overall color with ease
