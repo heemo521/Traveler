@@ -69,6 +69,9 @@ class ResultCell: UITableViewCell {
             let image = UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysTemplate)
             likeStatusImage.image = image
             likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        } else {
+            likeStatusImage.image = UIImage()
+            likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         }
     }
 

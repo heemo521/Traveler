@@ -68,7 +68,7 @@ class ResultViewController: UIViewController {
         if placesAPIList.count == 0 {
             sortBy = sortFilterButton.menu?.selectedElements.first?.title
             searchLimit = limitFilterButton.menu?.selectedElements.first?.title
-            getLocationDataHTTP()
+            httpGetPlacesData()
         } else {
             tableView.reloadData()
         }
@@ -77,6 +77,7 @@ class ResultViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         resultViewControllerIsVisible = false
+        print("now disappearing")
     }
 }
 
@@ -114,7 +115,7 @@ private extension ResultViewController {
             let closure =  { (action: UIAction) in
                 self.sortBy = action.title
                 self.fetchingSort = true
-                self.getLocationDataHTTP()
+                self.httpGetPlacesData()
             }
             let sortFilterButton = UIButton(primaryAction: nil)
             sortFilterButton.menu = UIMenu(children: [
@@ -145,7 +146,7 @@ private extension ResultViewController {
             let closure =  { (action: UIAction) in
                 self.searchLimit = action.title
                 self.fetchingLimit = true
-                self.getLocationDataHTTP()
+                self.httpGetPlacesData()
             }
             let limitFilterButton = UIButton(primaryAction: nil)
             limitFilterButton.menu = UIMenu(children: [
@@ -178,7 +179,7 @@ private extension ResultViewController {
             let openFilterAction = UIAction(title: "Open Now", handler: { _ in
                 self.openNow = !self.openNow
                 self.fetchingOpenNow = true
-                self.getLocationDataHTTP()
+                self.httpGetPlacesData()
             })
             var configuration = UIButton.Configuration.plain()
             configuration.baseForegroundColor = hightlightColor
@@ -232,7 +233,7 @@ private extension ResultViewController {
 
 // MARK: - HTTP
 extension ResultViewController {
-    func getLocationDataHTTP() {
+    func httpGetPlacesData() {
         let defaultFields = "fsq_id,name,geocodes,location,categories,related_places,link"
         
         var queryItems = ["limit": searchLimit!, "sort": sortBy!, "open_now": String(openNow), "categories": "16000", "fields": defaultFields]
@@ -253,7 +254,7 @@ extension ResultViewController {
                 self.placesAPIList = dataDecoded.results
     
                 for (index, place) in self.placesAPIList.enumerated() {
-                    self.getImageDetailsHTTP(with: place.id!, at: index)
+                    self.httpGetImageData(with: place.id!, at: index)
                 }
                     
                 DispatchQueue.main.async {
@@ -280,7 +281,7 @@ extension ResultViewController {
         })
     }
     
-    func getImageDetailsHTTP(with locationID: String, at index: Int) {
+    func httpGetImageData(with locationID: String, at index: Int) {
         let request = HTTPRequest.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
         HTTPRequest.makeRequest(for: "get image details", request: request, onCompletion: { data in

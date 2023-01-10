@@ -78,7 +78,7 @@ private extension SearchViewController {
         } else {
             ResultVC.queryString = searchQuery.lowercased()
             ResultVC.useUserLocation = useUserLocation
-            ResultVC.getLocationDataHTTP()
+            ResultVC.httpGetPlacesData()
             if let sheet = ResultVC.sheetPresentationController {
                 sheet.animateChanges {
                     sheet.selectedDetentIdentifier = .large
