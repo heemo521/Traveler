@@ -27,7 +27,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 ## Design & User Flow
 ### Landing Screen
 
-![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+![Main](https://i.imgur.com/48dazrwm.png)  &nbsp;  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  &nbsp;  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
 - The main landing screen includes a `scroll view` to display data with large fonts for readability and support for landscape mode.
 - A guide view (not visible) covers the top half of the device's screen to help position and size the circular image view properly for device orientation.
 - An `image view` tap gesture allows the user to go directly to the detail screen with animation to convey that this is a button.
@@ -48,7 +48,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Result Screen
 
-![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
+![Main](https://i.imgur.com/HIFJtC8m.png)  &nbsp;  ![Filter](https://i.imgur.com/XZ46rxom.png) &nbsp; ![LandScape](https://i.imgur.com/DycVopTm.png)
 - As soon as a search is made, the result screen is displayed as a medium detent modal from the search screen, allowing the user to quickly make another search without going back to the previous screen.
 - The filter section at the top of the modal includes options to filter by "Open Now," set a search limit, and sort the results.
 - "Open Now" is a `toggle button` that filters the results to only show destinations that are currently open.
@@ -59,7 +59,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Detail Screen
 
-![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
+![Main](https://i.imgur.com/m31c8Esm.png) &nbsp;  ![Related Places](https://i.imgur.com/SEoWcpPm.png) &nbsp; ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
 - The detail screen includes swipeable oversized images implemented with `collection view` of the destination, as well as its category, address, and a map view.
 - A back button in the top left corner allows the user to go back to the previous screen.
 
