@@ -76,7 +76,6 @@ class ResultViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("setting resultViewControllerISVISBLE to false")
         resultViewControllerIsVisible = false
     }
 }

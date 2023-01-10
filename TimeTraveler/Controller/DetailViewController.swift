@@ -47,7 +47,6 @@ class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        likeButton.setImage(UIImage(systemName: UserServiceShared.checkLikedPlace(id: selectedPlace.id!) ? "heart.fill" : "heart"), for: .normal)
     }
 
     
@@ -190,12 +189,13 @@ private extension DetailViewController {
                 self.likeButtonClicked()
             }
             let likeButton = UIButton(primaryAction: UIAction)
-            likeButton.configureButton(configuration: .filled(), title: "Like", image: UIImage(systemName: "heart"), buttonSize: .medium)
+            likeButton.configureButton(configuration: .filled(), title: "Like", image: UIImage(), buttonSize: .medium)
             likeButton.configuration?.background.backgroundColor = UIColor.MyColor.hightlightColor
             likeButton.configurationUpdateHandler = {
                 [unowned self] button in
                 var config = button.configuration
-                config?.image = self.likedStatus! ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill")
+                config?.image = self.likedStatus! ? UIImage(systemName: "bolt.heart") : UIImage(systemName: "heart.slash")
+                config?.title = self.likedStatus! ? "Liked" : "Like"
                 button.configuration = config
             }
             likeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -329,7 +329,8 @@ private extension DetailViewController {
         nameLabel.configuration?.title = name
         categoryText.text = category
         addressText.text = address
-        likeButton.setImage(UIImage(systemName: isLiked ? "heart.fill" : "heart"), for: .normal)
+//        likeButton.setImage(UIImage(systemName: isLiked ? "heart.fill" : "heart"), for: .normal)
+//        likeButton.setTitle(isLiked ? "Liked" : "Like", for: .normal)
     }
 }
 
@@ -397,7 +398,7 @@ extension DetailViewController: UICollectionViewDataSource {
             let imageUrl = selectedPlace.imageUrls[indexPath.row]
             cell.imageView.loadFrom(url: imageUrl, animation: true)
         } else {
-            cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemPurple)
+            cell.imageView.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         }
         return cell
     }
