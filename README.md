@@ -47,7 +47,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 - The user can press enter on the device keyboard or tap on a row in the table view to initiate a search.
 
 ### Result Screen
-![Preload](https://i.imgur.com/NDb4pKzm.png) &nbsp; ![Loaded](https://i.imgur.com/phACmy1m.png) &nbsp; ![Landscape](https://i.imgur.com/DycVopTm.png)
+![Loading](https://i.imgur.com/qkA3RFwm.png) &nbsp; ![Loaded](https://i.imgur.com/phACmy1m.png) &nbsp; ![Landscape](https://i.imgur.com/DycVopTm.png)
 - As soon as a search is made, the result screen is displayed as a medium detent modal from the search screen, allowing the user to quickly make another search without going back to the previous screen.
 - To improve the user experience, the tableView rows are initially displayed with placeholder images and text while the actual data is being loaded.
 - The filter section at the top of the modal includes options to filter by "Open Now," set a search limit, and sort the results.
