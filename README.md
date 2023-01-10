@@ -53,10 +53,9 @@ The detail screen includes swipeable oversized images, as well as the category, 
 - The filter section at the top of the modal includes options to filter by "Open Now," set a search limit, and sort the results.
 - "Open Now" is a `toggle button` that filters the results to only show destinations that are currently open.
 - The search limit option is a `dropdown menu button` that allows the user to choose the maximum number of results to display.
-- The sort option is a `dropdown menu button` that allows the user to sort the results by "Best Match," "Distance," "Rating Average," or "Popularity."
-- The results table view displays a list of destinations with an image, name, and distance in miles.
-- A map view at the bottom of the screen shows the location of all the destinations in the results.
-- A destination cell tap gesture through delegation pattern allows the user to go directly to the detail screen with animation to convey that this is a button.
+- The sort option is a `dropdown menu button` that allows the user to sort the results by "Relevance," "Rating" or "Distance."
+- The results table view displays a list of destinations with an image, name, and address.
+- A destination cell tap gesture through delegation pattern allows the user to go directly to the detail screen.
 
 ### Detail Screen
 
