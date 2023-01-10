@@ -52,11 +52,6 @@ class HomeViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         scalingAnimation()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        scalingAnimation()
-    }
 }
 
 // MARK: Navigation
@@ -82,11 +77,14 @@ private extension HomeViewController {
     
     @objc private func imageViewClicked() {
         if let selectedPlace = selectedPlace {
-            let DetailVC = DetailViewController()
-            DetailVC.selectedPlace = selectedPlace
-            DetailVC.modalTransitionStyle = .crossDissolve
-            DetailVC.modalPresentationStyle = .fullScreen
-            self.present(DetailVC, animated: true)
+            scalingAnimation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                let DetailVC = DetailViewController()
+                DetailVC.selectedPlace = selectedPlace
+                DetailVC.modalTransitionStyle = .flipHorizontal
+                DetailVC.modalPresentationStyle = .fullScreen
+                self.present(DetailVC, animated: true)
+            })
         }
     }
 }
@@ -313,9 +311,9 @@ private extension HomeViewController {
         let ll = "\(userLat),\(userLng)"
         let queryItems = ["query": "outdoor", "limit": "1", "range": String(Int(locationRadiusInMeters)), "ll" : ll, "categories": "16000", "fields": defaultFields, "sort": "distance"]
         
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -354,9 +352,9 @@ private extension HomeViewController {
     
     // MARK: - Fetch image url using the ids of locations from func httpRequest()
     func httpGetImageData(with locationID: String) {
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

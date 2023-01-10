@@ -23,9 +23,10 @@ extension UIImageView {
                 DispatchQueue.main.async { [weak self] in
                     self?.image = loadedImage
                     
-                    if animation {
-                        UIView.transition(with: self!, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                            self?.isHidden = false
+                    
+                    if let self = self, animation {
+                        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                            self.isHidden = false
                         })
                     } else {
                         self?.isHidden = false

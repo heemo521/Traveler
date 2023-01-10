@@ -76,7 +76,6 @@ class ResultViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("setting resultViewControllerISVISBLE to false")
         resultViewControllerIsVisible = false
     }
 }
@@ -245,9 +244,9 @@ extension ResultViewController {
             queryItems["near"] = queryString!.lowercased()
         }
         
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: queryItems, from: "/search")!
+        let request = HTTPRequest.buildRequest(for: "get", with: queryItems, from: "/search")!
         
-        HTTPRequest.shared.makeRequest(for: "data request type", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "data request type", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode(Response.self, from: data)
@@ -282,9 +281,9 @@ extension ResultViewController {
     }
     
     func getImageDetailsHTTP(with locationID: String, at index: Int) {
-        let request = HTTPRequest.shared.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
+        let request = HTTPRequest.buildRequest(for: "get", with: [:], from: "/\(locationID)/photos")!
         
-        HTTPRequest.shared.makeRequest(for: "get image details", request: request, onCompletion: { data in
+        HTTPRequest.makeRequest(for: "get image details", request: request, onCompletion: { data in
             do {
                 let decoder = JSONDecoder()
                 let dataDecoded = try decoder.decode([Image].self, from: data)

@@ -32,7 +32,7 @@ class ResultCell: UITableViewCell {
     
     let mainImage: UIImageView = {
         let mainImage = UIImageView()
-        mainImage.tintColor = .systemPurple
+        mainImage.tintColor = .gray
         mainImage.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         mainImage.layer.cornerRadius = 10.0
         mainImage.layer.masksToBounds = true
@@ -42,10 +42,18 @@ class ResultCell: UITableViewCell {
     
     let likeStatusImage: UIImageView = {
         let likeStatusImage = UIImageView()
-        likeStatusImage.tintColor = .white
+        likeStatusImage.tintColor = UIColor.MyColor.hightlightColor
+        likeStatusImage.image = UIImage()
         likeStatusImage.translatesAutoresizingMaskIntoConstraints = false
         return likeStatusImage
     }()
+    
+    let imageCover: UIView = {
+        let imageCover = UIView()
+        imageCover.translatesAutoresizingMaskIntoConstraints = false
+        return imageCover
+    }()
+    
     
     func update(location: Place, index: Int) {
         if let imageUrl = location.imageUrls.first {
@@ -53,15 +61,15 @@ class ResultCell: UITableViewCell {
         } else {
             mainImage.image = UIImage(systemName: "doc.text.image")?.withRenderingMode(.alwaysTemplate)
         }
-//        mainImage.tintColor = .systemPurple
+        
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
         
-        let id = location.id!
-        let imageName = UserService.shared.checkLikedPlace(id: id) ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
-        likeStatusImage.image = image
-        likeStatusImage.tintColor = UIColor.systemPurple
+        if let id = location.id, UserService.shared.checkLikedPlace(id: id) {
+            let image = UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysTemplate)
+            likeStatusImage.image = image
+            likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        }
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -69,6 +77,7 @@ class ResultCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(addressLabel)
         contentView.addSubview(mainImage)
+        contentView.addSubview(imageCover)
         contentView.addSubview(likeStatusImage)
     }
     
@@ -85,10 +94,17 @@ class ResultCell: UITableViewCell {
         mainImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         mainImage.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
+        imageCover.widthAnchor.constraint(equalTo: mainImage.widthAnchor).isActive = true
+        imageCover.heightAnchor.constraint(equalTo: mainImage.heightAnchor).isActive = true
+        imageCover.centerXAnchor.constraint(equalTo: mainImage.centerXAnchor).isActive = true
+        imageCover.centerYAnchor.constraint(equalTo: mainImage.centerYAnchor).isActive = true
+        
         likeStatusImage.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -50).isActive = true
         likeStatusImage.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -50).isActive = true
-        likeStatusImage.widthAnchor.constraint(equalTo: mainImage.widthAnchor, multiplier: 0.2).isActive = true
+        likeStatusImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
         likeStatusImage.heightAnchor.constraint(equalTo: likeStatusImage.widthAnchor).isActive = true
+        likeStatusImage.layer.cornerRadius = 20
+        likeStatusImage.layer.masksToBounds = true
         
         nameLabel.topAnchor.constraint(equalTo: mainImage.topAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: 10).isActive = true
@@ -97,6 +113,5 @@ class ResultCell: UITableViewCell {
         addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
         addressLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        
     }
 }
