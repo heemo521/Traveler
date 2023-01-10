@@ -152,7 +152,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 ## Demo
 For Better Quality video, checkout the links below.
 - [Dark Mode - Full Demo*](https://youtu.be/rbeXkLgcbhQ) 
-- [Light Mode](https://youtube.com/shorts/Na2P9n92aJY?feature=share)
+- [Light Mode & Lanscape](https://youtu.be/6S4cYc3bNnc)
 
 <div>
     <img src="TimeTraveler/Resources/darkmode.gif" width="200px">
