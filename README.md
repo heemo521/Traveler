@@ -49,25 +49,21 @@ The detail screen includes swipeable oversized images, as well as the category, 
 ### Result Screen
 
 ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
-- As soon as the search is made, the Result Screen is displayed. 
-    - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
-- `Filter` section is placed on top of the modal and contains `Open Now`, `Search Limit`, and `Sort` to quickly apply filter
-    - `Open Now` is a button configured to be a **toggle / selection button** to easily apply and remove the Open Now filter 
-    - `Limit` and `Sort` buttons are **drop down menu button** with preset choices for users to easily select
-    - When `Open Now` or `Sort` button is applied, the tableview will automatically scroll back to the top but when the limit button is applied, the view will stay the same as it is likely that the user is trying to display more results
-    - When any of the filters are applied, the _spinning indicator_ is displayed to let the user know that the system is working 
-- _Liked_ location will have a filled heart over the image
-- User can tab on any of the result row to see the place in Detail Screen 
+- As soon as a search is made, the result screen is displayed as a medium detent modal from the search screen, allowing the user to quickly make another search without going back to the previous screen.
+- The filter section at the top of the modal includes options to filter by "Open Now," set a search limit, and sort the results.
+- "Open Now" is a `toggle button` that filters the results to only show destinations that are currently open.
+- The search limit option is a `dropdown menu button` that allows the user to choose the maximum number of results to display.
+- The sort option is a `dropdown menu button` that allows the user to sort the results by "Best Match," "Distance," "Rating Average," or "Popularity."
+- The results table view displays a list of destinations with an image, name, and distance in miles.
+- A map view at the bottom of the screen shows the location of all the destinations in the results.
+- A destination cell tap gesture through delegation pattern allows the user to go directly to the detail screen with animation to convey that this is a button.
+
 ### Detail Screen
-- ![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
-- The images are displayed using **collection view** to allow users to easily swipe between different images
-- The `Name` is placed over the first image and the _transition animation_ is used to show and hide the name label
-- The Image View is initially rendered with lower quality image displayed in the Result View and replaced with correct image quality fetched using the devices screen. 
-    - All images shown in the application are fetched using the dimension of the image view (double height and width)
-- The `Name` and `Related Places` are buttons (with disabled interactivity) rather than label for easy styling purpose 
-- Like button to mark the place as liked which will be saved on the device 
-- User can go back to Search / Result Screen by clicking on the back icon button on the top left corner (same as the back button on the navigation)
-    
+
+![Main](https://i.imgur.com/m31c8Esm.png) -  ![Related Places](https://i.imgur.com/SEoWcpPm.png) - ![LandScape](https://i.imgur.com/Sg7u9Dnm.png)
+- The detail screen includes swipeable oversized images implemented with `collection view` of the destination, as well as its category, address, and a map view.
+- A back button in the top left corner allows the user to go back to the previous screen.
+
 ### Light / Dark Mode
  - The colors for the application are set using the system coloring to allow user's to view the application that is consistent with the phone's setting. Global variable is used to easily change overall color with ease
  - Please see the ***Demo*** section below
