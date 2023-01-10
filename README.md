@@ -50,6 +50,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ![Main](https://i.imgur.com/HIFJtC8m.png)  &nbsp;  ![Filter](https://i.imgur.com/XZ46rxom.png) &nbsp; ![LandScape](https://i.imgur.com/DycVopTm.png)
 - As soon as a search is made, the result screen is displayed as a medium detent modal from the search screen, allowing the user to quickly make another search without going back to the previous screen.
+- To improve the user experience, the tableView rows are initially displayed with placeholder images and text while the actual data is being loaded.
 - The filter section at the top of the modal includes options to filter by "Open Now," set a search limit, and sort the results.
 - "Open Now" is a `toggle button` that filters the results to only show destinations that are currently open.
 - The search limit option is a `dropdown menu button` that allows the user to choose the maximum number of results to display.
