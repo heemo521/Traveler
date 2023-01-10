@@ -151,7 +151,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ## Demo
 For Better Quality video, checkout the links below.
-- [Dark Mode - Full Demo*](https://youtu.be/93QtCm6-FWs) 
+- [Dark Mode - Full Demo*](https://youtu.be/rbeXkLgcbhQ) 
 - [Light Mode](https://youtube.com/shorts/Na2P9n92aJY?feature=share)
 
 <div>
