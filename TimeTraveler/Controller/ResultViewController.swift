@@ -77,7 +77,6 @@ class ResultViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         resultViewControllerIsVisible = false
-        print("now disappearing")
     }
 }
 
@@ -330,7 +329,7 @@ extension ResultViewController: UITableViewDelegate {
 extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = placesAPIList.count
-        return count == 0 ? 5 : count
+        return count == 0 ? 2 : count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

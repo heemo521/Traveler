@@ -41,7 +41,7 @@ class HTTPRequest {
             }
             
             if let res = response as? HTTPURLResponse {
-                print("response for \(requestType) statuscode: \(res.statusCode)")
+//                print("response for \(requestType) statuscode: \(res.statusCode)")
             }
             
             guard let data = data else {

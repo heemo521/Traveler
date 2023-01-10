@@ -65,7 +65,6 @@ class DetailViewController: UIViewController {
         let name = place.name ?? "Name is not available"
         let category = place.categories?.first?.name ?? ""
         let address = place.address?.formatted_address ?? ""
-        
         updateContent(name: name, address: address, category: category)
 
         if let coords = place.geocodes?.main {
