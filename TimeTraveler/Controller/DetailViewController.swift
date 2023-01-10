@@ -194,7 +194,7 @@ private extension DetailViewController {
             likeButton.configurationUpdateHandler = {
                 [unowned self] button in
                 var config = button.configuration
-                config?.image = self.likedStatus! ? UIImage(systemName: "bolt.heart") : UIImage(systemName: "heart.slash")
+                config?.image = self.likedStatus! ? UIImage(systemName: "bolt.heart") : UIImage(systemName: "heart.fill")
                 config?.title = self.likedStatus! ? "Liked" : "Like"
                 button.configuration = config
             }

@@ -43,10 +43,7 @@ class ResultCell: UITableViewCell {
     let likeStatusImage: UIImageView = {
         let likeStatusImage = UIImageView()
         likeStatusImage.tintColor = UIColor.MyColor.hightlightColor
-        likeStatusImage.image = UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysTemplate)
-        likeStatusImage.layer.cornerRadius = likeStatusImage.frame.width / 2
-        likeStatusImage.layer.masksToBounds = true
-        likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        likeStatusImage.image = UIImage()
         likeStatusImage.translatesAutoresizingMaskIntoConstraints = false
         return likeStatusImage
     }()
@@ -68,13 +65,11 @@ class ResultCell: UITableViewCell {
         nameLabel.text =  "\(index + 1). \(location.name!)"
         addressLabel.text = location.address?.formatted_address
         
-        let id = location.id!
-        let liked = UserService.shared.checkLikedPlace(id: id)
-        let imageName = liked ? "heart.circle" : "heart.slash.circle"
-        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
-        likeStatusImage.image = image
-        likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-   
+        if let id = location.id, UserService.shared.checkLikedPlace(id: id) {
+            let image = UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysTemplate)
+            likeStatusImage.image = image
+            likeStatusImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        }
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
