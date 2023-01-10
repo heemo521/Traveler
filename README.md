@@ -38,7 +38,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Search Screen
 
-![Main](https://i.imgur.com/sgiYaNSm.png)  &nbsp;  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  &nbsp;  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)  &nbsp; [Landscape](https://i.imgur.com/PkNJNiwm.png)
+![Main](https://i.imgur.com/sgiYaNSm.png)  &nbsp;  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  &nbsp;  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)  &nbsp; ![Landscape](https://i.imgur.com/PkNJNiwm.png)
 - The `UISearchBar` is auto-focused as the first responder so the user can start searching as soon as the screen appears.
 - MKLocalSearchCompleter is configured to show only address results to assist the user in finding the best results.
 - The "Use current location" button allows for quick searches of nearby places without typing.
@@ -59,7 +59,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Detail Screen
 
-![Main](https://i.imgur.com/m31c8Esm.png) &nbsp;  ![Related Places](https://i.imgur.com/SEoWcpPm.png) &nbsp; ![Landscape](https://i.imgur.com/Sg7u9Dnm.png)
+![Main](https://i.imgur.com/oZonTLKm.png) &nbsp;  ![Related Places](https://i.imgur.com/SEoWcpPm.png) &nbsp; ![Landscape](https://i.imgur.com/Sg7u9Dnm.png)
 - The detail screen includes swipeable oversized images implemented with `collection view` of the destination, as well as its category, address, and a map view.
 - A back button in the top left corner allows the user to go back to the previous screen.
 
