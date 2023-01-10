@@ -63,9 +63,9 @@ The detail screen includes swipeable oversized images, as well as the category, 
 - The detail screen includes swipeable oversized images implemented with `collection view` of the destination, as well as its category, address, and a map view.
 - A back button in the top left corner allows the user to go back to the previous screen.
 
-### Light / Dark Mode
- - The colors for the application are set using the system coloring to allow user's to view the application that is consistent with the phone's setting. Global variable is used to easily change overall color with ease
- - Please see the `ColorPalette` section under **Architecture** and ***Demo*** section below
+### Light/Dark Mode
+ - The colors for the application are set using the system coloring, allowing users to view the application in a style that is consistent with their phone's setting. A global variable is used to easily manage and change overall color scheme.
+ - For more information on the implementation and examples of the application in dark/light mode, see the `ColorPalette` section under **Architecture** and the **Demo** section.
 
 ## Architecture
 
