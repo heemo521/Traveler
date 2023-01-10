@@ -26,7 +26,8 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ## Design & User Flow
 ### Landing Screen
-    ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+
+![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
 - The main landing screen includes a `scroll view` to display data with large fonts for readability and support for landscape mode.
 - A guide view (not visible) covers the top half of the device's screen to help position and size the circular image view properly for device orientation.
 - An `image view` tap gesture allows the user to go directly to the detail screen with animation to convey that this is a button.
@@ -36,7 +37,8 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 
 ### Search Screen
-    ![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
+
+![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
 - The `UISearchBar` is auto-focused as the first responder so the user can start searching as soon as the screen appears.
 - MKLocalSearchCompleter is configured to show only address results to assist the user in finding the best results.
 - The "Use current location" button allows for quick searches of nearby places without typing.
@@ -45,7 +47,8 @@ The detail screen includes swipeable oversized images, as well as the category, 
 - The user can press enter on the device keyboard or tap on a row in the table view to initiate a search.
 
 ### Result Screen
-- ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
+
+![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
 - As soon as the search is made, the Result Screen is displayed. 
     - Initially as _medium detent_ `Modal` from Search Screen so that user can quickly make another search without going back to the previous screen
 - `Filter` section is placed on top of the modal and contains `Open Now`, `Search Limit`, and `Sort` to quickly apply filter
