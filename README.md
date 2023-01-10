@@ -38,7 +38,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Search Screen
 
-![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
+![Main](https://i.imgur.com/sgiYaNSm.png)  &nbsp;  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  &nbsp;  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
 - The `UISearchBar` is auto-focused as the first responder so the user can start searching as soon as the screen appears.
 - MKLocalSearchCompleter is configured to show only address results to assist the user in finding the best results.
 - The "Use current location" button allows for quick searches of nearby places without typing.
