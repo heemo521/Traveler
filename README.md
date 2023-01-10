@@ -65,7 +65,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ### Light / Dark Mode
  - The colors for the application are set using the system coloring to allow user's to view the application that is consistent with the phone's setting. Global variable is used to easily change overall color with ease
- - Please see the ***Demo*** section below
+ - Please see the `ColorPalette` section under **Architecture** and ***Demo*** section below
 
 ## Architecture
 
@@ -105,26 +105,26 @@ The detail screen includes swipeable oversized images, as well as the category, 
 ### View
 - **Cell**
     - **`SearchCell`**
-        - Defines UI for Search Screen's tableview row
-        - _Update_ method is used by SearchViewController's to update data
-        - There is two _Update_ method. One for `RecentSearch` to display recent searches and another for `MKLocalSearchCompletion` to display search completer results
+        - Definesthe  UI for Search Screen's tableView row.
+        - Contains an `update` method is used by `SearchViewController` to update the data.
+        - There are two `update` methods: one for `RecentSearch` to display recent searches, and another for `MKLocalSearchCompletion` to display search completer results.
     - **`ResultCell`**
-        - Defines UI for Result Screen's tableview row  
-        - _Update_ method is used by ResultViewController's to update data
+        - Defines the UI for Result Screen's tableView row.  
+        - Contains an `update` method that is used by `ResultViewController` to update the data.
     - **`ImageCell`**
-        - Defines UI for Details Screen's collectionview row  
-        - _Update_ method is used by DetailViewController's to update data
+        - Defines the UI for Detail Screen's collectionView row.  
+        - Contains an `Update` method is used by DetailViewController's to update data
 - **Extensions**
     - **`UIImageViewExtension`** 
-        - Extends `UIImageView` with _loadFrom_ method that accepts url as an argument and loads the image.  
+        - Extends `UIImageView` with an `loadFrom` method that accepts url and a boolean for animation as arguments and loads the image.  
     - **`UIButtonExtension`** 
-        - Extends `UIButton` with _configureButton_ method that helps with configuring the button easily with one method
+        - Extends `UIButton` with `configureButton` method that helps with configuring the button easily with one method.
     - **`UILabelExtension`** 
-        - Extends `UILabel` with _configureLabel_ method for easy configuration
+        - Extends `UILabel` with `configureLabel` method for easy configuration.
     - **`UITextViewExtension`** 
-        - Extends `UITextView` with _configureNonEditableTextView_ method for easy configuration
+        - Extends `UITextView` with `configureNonEditableTextView` method for easy configuration.
 - **`ColorPalette`**
-    - Extends `UIColor` with _MyColor_ struct with color properties used in the application
+    - Extends `UIColor` with a `MyColor` struct with color properties used in the application.
 
 ### Controller
 - **`HomeViewController`**
