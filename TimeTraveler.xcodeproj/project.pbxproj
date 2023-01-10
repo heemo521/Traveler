@@ -154,9 +154,9 @@
 		7142BF002956C8110067B2DC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				71B4D756296D036F00111011 /* Colors */,
 				71A9AD182967F063009395B1 /* Cells */,
 				7111490A296BDC1700642AC1 /* Extensions */,
-				7111490D296BE06000642AC1 /* ColorPalette.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,6 +216,14 @@
 				71B1B32829639EA800FAEE98 /* HTTPRequest.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		71B4D756296D036F00111011 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				7111490D296BE06000642AC1 /* ColorPalette.swift */,
+			);
+			path = Colors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

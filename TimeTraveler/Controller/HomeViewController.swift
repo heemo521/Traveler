@@ -52,11 +52,6 @@ class HomeViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         scalingAnimation()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        scalingAnimation()
-    }
 }
 
 // MARK: Navigation
@@ -82,11 +77,14 @@ private extension HomeViewController {
     
     @objc private func imageViewClicked() {
         if let selectedPlace = selectedPlace {
-            let DetailVC = DetailViewController()
-            DetailVC.selectedPlace = selectedPlace
-            DetailVC.modalTransitionStyle = .crossDissolve
-            DetailVC.modalPresentationStyle = .fullScreen
-            self.present(DetailVC, animated: true)
+            scalingAnimation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                let DetailVC = DetailViewController()
+                DetailVC.selectedPlace = selectedPlace
+                DetailVC.modalTransitionStyle = .flipHorizontal
+                DetailVC.modalPresentationStyle = .fullScreen
+                self.present(DetailVC, animated: true)
+            })
         }
     }
 }

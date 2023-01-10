@@ -149,7 +149,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchQuery = searchBar.text!
 
-        if searchQuery.count <= 3  {
+        if searchQuery.count < 2  {
             searchResults = []
             searchLabel.text = "Recent Search"
             searchLabel.textColor = UIColor.MyColor.hightlightColor
