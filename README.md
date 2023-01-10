@@ -26,22 +26,24 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 ## Design & User Flow
 ### Landing Screen
-- ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
-- **`Scroll View`** to display data with space and large fonts for readability and also support landscape mode
-- `Guide View` that covers the top half of the devices screen to help position and size the circular image view properly for device orientation.
-- **`Image View Tap Gesture`** to present Detail Screen directly from the Home Screen and animation while the tap is being applied to convey that this is a button
-- `Search Button` placed in the top navigation to clearly communicate segue to Search Screen 
-- `Distance` **label** displayed in miles to the nearby recommended place  
-- `Map Route` using **MapKit** to show direction to the nearby recommended place
-    
+    ![Main](https://i.imgur.com/48dazrwm.png)  -  ![Scroll down](https://i.imgur.com/Fhk6Z5xm.png)  -  ![LandScape](https://i.imgur.com/W2zd7LPm.png)
+- The main landing screen includes a `scroll view` to display data with large fonts for readability and support for landscape mode.
+- A guide view (not visible) covers the top half of the device's screen to help position and size the circular image view properly for device orientation.
+- An `image view` tap gesture allows the user to go directly to the detail screen with animation to convey that this is a button.
+- A search `button` in the top navigation clearly communicates the transition to the search screen.
+- A distance `label` displays the distance in miles to the nearby recommended place.
+- `MapKit` is used to show directions to the nearby recommended place.
+
+
 ### Search Screen
-    - ![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
-    - **`Search Bar`** is auto focused as the first responder so the user can start making search right away after the screen view appears
-    - `MKLocalSearchCompleter` configured to show only address result type to better assist the users for the best searching results
-    - `Use current location` **button** for quick search of nearby places without typing anything
-    - `Recent Search` **table view** to see the list of search history and functionality to delete recent search with swipe gesture
-    - `Search Result` **label** is displayed instead of Result Search when displaying tableview list of results from MKLocalSearchCompleter 
-    - User can press enter on the device keyboard after typing in destination or tab on the row of table view to make the search
+    ![Main](https://i.imgur.com/sgiYaNSm.png)  -  ![Edit Recent Search](https://i.imgur.com/1zYTDkSm.png)  -  ![Auto Completer](https://i.imgur.com/DdSoEGCm.png)
+- The `UISearchBar` is auto-focused as the first responder so the user can start searching as soon as the screen appears.
+- MKLocalSearchCompleter is configured to show only address results to assist the user in finding the best results.
+- The "Use current location" button allows for quick searches of nearby places without typing.
+- A recent search `table view` displays a list of search history and allows the user to delete recent searches with a swipe gesture.
+- The search result label is displayed instead of the result search when displaying a table view list of results from MKLocalSearchCompleter.
+- The user can press enter on the device keyboard or tap on a row in the table view to initiate a search.
+
 ### Result Screen
 - ![Main](https://i.imgur.com/HIFJtC8m.png)  -  ![Filter](https://i.imgur.com/XZ46rxom.png) - ![LandScape](https://i.imgur.com/DycVopTm.png)
 - As soon as the search is made, the Result Screen is displayed. 
