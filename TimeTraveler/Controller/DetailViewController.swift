@@ -65,9 +65,8 @@ class DetailViewController: UIViewController {
         let name = place.name ?? "Name is not available"
         let category = place.categories?.first?.name ?? ""
         let address = place.address?.formatted_address ?? ""
-        let isLiked = UserServiceShared.checkLikedPlace(id: selectedPlace.id!)
         
-        updateContent(name: name, address: category, category: address, isLiked: isLiked)
+        updateContent(name: name, address: address, category: category)
 
         if let coords = place.geocodes?.main {
             let coordinate = CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude)
@@ -325,12 +324,10 @@ private extension DetailViewController {
         likeButton.trailingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true
     }
     
-    func updateContent(name: String, address: String, category: String, isLiked: Bool) {
+    func updateContent(name: String, address: String, category: String) {
         nameLabel.configuration?.title = name
         categoryText.text = category
         addressText.text = address
-//        likeButton.setImage(UIImage(systemName: isLiked ? "heart.fill" : "heart"), for: .normal)
-//        likeButton.setTitle(isLiked ? "Liked" : "Like", for: .normal)
     }
 }
 
