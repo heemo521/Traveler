@@ -77,30 +77,30 @@ The detail screen includes swipeable oversized images, as well as the category, 
             - There will only ever be one instance of `User` class needed per application.
 - **User**
     - **`User`**
-        - User data model with a set of `RecentSearch`, a set of `LikedLocation`, and a `Coordinate`
+        - User data model with a set of `RecentSearch`, a set of `LikedLocation`, and a `Coordinate`.
     - **`RecentSearch`**
-        - One-to-many relationship with `User`
-        - Includes `title` and `subtitle` property and conforms to Codable, Equatable, Hashable protocols to be used as a set by `User`
+        - One-to-many relationship with `User`.
+        - Includes `title` and `subtitle` property and conforms to Codable, Equatable, Hashable protocols to be used as a set by `User`.
     - **`LikedLocation`**
-        - One-to-many relationship with `User`
-        - Typealias `String` to be used as a set by `User`
+        - One-to-many relationship with `User`.
+        - Typealias `String` to be used as a set by `User`.
 - **Place**
     - **`Response`**
-        - Decodable data model for response from Places API 
+        - Decodable data model for response from Places API. 
     - **`Place`**
-        - One to many relationship with `Response`
-        - Decodable data model that defines model for each place 
+        - One-to-many relationship with `Response`.
+        - Decodable data model that defines model for each place. 
     - **`Image`**
-        - Decodable data model for Image response from Places API 
-        - The image urls will be constructed from this data model as String and placed inside the `Place` data model's _imageUrls_ property
-            - Places API requires separate http request for the images data. _imageUrls_ in `Place` is not part of the actually   
-        - Can be viewed as One to Many Relationship with `Place`
+        - Decodable data model for Image response from Places API. 
+        - The image URLs will be constructed from this data model as a string and placed inside the `Place` data model's `imageUrls` property.
+            - The Places API requires a separate HTTP request for the images data. `imageUrls` in `Place` is not part of the actual response from the API.   
+        - Can be viewed as One-to-many Relationship with `Place`.
 - **CoreLocation**
     - **`LocationAnnotation`**
-        - Data model for annotations to be placed on the map that conforms to MKAnnotation protocol
+        - Data model for annotations to be placed on the map that conforms to `MKAnnotation` protocol.
     - **`Coordindate`**
-        - One to One relationship with `Place`
-        - One to One relationship with `User` as *lastLocation* property
+        - One-to-one relationship with `Place`.
+        - One-to-one relationship with `User` as `lastLocation` property.
 
 ### View
 - **Cell**
