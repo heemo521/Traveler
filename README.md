@@ -150,7 +150,7 @@ The detail screen includes swipeable oversized images, as well as the category, 
 
 
 ## Demo
-For Better Quality video, checkout the links below.
+For better quality video and full demo, please checkout the links below.
 - [Dark Mode - Full Demo*](https://youtu.be/rbeXkLgcbhQ) 
 - [Light Mode & Lanscape](https://youtu.be/6S4cYc3bNnc)
 
